@@ -1,0 +1,28 @@
+{
+  "name": "quantum-x-builder",
+  "version": "1.0.0",
+  "description": "Monaco style autonomous AI partner system for intelligent code editing",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "python3 -m http.server 8080"
+  },
+  "keywords": [
+    "monaco",
+    "ai",
+    "code-editor",
+    "autonomous",
+    "assistant"
+  ],
+  "author": "InfinityXOneSystems",
+  "license": "MIT",
+  "dependencies": {
+    "monaco-editor": "^0.45.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vite-plugin-monaco-editor": "^1.1.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "run_id": "run_20260205T220433Z",
+  "files": [
+    {
+      "path": "ADMIN_READINESS_V2.err",
+      "bytes": 0
+    },
+    {
+      "path": "ADMIN_READINESS_V2.json",
+      "bytes": 746
+    },
+    {
+      "path": "INTEGRITY_V3.err",
+      "bytes": 0
+    },
+    {
+      "path": "INTEGRITY_V3.json",
+      "bytes": 4073
+    },
+    {
+      "path": "PHASE3_FLAGS.json",
+      "bytes": 607
+    },
+    {
+      "path": "RUN_LOG.ndjson",
+      "bytes": 485
+    },
+    {
+      "path": "SELFCHECK.txt",
+      "bytes": 324
+    }
+  ]
+}

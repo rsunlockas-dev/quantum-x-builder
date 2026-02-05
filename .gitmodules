@@ -1,0 +1,3 @@
+[submodule "backend/vendor/manus-core-system"]
+	path = backend/vendor/manus-core-system
+	url = https://github.com/InfinityXOneSystems/manus-core-system

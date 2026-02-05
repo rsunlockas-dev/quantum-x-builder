@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-02-05T22:04:35.061Z",
+  "flags": {
+    "version": "v1",
+    "updated_at": "2026-02-05T00:00:00Z",
+    "admin": {
+      "enabled": true,
+      "index": {
+        "enabled": false
+      },
+      "todos": {
+        "enabled": false
+      },
+      "catalog": {
+        "enabled": false
+      },
+      "memory": {
+        "enabled": false
+      },
+      "expansion": {
+        "phase3": {
+          "enabled": true
+        }
+      }
+    },
+    "autonomy": {
+      "enabled": false
+    },
+    "landing": {
+      "enabled": false
+    },
+    "x1_predict": {
+      "enabled": false
+    }
+  }
+}

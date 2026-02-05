@@ -54,7 +54,7 @@ A sophisticated code editor powered by Monaco Editor with an integrated autonomo
 
 3. **Run the application**
    
-   Option A: Using Python's built-in server
+   Option A: Using Python's built-in server (Recommended)
    ```bash
    python3 -m http.server 8080
    ```
@@ -64,12 +64,15 @@ A sophisticated code editor powered by Monaco Editor with an integrated autonomo
    npm run serve
    ```
    
-   Option C: Open `index.html` directly in your browser
+   Option C: Open `demo.html` directly in your browser
 
 4. **Access the application**
    Open your browser and navigate to:
-   - Python server: `http://localhost:8080`
-   - Direct file: Open `index.html` in your browser
+   - Python server: `http://localhost:8080/demo.html` (Recommended - no CDN dependencies)
+   - Alternative: `http://localhost:8080/index.html` (Uses Monaco Editor from CDN)
+   - Direct file: Open `demo.html` in your browser
+
+   **Note**: The `demo.html` version is self-contained and works without external CDN dependencies, making it more secure and reliable.
 
 ## 📖 Usage Guide
 
@@ -176,6 +179,21 @@ The AI partner is implemented as a JavaScript class (`AIPartner`) with the follo
 
 ## 🔧 Configuration
 
+### Version Differences
+
+**demo.html (Recommended)**
+- Self-contained with no external dependencies
+- Works offline and without CDN
+- More secure (no CDN integrity concerns)
+- Lighter weight
+- Uses textarea-based editor
+
+**index.html (Advanced)**
+- Full Monaco Editor integration
+- Advanced IDE features
+- Requires CDN access
+- Best for development environments
+
 ### Adding New Languages
 
 To add support for new languages, update the `aiKnowledge` object in `ai-partner.js`:
@@ -222,6 +240,22 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🔒 Security
+
+### CDN Dependencies
+The `index.html` version loads Monaco Editor from a CDN. For production use, we recommend:
+- Using the `demo.html` version which is self-contained
+- Or hosting Monaco Editor locally
+- Or adding Subresource Integrity (SRI) hashes to CDN scripts
+
+The `demo.html` version has no external dependencies and is the recommended version for security-conscious deployments.
+
+### Best Practices
+- The AI suggestions are generated locally using pattern matching
+- No code is sent to external servers
+- All processing happens in the browser
+- No data persistence or tracking
 
 ## 🙏 Acknowledgments
 

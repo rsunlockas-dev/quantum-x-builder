@@ -5,7 +5,6 @@
   "version": "0.1.0",
   "publisher": "InfinityXOneSystems",
   "license": "MIT",
-  "icon": "icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/InfinityXOneSystems/quantum-x-builder"

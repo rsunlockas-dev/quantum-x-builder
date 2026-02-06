@@ -1,0 +1,17 @@
+{
+  "run_id": "run_20260205T193035Z",
+  "files": [
+    {
+      "path": "INTEGRITY_V3.err",
+      "bytes": 0
+    },
+    {
+      "path": "INTEGRITY_V3.json",
+      "bytes": 492
+    },
+    {
+      "path": "RUN_LOG.ndjson",
+      "bytes": 158
+    }
+  ]
+}

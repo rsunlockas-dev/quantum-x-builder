@@ -1,0 +1,33 @@
+{
+  "run_id": "run_20260205T111832Z",
+  "files": [
+    {
+      "path": "FORENSIC_VERDICT.json",
+      "bytes": 330
+    },
+    {
+      "path": "READINESS.json",
+      "bytes": 3298
+    },
+    {
+      "path": "READINESS.txt",
+      "bytes": 3298
+    },
+    {
+      "path": "RUN_LOG.ndjson",
+      "bytes": 416
+    },
+    {
+      "path": "frontend_build.txt",
+      "bytes": 393
+    },
+    {
+      "path": "npm_audit.txt",
+      "bytes": 24
+    },
+    {
+      "path": "system_checks.json",
+      "bytes": 4752
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/vc.truth.schema.json",
+  "type": "object",
+  "required": ["verdict"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "evidence": { "type": "array", "items": { "type": "string" } }
+  }
+}

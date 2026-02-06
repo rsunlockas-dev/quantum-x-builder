@@ -6,6 +6,7 @@ import { config } from '../config.js';
 import { readinessReport } from './readiness.js';
 import { loadFeatureFlags } from './featureFlags.js';
 import { QXB_STREAMS } from '../../../packages/qxb-protocol/src/index.js';
+import { resolveNatsUrls, fetchVarzSnapshot } from '../lib/nats.js';
 
 const GATES_PATH = path.resolve(config.workspaceRoot, '_state', 'gates.latest.json');
 const INVENTORY_PATH = path.resolve(config.workspaceRoot, '_state', 'secrets.inventory.v1.json');
@@ -83,54 +84,7 @@ async function checkTraceCorrelation() {
   };
 }
 
-async function isContainerRuntime() {
-  if (process.env.CODESPACES || process.env.CI) return true;
-  try {
-    await fs.access('/.dockerenv');
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function resolveNatsUrls() {
-  const inContainer = await isContainerRuntime();
-  const defaultNats = inContainer ? 'nats://nats:4222' : 'nats://127.0.0.1:4222';
-  const defaultVarz = inContainer ? 'http://nats:8222/varz' : 'http://127.0.0.1:8222/varz';
-  return {
-    natsUrl: process.env.NATS_URL || defaultNats,
-    varzUrl: process.env.NATS_VARZ_URL || defaultVarz,
-    runtime: inContainer ? 'container' : 'host'
-  };
-}
-
-async function fetchVarzSnapshot(url) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 2000);
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    const text = await response.text();
-    let body = null;
-    try {
-      body = JSON.parse(text);
-    } catch {
-      body = text.slice(0, 2000);
-    }
-    return {
-      ok: response.ok,
-      status: response.status,
-      body
-    };
-  } catch (error) {
-    return {
-      ok: false,
-      status: 0,
-      error: String(error)
-    };
-  } finally {
-    clearTimeout(timeout);
-  }
-}
+export { resolveNatsUrls, fetchVarzSnapshot };
 
 async function tcpConnectCheck(natsUrl) {
   let host = '127.0.0.1';

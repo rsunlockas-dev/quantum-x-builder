@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "templates": [
+    {
+      "template_id": "vc_feature_spec",
+      "inputs": ["intent", "domain", "constraints", "acceptance_criteria"],
+      "outputs": ["docs/specs/<feature>.md", "schemas/<feature>.contract.json"]
+    },
+    {
+      "template_id": "vc_service_scaffold",
+      "inputs": ["service_name", "ports", "contracts", "deps"],
+      "outputs": ["services/<service_name>/**"]
+    },
+    {
+      "template_id": "vc_test_scaffold",
+      "inputs": ["component", "invariants", "edge_cases"],
+      "outputs": ["tests/<component>/**"]
+    },
+    {
+      "template_id": "vc_evidence_pack",
+      "inputs": ["run_id", "task_graph", "artifacts"],
+      "outputs": ["_evidence/<run_id>/**"]
+    }
+  ]
+}

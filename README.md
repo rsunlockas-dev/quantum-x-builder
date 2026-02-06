@@ -60,6 +60,34 @@ docker compose restart backend
 
 - Pending until readiness gate passes.
 
+## 03.1 Phase 3 Admin Control Plane
+
+Phase 3 admin endpoints are read-only, PAT-gated, and 404 when `admin.expansion.phase3.enabled=false`.
+
+Endpoints:
+
+- `GET /__ops/admin/capabilities`
+- `GET /__ops/admin/readiness`
+- `GET /__ops/admin/gates`
+- `GET /__ops/admin/nats/varz`
+- `GET /__ops/admin/nats/js`
+- `GET /__ops/admin/evidence`
+- `GET /__ops/admin/logs`
+- `GET /__ops/admin/logs/:name`
+- `GET /__ops/admin/runtime`
+
+Enable Phase 3 (autonomy remains locked):
+
+```bash
+node -e "const fs=require('fs');const p='_state/feature_flags.v1.json';const data=JSON.parse(fs.readFileSync(p,'utf8'));data.admin=data.admin||{};data.admin.enabled=true;data.admin.expansion=data.admin.expansion||{};data.admin.expansion.phase3={enabled:true};data.autonomy={enabled:false};fs.writeFileSync(p,JSON.stringify(data,null,2));"
+```
+
+Collect Phase 3 evidence:
+
+```bash
+PAT_RECORD='<json>' VITE_BACKEND_URL='http://127.0.0.1:8787' bash _OPS/collect-phase3-admin-evidence.sh
+```
+
 ## 04 Evidence Packs
 
 - _evidence/run_20260205T104215Z

@@ -1,0 +1,4 @@
+{"timestamp":"2026-02-05T10:42:22Z","step":"system_checks","exit_code":0,"artifact":"system_checks.json"}
+{"timestamp":"2026-02-05T10:42:22Z","step":"npm_audit","exit_code":0,"artifact":"npm_audit.txt"}
+{"timestamp":"2026-02-05T10:42:22Z","step":"frontend_build","exit_code":0,"artifact":"frontend_build.txt"}
+{"timestamp":"2026-02-05T10:42:22Z","step":"verdict","status":"PASS","artifact":"FORENSIC_VERDICT.json"}

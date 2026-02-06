@@ -1,0 +1,11 @@
+{
+  "id": "image-basic",
+  "name": "AI Image Blueprint",
+  "description": "Image generation and editing template.",
+  "fields": {
+    "prompt": "Describe the image and style.",
+    "resolution": "1024x1024",
+    "style": "studio",
+    "editMode": "generate"
+  }
+}

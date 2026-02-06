@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/vc.event.schema.json",
+  "type": "object",
+  "required": ["run_id", "event"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "event": { "type": "string" },
+    "data": { "type": "object" }
+  }
+}

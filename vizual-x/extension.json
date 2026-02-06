@@ -1,0 +1,48 @@
+{
+  "name": "vizual-x-monaco-chat",
+  "displayName": "VIZUAL X - Monaco Chat Editor",
+  "description": "Real-time code editing with Monaco and Gemini AI chat integration",
+  "version": "0.0.1",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Visualization", "Chat", "Code Editors"],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:vizualx.openEditor",
+    "onView:vizualx-explorer"
+  ],
+  "main": "./dist/index.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "vizualx-explorer",
+          "name": "VIZUAL X Chat",
+          "when": "resourceScheme == file"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "vizualx.openEditor",
+        "title": "Open VIZUAL X Editor",
+        "category": "VIZUAL X"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "vizualx.openEditor",
+        "key": "ctrl+alt+v",
+        "mac": "cmd+alt+v"
+      }
+    ]
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "vsce-package": "vsce package"
+  }
+}

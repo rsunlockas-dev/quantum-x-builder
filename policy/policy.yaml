@@ -1,0 +1,10 @@
+policy:
+  mutation_policy: NO_MUTATIONS
+  auto_implement: ALWAYS_ON_BUT_POLICY_GATED
+  kill_switch: true
+  anti_flap_window_minutes: 30
+  error_budget_gates:
+    auth_success_rate: 0.99
+    promo_apply_success_rate: 0.98
+    stripe_checkout_success_rate: 0.98
+    admin_edit_success_rate: 0.99

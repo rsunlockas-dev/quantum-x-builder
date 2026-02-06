@@ -1,0 +1,30 @@
+{
+  "name": "quantum-x-builder",
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  "service": "backend",
+  "workspaceFolder": "/workspaces/quantum-x-builder",
+  "overrideCommand": false,
+  "shutdownAction": "stopCompose",
+  "initializeCommand": "bash -lc 'cd ${localWorkspaceFolder} && mkdir -p backend/_state && if [ ! -f backend/.env ]; then if [ -f backend/.env.example ]; then cp backend/.env.example backend/.env; else : > backend/.env; fi; fi'",
+  "postCreateCommand": "bash -lc 'set -euo pipefail; cd /workspaces/quantum-x-builder/backend; if [ -f package-lock.json ]; then npm ci --omit=dev --no-audit --no-fund; else npm install --omit=dev --no-audit --no-fund; fi'",
+  "postStartCommand": "bash -lc 'set -euo pipefail; cd /workspaces/quantum-x-builder; mkdir -p backend/_state _OPS/_LOGS; if [ -f backend/package.json ]; then (cd backend && (npm run dev 2>&1 | tee -a /workspaces/quantum-x-builder/_OPS/_LOGS/backend-dev.log)) & disown || true; fi; sleep 1; true'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [
+    4222,
+    8222,
+    8787
+  ]
+}

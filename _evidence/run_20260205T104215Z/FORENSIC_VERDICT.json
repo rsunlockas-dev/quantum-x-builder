@@ -1,0 +1,11 @@
+{
+  "run_id": "run_20260205T104215Z",
+  "timestamp_utc": "2026-02-05T10:42:22Z",
+  "status": "PASS",
+  "checks": {
+    "system_checks": { "exit_code": 0, "artifact": "system_checks.json" },
+    "npm_audit": { "exit_code": 0, "artifact": "npm_audit.txt" },
+    "frontend_build": { "exit_code": 0, "artifact": "frontend_build.txt" }
+  },
+  "fail_reasons": [""]
+}

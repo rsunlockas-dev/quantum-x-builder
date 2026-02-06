@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["timestamp", "detector_id", "symptom", "evidence_refs"],
+  "properties": {
+    "timestamp": { "type": "string" },
+    "detector_id": { "type": "string" },
+    "symptom": { "type": "string" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "recommendation_id": { "type": "string" },
+    "policy_decision": { "type": "string" },
+    "action_executed": { "type": "string" },
+    "result_verification": { "type": "string" }
+  }
+}

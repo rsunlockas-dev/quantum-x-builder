@@ -1,0 +1,7 @@
+2026-02-05T20:36:51Z Backing up existing devcontainer files (if present) -> /workspaces/quantum-x-builder/_OPS/_BACKUPS/devcontainer-20260205T203651Z
+2026-02-05T20:36:51Z Writing simplified .devcontainer/docker-compose.yml (no image build; prebuilt node image; nats sidecar)
+2026-02-05T20:36:51Z Writing hardened .devcontainer/devcontainer.json (initializeCommand ensures backend/.env exists)
+2026-02-05T20:36:51Z Ensuring backend/.env exists (local workspace copy)
+2026-02-05T20:36:51Z Adding fail-loud runtime self-check (bash) -> _OPS/qxb-selfcheck.sh
+2026-02-05T20:36:51Z Done. Next action is a container rebuild (Codespaces/Dev Containers).
+2026-02-05T20:36:51Z After rebuild, run: bash _OPS/qxb-selfcheck.sh

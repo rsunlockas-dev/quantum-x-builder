@@ -1,0 +1,32 @@
+node:internal/process/promises:391
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+NatsError: TIMEOUT
+    at NatsError.errorForCode (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/core.js:143:16)
+    at MuxSubscription.close (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/muxsubscription.js:90:38)
+    at ProtocolHandler.<anonymous> (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/protocol.js:900:35)
+    at Generator.next (<anonymous>)
+    at /workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/protocol.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/protocol.js:4:12)
+    at ProtocolHandler._close (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/protocol.js:890:16)
+    at ProtocolHandler.close (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/protocol.js:911:21)
+    at NatsConnectionImpl.<anonymous> (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/nats.js:94:33)
+
+Error
+    at new BaseRequest (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/request.js:28:24)
+    at new RequestOne (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/request.js:100:9)
+    at NatsConnectionImpl.request (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/nats-base-client/nats.js:367:23)
+    at JetStreamManagerImpl.<anonymous> (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/jetstream/jsbaseclient_api.js:80:45)
+    at Generator.next (<anonymous>)
+    at /workspaces/quantum-x-builder/backend/node_modules/nats/lib/jetstream/jsbaseclient_api.js:22:71
+    at new Promise (<anonymous>)
+    at __awaiter (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/jetstream/jsbaseclient_api.js:18:12)
+    at JetStreamManagerImpl._request (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/jetstream/jsbaseclient_api.js:67:16)
+    at JetStreamManagerImpl.<anonymous> (/workspaces/quantum-x-builder/backend/node_modules/nats/lib/jetstream/jsm.js:185:34) {
+  code: 'TIMEOUT',
+  chainedError: undefined
+}
+
+Node.js v20.20.0

@@ -1,0 +1,11 @@
+{
+  "id": "code-app",
+  "name": "App Blueprint",
+  "description": "Rapid app creation template with frontend and backend targets.",
+  "fields": {
+    "frontend": "React + Vite",
+    "backend": "Node + Express",
+    "features": ["auth", "db", "ai"],
+    "deployment": "docker"
+  }
+}

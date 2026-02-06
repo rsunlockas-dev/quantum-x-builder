@@ -1,0 +1,12 @@
+{
+  "run_id": "run_20260205T104215Z",
+  "artifacts": [
+    "system_checks.json",
+    "system_checks.err",
+    "npm_audit.txt",
+    "npm_audit.err",
+    "frontend_build.txt",
+    "frontend_build.err",
+    "FORENSIC_VERDICT.json"
+  ]
+}

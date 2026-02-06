@@ -1,0 +1,36 @@
+{
+  "gate": "INTEGRITY_V3",
+  "timestamp": "2026-02-05T19:42:05.061Z",
+  "score": 50,
+  "checks": [
+    {
+      "id": "trace_span",
+      "label": "Trace/Span correlation enforced",
+      "pass": true,
+      "weight": 50,
+      "detail": "trace/span headers enforced"
+    },
+    {
+      "id": "jetstream_lag",
+      "label": "JetStream durable consumer lag",
+      "pass": false,
+      "weight": 50,
+      "detail": "NATS_TCP_UNREACHABLE::nats://nats:4222",
+      "results": []
+    }
+  ],
+  "nats": {
+    "runtime": "container",
+    "nats_url": "nats://nats:4222",
+    "varz_url": "http://nats:8222/varz",
+    "varz": {
+      "ok": false,
+      "status": 0,
+      "error": "TypeError: fetch failed"
+    },
+    "tcp": {
+      "ok": false,
+      "detail": "Error: getaddrinfo ENOTFOUND nats"
+    }
+  }
+}

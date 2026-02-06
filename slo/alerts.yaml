@@ -1,0 +1,16 @@
+alerts:
+  - id: auth_success_rate_breach
+    condition: auth_success_rate < 0.99
+    severity: high
+  - id: promo_apply_failure
+    condition: promo_apply_success_rate < 0.98
+    severity: med
+  - id: checkout_failure
+    condition: stripe_checkout_success_rate < 0.98
+    severity: high
+  - id: admin_edit_failure
+    condition: admin_edit_success_rate < 0.99
+    severity: med
+  - id: p95_latency_high
+    condition: p95_latency_ms > 800
+    severity: high

@@ -1,0 +1,25 @@
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    container_name: vizualx-backend-devcontainer
+    env_file:
+      - ../backend/.env
+    ports:
+      - "8787:8787"
+    volumes:
+      - ..:/workspaces/quantum-x-builder
+    environment:
+      - WORKSPACE_ROOT=/workspaces/quantum-x-builder
+    depends_on:
+      - nats
+
+  nats:
+    image: nats:2.12.4
+    container_name: qxb-nats
+    command: ["-js", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"

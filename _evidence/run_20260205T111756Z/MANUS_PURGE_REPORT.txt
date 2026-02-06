@@ -1,0 +1,8 @@
+Manus purge summary
+
+- Removed Manus routes and adapter: backend/src/routes/manus.js, backend/src/routes/manus-exec.js, backend/src/services/manusAdapter.js
+- Removed Manus config and system checks from backend runtime
+- Removed Manus env keys from backend/.env.example, backend/.env.dev, and ENV_KEYS.md
+- Removed Manus documentation from backend/README.md and root README.md (pending status refresh)
+- Removed docker-compose.manus.yml
+- Removed submodule metadata and vendor directory: backend/vendor/manus-core-system, .gitmodules

@@ -1,0 +1,595 @@
+
+> vizual-x-backend@0.1.0 dev
+> node --watch src/index.js
+
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+{"level":"info","msg":"request.completed","traceRestarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejectionnode:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:19Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejectionnode:events:502
+      throw er; // Unhandled 'error' enode:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejectionnode:events:502
+      throw er; // Unhandled 'error' enode:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    Restarting 'src/index.js'
+Vizual-X backend listening on 8787
+Workspace root: /workspaces/quantum-x-builder
+Restarting 'src/index.js'
+Vizual-X backend listening on 8787
+Workspace root: /workspaces/quantum-x-builder
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Vizual-X backend listening on 8787
+Workspace root: /workspaces/quantum-x-builder
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:internal/modules/esm/resolve:283
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/utils/adminOps.js' imported from /workspaces/quantum-x-builder/backend/src/routes/ops.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/utils/adminOps.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:internal/modules/esm/resolve:283
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/routes/ops.js' imported from /workspaces/quantum-x-builder/backend/src/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/routes/ops.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+83
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/utils/adminOps.js' imported from /workspaces/quantum-x-builder/backend/src/routes/ops.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/utils/adminOps.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+node:internal/modules/esm/resolve:283
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/routes/ops.js' imported from /workspaces/quantum-x-builder/backend/src/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/routes/ops.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+nd/src/routes/ops.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+ted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Restarting 'src/index.js'
+Vizual-X backend listening on 8787
+Workspace root: /workspaces/quantum-x-builder
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Restarting 'src/index.js'
+Vizual-X backend listening on 8787
+Workspace root: /workspaces/quantum-x-builder
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Restarting 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Restarting 'src/index.js'
+Vizual-X backend listening on 8787
+Workspace root: /workspaces/quantum-x-builder
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8787
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (/workspaces/quantum-x-builder/backend/node_modules/express/lib/application.js:635:24)
+    at file:///workspaces/quantum-x-builder/backend/src/index.js:45:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8787
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Restarting 'src/index.js'
+node:internal/modules/esm/resolve:283
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/utils/adminOps.js' imported from /workspaces/quantum-x-builder/backend/src/routes/ops.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/utils/adminOps.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+node:internal/modules/esm/resolve:283
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/utils/adminOps.js' imported from /workspaces/quantum-x-builder/backend/src/routes/ops.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/utils/adminOps.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+Restarting 'src/index.js'
+Restarting 'src/index.js'
+node:internal/modules/esm/resolve:283
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/routes/ops.js' imported from /workspaces/quantum-x-builder/backend/src/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/routes/ops.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'
+node:internal/modules/esm/resolve:283
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/src/routes/ops.js' imported from /workspaces/quantum-x-builder/backend/src/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/src/routes/ops.js'
+}
+
+Node.js v20.20.0
+Failed running 'src/index.js'

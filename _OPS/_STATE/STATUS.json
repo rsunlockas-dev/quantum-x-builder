@@ -1,0 +1,9 @@
+{
+  "phase": "5",
+  "autonomy": "ON",
+  "guardrails": "ACTIVE",
+  "kill_switch": "ACTIVE",
+  "rollback": "AVAILABLE",
+  "authoritative_tag": "qxb-phase5-lock-2026-02-06",
+  "branch": "phase5-postlock-work"
+}

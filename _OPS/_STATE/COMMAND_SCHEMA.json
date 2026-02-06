@@ -1,0 +1,19 @@
+{
+  "source": "MOBILE_OR_GITHUB",
+  "authority": "Neo",
+  "allowed_commands": [
+    "implement_feature",
+    "refactor",
+    "write_tests",
+    "optimize",
+    "document",
+    "analyze",
+    "propose_change"
+  ],
+  "forbidden": [
+    "change_policy",
+    "disable_guardrails",
+    "deploy_prod",
+    "rotate_keys"
+  ]
+}

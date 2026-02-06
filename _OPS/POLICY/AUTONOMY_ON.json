@@ -1,0 +1,16 @@
+{
+    "allowed_agents":  [
+                           "Copilot",
+                           "GPT",
+                           "Validator",
+                           "Architect"
+                       ],
+    "authority":  "Neo",
+    "autonomy_status":  "ON",
+    "forbidden":  [
+                      "policy_mutation",
+                      "guardrail_removal",
+                      "tag_deletion",
+                      "silent_execution"
+                  ]
+}

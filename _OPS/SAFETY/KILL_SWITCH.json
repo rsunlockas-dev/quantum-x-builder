@@ -1,0 +1,6 @@
+{
+    "removal":  "HUMAN_ONLY",
+    "authority":  "Neo",
+    "kill_switch":  "ARMED",
+    "behavior":  "IMMEDIATE_HALT"
+}

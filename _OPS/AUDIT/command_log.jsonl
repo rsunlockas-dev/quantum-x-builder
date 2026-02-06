@@ -1,0 +1,7 @@
+{
+    "timestamp":  "2026-02-06T14:57:13.9868928-05:00",
+    "authority":  "Neo",
+    "file":  "_OPS/COMMANDS/20260206_145713-command.json",
+    "event":  "COMMAND_ISSUED",
+    "intent":  "analyze"
+}

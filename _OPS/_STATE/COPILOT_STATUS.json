@@ -1,0 +1,7 @@
+{
+  "phase": 5,
+  "autonomy": "ON",
+  "copilot_mode": "AUTONOMOUS_IMPLEMENTER",
+  "command_source": "_OPS/COMMANDS",
+  "authority": "Neo"
+}

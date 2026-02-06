@@ -1,48 +1,81 @@
 {
-  "name": "vizual-x-monaco-chat",
-  "displayName": "VIZUAL X - Monaco Chat Editor",
-  "description": "Real-time code editing with Monaco and Gemini AI chat integration",
-  "version": "0.0.1",
+  "name": "vizual-x-admin-control-panel",
+  "displayName": "VIZUAL X - Admin Control Panel",
+  "description": "Permanent admin control panel for Quantum-X-Builder operations, Phase 3 monitoring, and governance",
+  "version": "0.1.0",
+  "publisher": "InfinityXOneSystems",
+  "license": "MIT",
   "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InfinityXOneSystems/quantum-x-builder"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Visualization", "Chat", "Code Editors"],
+  "categories": ["Visualization", "Chat", "Dashboards", "Other"],
+  "keywords": ["admin", "control", "quantum", "governance", "phase3"],
   "activationEvents": [
     "onStartupFinished",
-    "onCommand:vizualx.openEditor",
-    "onView:vizualx-explorer"
+    "onCommand:vizualx.open",
+    "onCommand:vizualx.showStatus",
+    "onView:vizualx-control-panel"
   ],
-  "main": "./dist/index.js",
+  "main": "./vscode-extension/extension.js",
   "contributes": {
-    "views": {
-      "explorer": [
+    "viewsContainers": {
+      "activitybar": [
         {
-          "id": "vizualx-explorer",
-          "name": "VIZUAL X Chat",
-          "when": "resourceScheme == file"
+          "id": "vizualx-sidebar",
+          "title": "VIZUAL X",
+          "icon": "$(dashboard)"
+        }
+      ]
+    },
+    "views": {
+      "vizualx-sidebar": [
+        {
+          "id": "vizualx-control-panel",
+          "name": "Admin Control Panel",
+          "type": "webview",
+          "visibility": "visible"
         }
       ]
     },
     "commands": [
       {
-        "command": "vizualx.openEditor",
-        "title": "Open VIZUAL X Editor",
+        "command": "vizualx.open",
+        "title": "Open VIZUAL X Studio",
+        "category": "VIZUAL X"
+      },
+      {
+        "command": "vizualx.showStatus",
+        "title": "Show Control Panel Status",
+        "category": "VIZUAL X"
+      },
+      {
+        "command": "vizualx.runSelfCheck",
+        "title": "Run QXB Self Check",
+        "category": "VIZUAL X"
+      },
+      {
+        "command": "vizualx.phase3Status",
+        "title": "Check Phase 3 Status",
         "category": "VIZUAL X"
       }
     ],
     "keybindings": [
       {
-        "command": "vizualx.openEditor",
-        "key": "ctrl+alt+v",
-        "mac": "cmd+alt+v"
+        "command": "vizualx.open",
+        "key": "ctrl+shift+x",
+        "mac": "cmd+shift+x",
+        "when": "!terminalFocus"
       }
     ]
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "vsce-package": "vsce package"
+    "preview": "vite preview"
   }
 }

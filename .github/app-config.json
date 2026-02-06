@@ -1,0 +1,14 @@
+{
+  "github_app": {},
+  "ai_integrations": {
+    "gemini": {
+      "enabled": true,
+      "auth_method": "github_app_token",
+      "scopes": [
+        "repo",
+        "gist"
+      ]
+    }
+  },
+  "permissions": {}
+}

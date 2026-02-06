@@ -1,0 +1,6 @@
+{
+  "policy_file": "_OPS/POLICY/AUTONOMY_OFF",
+  "reviewed_at": "2026-02-06T14:08:49.6599697-05:00",
+  "autonomy_toggle": "HUMAN_ONLY",
+  "policy": "PAT"
+}

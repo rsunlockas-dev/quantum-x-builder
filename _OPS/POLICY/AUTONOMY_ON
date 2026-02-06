@@ -1,0 +1,7 @@
+{
+  "enabled_by": "Neo",
+  "kill_switch": "ACTIVE",
+  "guardrails": "ENFORCED",
+  "enabled_at": "2026-02-06T14:19:32.8088135-05:00",
+  "autonomy": "ON"
+}

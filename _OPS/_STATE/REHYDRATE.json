@@ -1,0 +1,8 @@
+﻿{
+  "system": "quantum-x-builder",
+  "entry_point": "_OPS/rehydrate.ps1",
+  "phase": "4",
+  "autonomy": false,
+  "source_of_truth": "git_tags + _OPS/_STATE",
+  "instruction_contract": "ChatGPT Global System Instruction"
+}

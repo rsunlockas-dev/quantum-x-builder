@@ -1,0 +1,13 @@
+{
+  "execution": "PROHIBITED",
+  "status": "NOT_AUTHORIZED",
+  "phase": "Phase 5 — Unlock Ceremony (Design Only)",
+  "steps": [
+    "Human declaration of intent",
+    "Policy review and sign-off",
+    "Evidence validation (Phase 4)",
+    "Dry-run simulation approval",
+    "Blast-radius acceptance",
+    "Physical/manual switch"
+  ]
+}

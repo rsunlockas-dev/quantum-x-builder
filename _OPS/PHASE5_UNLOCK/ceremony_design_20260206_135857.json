@@ -1,0 +1,14 @@
+{
+  "evidence_bundle": "_OPS/EVIDENCE/BUNDLE_20260206_135857",
+  "status": "LOCKED",
+  "requires": [
+    "Human declaration",
+    "Policy review",
+    "Evidence bundle validation",
+    "Dry-run simulation",
+    "Blast-radius acceptance",
+    "Manual switch"
+  ],
+  "execution": "PROHIBITED",
+  "phase": "5"
+}

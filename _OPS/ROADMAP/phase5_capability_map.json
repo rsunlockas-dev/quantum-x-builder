@@ -1,0 +1,22 @@
+{
+  "permanently_human": [
+    "policy_changes",
+    "autonomy_toggle",
+    "prod_deploys",
+    "key_management"
+  ],
+  "ceiling": "Maximum Safe Autonomy",
+  "allowed_if_unlocked": [
+    "proposal_generation",
+    "patch_generation (approval required)",
+    "signed_runner_triggers",
+    "bounded_self_heal",
+    "continuous_health_validation"
+  ],
+  "invariants": [
+    "deterministic",
+    "auditable",
+    "reversible",
+    "kill-switchable"
+  ]
+}

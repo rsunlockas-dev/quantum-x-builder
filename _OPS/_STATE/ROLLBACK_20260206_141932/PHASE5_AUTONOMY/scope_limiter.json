@@ -1,0 +1,8 @@
+{
+  "execution": "SIGNED_ONLY",
+  "scope": "NARROW",
+  "max_services": 1,
+  "rollback_required": true,
+  "observable": true,
+  "max_commits": 1
+}

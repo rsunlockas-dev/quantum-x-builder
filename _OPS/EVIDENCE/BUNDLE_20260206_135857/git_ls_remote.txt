@@ -1,0 +1,8 @@
+c2f4d1a6f763d704881d7ba9878ca8aa983ee930	HEAD
+e16ec79cc36d9914b258c74c268881ee047d1348	refs/heads/copilot/add-monaco-ai-partner-system
+c2f4d1a6f763d704881d7ba9878ca8aa983ee930	refs/heads/main
+e16ec79cc36d9914b258c74c268881ee047d1348	refs/pull/1/head
+48e3a335fbb80ab3cfed690dd557645086e77deb	refs/tags/qxb-phase3b-lock-2026-02-06
+940742369f63f811432c4ff972cedcbcb970f1fe	refs/tags/qxb-phase3b-lock-2026-02-06^{}
+6a416d34bccb4761da45a25e53772f2e98f3332a	refs/tags/qxb-template-lock-2026-02-06
+940742369f63f811432c4ff972cedcbcb970f1fe	refs/tags/qxb-template-lock-2026-02-06^{}

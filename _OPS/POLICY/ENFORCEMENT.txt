@@ -1,0 +1,4 @@
+﻿RULES:
+- No script may enable autonomy
+- No script may self-modify
+- Violation invalidates system state

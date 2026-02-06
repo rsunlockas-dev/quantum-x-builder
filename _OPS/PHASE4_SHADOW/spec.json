@@ -1,0 +1,18 @@
+{
+    "phase":  "4",
+    "allowed":  [
+                    "observe",
+                    "simulate",
+                    "validate",
+                    "recommend",
+                    "summarize"
+                ],
+    "mode":  "shadow",
+    "forbidden":  [
+                      "write",
+                      "execute",
+                      "deploy",
+                      "runner-trigger",
+                      "self-modify"
+                  ]
+}

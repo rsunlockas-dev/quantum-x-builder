@@ -1,0 +1,6 @@
+{
+  "phase5_status": "CEREMONY_COMPLETE",
+  "warning": "This script does NOT unlock autonomy",
+  "next_manual_step": "Physically remove _OPS/POLICY/AUTONOMY_OFF if and only if you intend to enable autonomy",
+  "autonomy": "STILL_OFF"
+}

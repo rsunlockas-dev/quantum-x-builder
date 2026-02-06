@@ -1,0 +1,9 @@
+{
+  "template_commit": "940742369f63f811432c4ff972cedcbcb970f1fe",
+  "same_baseline": true,
+  "phase3b_commit": "940742369f63f811432c4ff972cedcbcb970f1fe",
+  "repo": "https://github.com/InfinityXOneSystems/quantum-x-builder",
+  "template_tag": "qxb-template-lock-2026-02-06",
+  "local_head": "940742369f63f811432c4ff972cedcbcb970f1fe",
+  "phase3b_tag": "qxb-phase3b-lock-2026-02-06"
+}

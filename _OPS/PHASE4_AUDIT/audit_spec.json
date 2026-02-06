@@ -1,0 +1,13 @@
+{
+  "verdict": "PENDING_REVIEW",
+  "phase": "Phase 4 — Shadow Audit",
+  "scope": [
+    "repo_integrity",
+    "policy_enforcement",
+    "autonomy_lock",
+    "runner_constraints",
+    "reproducibility",
+    "rollback_guarantees"
+  ],
+  "mode": "read-only"
+}

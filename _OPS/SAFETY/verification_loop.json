@@ -1,0 +1,11 @@
+{
+  "loop": "continuous_validation",
+  "checks": [
+    "policy_integrity",
+    "scope_drift",
+    "runner_behavior",
+    "unexpected_writes"
+  ],
+  "response": "KILL_SWITCH",
+  "mode": "shadow"
+}

@@ -1,0 +1,7 @@
+{
+  "ready_for_unlock": "HUMAN_DECISION_ONLY",
+  "warning": "Autonomy remains disabled until AUTONOMY_OFF is removed manually",
+  "guards_installed": true,
+  "phase": "5 (guardrails ready)",
+  "autonomy": "OFF"
+}

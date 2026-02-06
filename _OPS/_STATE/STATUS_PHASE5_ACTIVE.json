@@ -1,0 +1,7 @@
+{
+  "rollback_path": "_OPS/_STATE/ROLLBACK_20260206_141932",
+  "kill_switch": "ACTIVE",
+  "guardrails": "ACTIVE",
+  "phase": "5 (autonomy active)",
+  "autonomy": "ON"
+}

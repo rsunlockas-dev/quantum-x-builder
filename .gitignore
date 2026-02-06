@@ -1,0 +1,27 @@
+# --- Runtime artifacts ---
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Logs ---
+*.log
+
+# --- Secrets ---
+*.pem
+*.key
+
+# --- QXB rule ---
+# _OPS is GOVERNANCE and MUST be tracked
+# --- GitHub App secrets (DO NOT COMMIT) ---
+_state/github-app/
+# --- Working clones / mirrors (DO NOT COMMIT) ---
+_OPS/_CLONES/

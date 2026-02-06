@@ -1,0 +1,14 @@
+{
+    "risks":  [
+                  "autonomy_misfire",
+                  "runner_overreach",
+                  "policy_drift",
+                  "non-deterministic_execution"
+              ],
+    "mitigations":  [
+                        "hard_lock",
+                        "signed_gates",
+                        "rollback_contract",
+                        "human_override"
+                    ]
+}

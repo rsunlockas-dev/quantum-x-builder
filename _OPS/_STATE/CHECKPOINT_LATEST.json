@@ -1,0 +1,14 @@
+{
+  "evidence": "_OPS/EVIDENCE/BUNDLE_20260206_135857",
+  "owner": "Neo",
+  "system": "Quantum-X-Builder",
+  "checkpoint": "20260206_135857",
+  "autonomy": "OFF",
+  "baseline_commit": "940742369f63f811432c4ff972cedcbcb970f1fe",
+  "next_steps": [
+    "Human review of diff_full.patch",
+    "Approve or reject Phase 5 ceremony",
+    "If approved, perform explicit unlock outside automation"
+  ],
+  "phase": "4 (shadow)"
+}

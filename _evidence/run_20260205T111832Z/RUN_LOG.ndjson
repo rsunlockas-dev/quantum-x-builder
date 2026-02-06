@@ -1,0 +1,6 @@
+{"ts":"2026-02-05T11:18:32Z","event":"runbook.start","detail":"ENV_PROFILE=boxed STUB_MODE=true"}
+{"ts":"2026-02-05T11:18:32Z","event":"check.system","detail":"exit_code=0"}
+{"ts":"2026-02-05T11:18:32Z","event":"check.readiness","detail":"exit_code=0"}
+{"ts":"2026-02-05T11:18:33Z","event":"check.npm_audit","detail":"exit_code=0"}
+{"ts":"2026-02-05T11:18:37Z","event":"check.frontend_build","detail":"exit_code=0"}
+{"ts":"2026-02-05T11:18:37Z","event":"runbook.complete","detail":"gate=PASS"}

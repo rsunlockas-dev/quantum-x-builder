@@ -1,0 +1,14 @@
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspaces/quantum-x-builder/backend/backend/src/utils/gates.js' imported from /workspaces/quantum-x-builder/backend/[eval]
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:737:20)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:714:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:293:38)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:36)
+    at TracingChannel.tracePromise (node:diagnostics_channel:350:14)
+    at ModuleLoader.import (node:internal/modules/esm/loader:664:21)
+    at importModuleDynamically (node:internal/process/execution:385:33) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspaces/quantum-x-builder/backend/backend/src/utils/gates.js'
+}

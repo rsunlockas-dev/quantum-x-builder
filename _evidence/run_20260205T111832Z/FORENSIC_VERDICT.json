@@ -1,0 +1,11 @@
+{
+  "run_id": "run_20260205T111832Z",
+  "timestamp": "2026-02-05T11:18:37Z",
+  "gate": "PASS",
+  "checks": {
+    "system_checks": { "exit_code": 0 },
+    "readiness": { "exit_code": 0, "boot_ready": true, "status": "stub-ok", "blocked_by": [] },
+    "npm_audit": { "exit_code": 0 },
+    "frontend_build": { "exit_code": 0 }
+  }
+}

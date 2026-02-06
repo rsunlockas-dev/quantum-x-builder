@@ -1,0 +1,11 @@
+{
+  "name": "qxb-chat-gateway",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nats": "^2.22.0",
+    "ws": "^8.17.0"
+  }
+}

@@ -1,0 +1,13 @@
+== toolchain ==
+v20.20.0
+10.8.2
+== optional docker visibility (skip if unavailable) ==
+DOCKER:UNAVAILABLE (expected in many Codespaces containers)
+== required network probes ==
+-- nats health (8222/varz) --
+NATS:OK
+-- backend health (8787) --
+BACKEND:HEALTH_OK (/health)
+-- phase3 admin status (PAT) --
+PHASE3:OK
+== done ==

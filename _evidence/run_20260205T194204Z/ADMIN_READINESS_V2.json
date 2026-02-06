@@ -1,0 +1,35 @@
+{
+  "gate": "ADMIN_READINESS_V2",
+  "timestamp": "2026-02-05T19:42:04.586Z",
+  "score": 100,
+  "checks": [
+    {
+      "id": "boot_ready",
+      "label": "Boot readiness true",
+      "pass": true,
+      "weight": 25,
+      "detail": "boot_ready=true"
+    },
+    {
+      "id": "admin_enabled",
+      "label": "Admin core enabled",
+      "pass": true,
+      "weight": 25,
+      "detail": "admin.enabled=true"
+    },
+    {
+      "id": "inventory",
+      "label": "Secrets inventory present",
+      "pass": true,
+      "weight": 25,
+      "detail": "inventory found"
+    },
+    {
+      "id": "feature_flags",
+      "label": "Feature flag file present",
+      "pass": true,
+      "weight": 25,
+      "detail": "feature flags state checked"
+    }
+  ]
+}

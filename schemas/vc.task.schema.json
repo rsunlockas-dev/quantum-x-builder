@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/vc.task.schema.json",
+  "type": "object",
+  "required": ["task_id", "type", "labels"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "type": { "type": "string" },
+    "labels": { "type": "array", "items": { "type": "string" } },
+    "payload": { "type": "object" }
+  }
+}

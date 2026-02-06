@@ -1,0 +1,13 @@
+{
+  "id": "video-basic",
+  "name": "AI Video Blueprint",
+  "description": "Storyboard-driven video generation template.",
+  "fields": {
+    "prompt": "Describe the video intent and style.",
+    "duration": 6,
+    "aspectRatio": "16:9",
+    "style": "cinematic",
+    "music": "none",
+    "voiceover": "off"
+  }
+}

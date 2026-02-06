@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/vc.plan.schema.json",
+  "type": "object",
+  "required": ["run_id", "tasks"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "tasks": { "type": "array", "items": { "$ref": "schemas/vc.task.schema.json" } }
+  }
+}

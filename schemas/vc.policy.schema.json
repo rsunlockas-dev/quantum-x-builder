@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/vc.policy.schema.json",
+  "type": "object",
+  "required": ["allowed", "denied"],
+  "properties": {
+    "allowed": { "type": "array", "items": { "type": "string" } },
+    "denied": { "type": "array", "items": { "type": "string" } },
+    "risk": { "type": "string" }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "qxb-narrator",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "dependencies": {
+    "nats": "^2.22.0"
+  }
+}

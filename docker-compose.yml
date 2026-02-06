@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: vizualx-backend
+    env_file:
+      - backend/.env
+    ports:
+      - "8787:8787"
+    volumes:
+      - ./:/workspace
+    environment:
+      - WORKSPACE_ROOT=/workspace
+    depends_on:
+      - ollama
+    networks:
+      - vizualx
+
+  frontend:
+    build:
+      context: .
+      dockerfile: vizual-x/Dockerfile
+    container_name: vizualx-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - vizualx
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: vizualx-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - vizualx
+
+  nats:
+    image: nats:2.10-alpine
+    container_name: qxb-nats
+    command: ["-js", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    networks:
+      - vizualx
+
+networks:
+  vizualx:
+    driver: bridge
+
+volumes:
+  ollama-data:
+    driver: local

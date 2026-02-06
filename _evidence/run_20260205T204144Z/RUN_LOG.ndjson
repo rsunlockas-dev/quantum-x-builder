@@ -1,0 +1,5 @@
+{"ts":"2026-02-05T20:41:44Z","event":"gate.v2.start","detail":"ADMIN_READINESS_V2"}
+{"ts":"2026-02-05T20:41:44Z","event":"gate.v2.complete","detail":"exit_code=0"}
+{"ts":"2026-02-05T20:41:45Z","event":"gate.v3.start","detail":"INTEGRITY_V3"}
+{"ts":"2026-02-05T20:41:45Z","event":"gate.v3.complete","detail":"exit_code=1"}
+{"ts":"2026-02-05T20:41:45Z","event":"gate.run.complete","detail":"v2_exit=0 v3_exit=1"}

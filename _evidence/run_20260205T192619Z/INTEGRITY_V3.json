@@ -1,0 +1,22 @@
+{
+  "gate": "INTEGRITY_V3",
+  "timestamp": "2026-02-05T19:26:20.533Z",
+  "score": 50,
+  "checks": [
+    {
+      "id": "trace_span",
+      "label": "Trace/Span correlation enforced",
+      "pass": true,
+      "weight": 50,
+      "detail": "trace/span headers enforced"
+    },
+    {
+      "id": "jetstream_lag",
+      "label": "JetStream durable consumer lag",
+      "pass": false,
+      "weight": 50,
+      "detail": "jetstream unreachable: CONNECTION_REFUSED",
+      "results": []
+    }
+  ]
+}

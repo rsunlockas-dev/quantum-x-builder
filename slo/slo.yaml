@@ -1,0 +1,7 @@
+slo_targets:
+  auth_success_rate: 0.99
+  promo_apply_success_rate: 0.98
+  stripe_checkout_success_rate: 0.98
+  admin_edit_success_rate: 0.99
+  p95_latency_ms:
+    critical_endpoints: 800

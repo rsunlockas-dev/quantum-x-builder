@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/vc.authority.schema.json",
+  "type": "object",
+  "required": ["actor", "scope"],
+  "properties": {
+    "actor": { "type": "string" },
+    "scope": { "type": "array", "items": { "type": "string" } },
+    "permissions": { "type": "array", "items": { "type": "string" } },
+    "approvals_required": { "type": "boolean" }
+  }
+}

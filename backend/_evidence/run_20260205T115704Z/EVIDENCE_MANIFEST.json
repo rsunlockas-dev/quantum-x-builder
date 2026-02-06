@@ -1,0 +1,17 @@
+{
+  "run_id": "run_20260205T115704Z",
+  "files": [
+    {
+      "path": "ADMIN_READINESS_V2.json",
+      "bytes": 0
+    },
+    {
+      "path": "INTEGRITY_V3.json",
+      "bytes": 0
+    },
+    {
+      "path": "RUN_LOG.ndjson",
+      "bytes": 322
+    }
+  ]
+}

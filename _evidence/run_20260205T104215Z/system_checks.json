@@ -1,0 +1,155 @@
+{
+  "db": {
+    "status": "skipped",
+    "detail": "DATABASE_URL not set"
+  },
+  "ollama": {
+    "status": "skipped",
+    "detail": "OLLAMA_URL not set"
+  },
+  "manus": {
+    "status": "fail",
+    "detail": "TypeError: fetch failed"
+  },
+  "spec": {
+    "status": "pass",
+    "missing": [],
+    "required": [
+      "MANIFEST.md",
+      "QUANTUM_CODING_CONSTITUTION.md",
+      "GOVERNOR_AGENT.md",
+      "ARCHITECT_AGENT.md",
+      "FEATURE_AGENT.md",
+      "TEST_GENERATION_AGENT.md",
+      "EDGE_CASE_AGENT.md",
+      "SECURITY_AGENT.md",
+      "PERFORMANCE_AGENT.md",
+      "AUTO_FIX_AGENT.md",
+      "REVIEW_AGENT.md",
+      "SANDBOX_ORCHESTRATION.md",
+      "FAILURE_CLASSIFICATION.md",
+      "AUTO_FIX_LOOP.md",
+      "PAT_PROTOCOL.md",
+      "PIPELINE_EXECUTOR.md",
+      "IMPLEMENTATION_GUIDE.md"
+    ]
+  },
+  "templates": {
+    "status": "ok",
+    "count": 3
+  },
+  "telephony": {
+    "status": "fail"
+  },
+  "connectors": {
+    "status": "ok",
+    "github": false,
+    "google": false,
+    "vscode": false
+  },
+  "rag": {
+    "status": "fail"
+  },
+  "browser": {
+    "status": "fail"
+  },
+  "automl": {
+    "status": "fail"
+  },
+  "readiness": {
+    "status": "blocked",
+    "stubbed": false,
+    "capabilities": [
+      {
+        "capability": "db",
+        "severity": "high",
+        "source": "Vault",
+        "missing_keys": [
+          "DATABASE_URL"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      },
+      {
+        "capability": "ollama",
+        "severity": "med",
+        "source": "Cloud Run",
+        "missing_keys": [
+          "OLLAMA_URL"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      },
+      {
+        "capability": "manus",
+        "severity": "high",
+        "source": "Vault",
+        "missing_keys": [
+          "MANUS_BASE_URL"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      },
+      {
+        "capability": "telephony",
+        "severity": "high",
+        "source": "Vault",
+        "missing_keys": [
+          "TWILIO_ACCOUNT_SID",
+          "TWILIO_AUTH_TOKEN",
+          "TWILIO_FROM_NUMBER",
+          "VERTEX_SPEECH_PROJECT_ID"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      },
+      {
+        "capability": "rag",
+        "severity": "high",
+        "source": "Vault",
+        "missing_keys": [
+          "VERTEX_SEARCH_PROJECT_ID",
+          "VERTEX_SEARCH_DATASTORE",
+          "BIGQUERY_PROJECT_ID",
+          "BIGQUERY_DATASET",
+          "GCS_BUCKET"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      },
+      {
+        "capability": "browser",
+        "severity": "med",
+        "source": "Cloud Run",
+        "missing_keys": [
+          "PLAYWRIGHT_ENDPOINT"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      },
+      {
+        "capability": "automl",
+        "severity": "med",
+        "source": "Vault",
+        "missing_keys": [
+          "AUTOML_PROJECT_ID"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      },
+      {
+        "capability": "connectors",
+        "severity": "med",
+        "source": "Vault",
+        "missing_keys": [
+          "GITHUB_CLIENT_ID",
+          "GITHUB_CLIENT_SECRET",
+          "GOOGLE_CLIENT_ID",
+          "GOOGLE_CLIENT_SECRET"
+        ],
+        "unknown_keys": [],
+        "status": "missing"
+      }
+    ]
+  }
+}

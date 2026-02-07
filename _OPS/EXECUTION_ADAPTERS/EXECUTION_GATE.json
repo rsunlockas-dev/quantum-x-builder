@@ -1,0 +1,9 @@
+﻿{
+  "adapter": "github-actions",
+  "status": "armed",
+  "enabled": false,
+  "human_gate_required": true,
+  "phase_required": 6,
+  "autonomy": false,
+  "notes": "Adapter is declared and armed, but execution remains blocked until Phase-6 unlock ceremony."
+}

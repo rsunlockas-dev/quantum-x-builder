@@ -1,0 +1,31 @@
+﻿{
+  "phase": 6,
+  "type": "autonomy-unlock-ceremony",
+  "status": "design-only",
+  "required_signers": ["Neo"],
+  "preconditions": [
+    "phase5_locked",
+    "control_plane_validated",
+    "schema_enforced",
+    "audit_immutable",
+    "kill_switch_armed"
+  ],
+  "unlock_scope": {
+    "execution": "bounded",
+    "self_dispatch": "limited",
+    "self_modification": "schema-only"
+  },
+  "time_bounds": {
+    "max_window_minutes": 15,
+    "auto_relock": true
+  },
+  "explicitly_forbidden": [
+    "policy_self_edit",
+    "authority_inheritance",
+    "silent_execution",
+    "out_of_band_networking"
+  ],
+  "rollback": "_OPS/ROLLBACK/ROLLBACK_PLAN.json",
+  "kill_switch": "_OPS/SAFETY/KILL_SWITCH.json",
+  "notes": "No autonomy is enabled by this file. Human signature required."
+}

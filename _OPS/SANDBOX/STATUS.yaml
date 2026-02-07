@@ -1,0 +1,8 @@
+﻿SANDBOX_STATUS:
+  state: locked
+  execution: disabled
+  autonomy: disabled
+  accepts_code: false
+  reason: >
+    Sandbox reserved for post-control-plane autonomy.
+    Must remain locked until quantum-x-builder is finalized.

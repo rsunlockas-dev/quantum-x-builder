@@ -1,0 +1,132 @@
+﻿{
+  "project": "quantum-x-builder",
+  "phase": "5",
+  "phase_status": "locked_paused",
+  "updated_at": "2026-02-06T21:02:45.5041267-05:00",
+  "definitions": {
+    "phase5": {
+      "name": "Phase-5 Ceiling Complete",
+      "description": "Control plane proven, execution declared but blocked, autonomy disabled, system paused.",
+      "status": "complete",
+      "checklist": [
+        "control_plane_proven",
+        "schema_enforced",
+        "audit_immutable",
+        "execution_declared_blocked",
+        "phase5_locked",
+        "system_paused"
+      ],
+      "tests": [
+        "noop_command_validation",
+        "immutable_audit_policy",
+        "schema_validation"
+      ],
+      "parallelizable": [
+        "schema_fuzz_tests",
+        "audit_replay_verification",
+        "runner_sandbox_tests"
+      ]
+    },
+    "phase6": {
+      "name": "Phase-6 Controlled Resumption",
+      "description": "Human-gated resume; execution allowed with oversight but still no autonomy.",
+      "status": "design-only",
+      "checklist": [
+        "phase6_unlock_ceremony_signed",
+        "runner_isolation_tests",
+        "kill_switch_live",
+        "time_window_declared"
+      ],
+      "tests": [
+        "execution_adapter_noop_test",
+        "time_window_expiry_test",
+        "kill_switch_activation"
+      ],
+      "parallelizable": [
+        "dry_run_executions",
+        "audit_append_verification"
+      ]
+    },
+    "phase7": {
+      "name": "Phase-7 Bounded Autonomy (Supervised)",
+      "description": "Limited self-dispatch under leash with human veto.",
+      "status": "planned",
+      "checklist": [
+        "confidence_thresholding",
+        "human_interrupt_window",
+        "resource_quota_ceilings",
+        "model_disagreement_tests"
+      ],
+      "tests": [
+        "autonomous_noop_chain",
+        "partial_failure_recovery"
+      ],
+      "parallelizable": [
+        "observability_pipeline_validation",
+        "adversarial_intent_simulation"
+      ]
+    },
+    "phase8": {
+      "name": "Phase-8 Steady-State Autonomy (Production)",
+      "description": "Full continuous autonomous operation with monitoring and SLA.",
+      "status": "planned",
+      "checklist": [
+        "incident_response_automation",
+        "cost_runaway_prevention",
+        "compliance_audit_mapping"
+      ],
+      "tests": [
+        "chaos_testing",
+        "long_run_audit_integrity"
+      ],
+      "parallelizable": [
+        "load_testing",
+        "failover_drills"
+      ]
+    },
+    "phase9a": {
+      "name": "Phase-9 Archival",
+      "description": "Permanent read-only freeze for auditors/regulators.",
+      "status": "planned",
+      "checklist": [
+        "final_freeze_confirmed",
+        "legal_handoff",
+        "immutable_repository"
+      ],
+      "tests": [],
+      "parallelizable": []
+    },
+    "phase9b": {
+      "name": "Phase-9 Autonomous Trust System",
+      "description": "Highest trust state with minimal human intervention.",
+      "status": "planned",
+      "checklist": [
+        "steady_state_autonomy_verification",
+        "liability_insurance_in_place",
+        "compliance_certification"
+      ],
+      "tests": [],
+      "parallelizable": []
+    }
+  },
+  "global_parallel": [
+    "schema_fuzz_testing",
+    "audit_replay_verification",
+    "runner_sandbox_tests",
+    "adversarial_intent_simulation"
+  ],
+  "next_actions": {
+    "resume": {
+      "description": "Unpause the system for controlled execution.",
+      "phase_target": "phase6"
+    },
+    "unlock": {
+      "description": "Execute Phase-6 autonomy unlock ceremony (design-only).",
+      "phase_target": "phase6"
+    },
+    "archive": {
+      "description": "Move to archival freeze.",
+      "phase_target": "phase9a"
+    }
+  }
+}

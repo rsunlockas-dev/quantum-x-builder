@@ -1,0 +1,16 @@
+﻿PIPELINE_POLICY:
+  source:
+    - chatgpt
+    - vscode
+  integration:
+    github_app: required
+    runner: required
+
+  target:
+    repository: quantum-x-builder
+    sandbox: forbidden
+
+  enforcement:
+    validation: mandatory
+    benchmarks: mandatory
+    violations: block_and_log

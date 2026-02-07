@@ -1,0 +1,5 @@
+﻿VERIFIER_MODE:
+  mode: bootstrap
+  sandbox_expected_state: locked
+  autonomy_expected: false
+  execution_expected: false

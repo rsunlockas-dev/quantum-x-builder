@@ -1,10 +1,3 @@
 ﻿RUNNER_STATUS:
   state: disabled
-  reason: >
-    Runners are not yet provisioned.
-    Workflows may exist but MUST NOT trigger execution.
-  allowed:
-    - workflow_declaration
-  forbidden:
-    - job_execution
-    - runner_registration
+  reason: EMERGENCY_KILL_SWITCH

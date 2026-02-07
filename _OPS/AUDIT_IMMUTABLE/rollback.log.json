@@ -1,0 +1,28 @@
+﻿{
+    "timestamp":  "2026-02-07T01:29:18.7334947-05:00",
+    "target":  null,
+    "action":  "ROLLBACK"
+}
+{
+    "reason":  "Manual admin rollback",
+    "timestamp":  "2026-02-07T01:31:53.6380624-05:00",
+    "previous_head":  "c3237c886ba3e2fc744c8969f5044dd79a613b16",
+    "target":  "$target = Read-Host \"Enter commit hash or tag to rollback to\"",
+    "action":  "ROLLBACK"
+}
+{
+    "action":  "ROLLBACK",
+    "timestamp":  "2026-02-07T01:39:33.9407287-05:00",
+    "previous_head":  "c3237c886ba3e2fc744c8969f5044dd79a613b16",
+    "reason":  "",
+    "target":  null,
+    "project":  "quantum-x-builder"
+}
+{
+    "action":  "ROLLBACK",
+    "timestamp":  "2026-02-07T01:40:58.9885382-05:00",
+    "previous_head":  "c3237c886ba3e2fc744c8969f5044dd79a613b16",
+    "reason":  "",
+    "target":  null,
+    "project":  "quantum-x-builder"
+}

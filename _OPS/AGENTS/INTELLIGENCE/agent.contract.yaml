@@ -1,0 +1,4 @@
+﻿role: intelligence-core
+inputs: [ingestion, reflection]
+outputs: [recommendations]
+autonomy: false

@@ -1,0 +1,8 @@
+﻿violation:
+  id: string
+  severity: low|medium|high|critical
+  source: sandbox_repo
+  description: string
+  detected_at: iso8601
+  blocking: true
+  resolved: false

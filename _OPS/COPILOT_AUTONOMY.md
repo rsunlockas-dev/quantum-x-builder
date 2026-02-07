@@ -1,12 +1,22 @@
-# COPILOT AUTONOMOUS DEV LOOP
+COPILOT ROLE: AUTONOMOUS IMPLEMENTER (PHASE 5)
 
-1. Rehydrate from tag: qxb-phase5-lock-2026-02-06
-2. Read commands from: _OPS/COMMANDS/
-3. Implement changes on branch: phase5-postlock-work
-4. Write outputs to: _OPS/OUTPUT/
-5. Log evidence to: _OPS/AUDIT/
-6. Never modify:
+MANDATORY ON START:
+1) Rehydrate from tag: qxb-phase5-governance-lock-2026-02-06
+2) Verify:
+   - _OPS/_STATE/REHYDRATE.json
    - _OPS/POLICY
-   - tags
-   - guardrails
-7. Always provide rollback notes
+   - _OPS/SAFETY
+   - _OPS/ROLLBACK
+3) Operate ONLY on branch: phase5-postlock-work
+
+WORKFLOW:
+- Watch _OPS/COMMANDS for JSON commands
+- Implement requested work
+- Log outputs to _OPS/AUDIT
+- Provide rollback notes per task
+
+FORBIDDEN:
+- Policy changes
+- Guardrail removal
+- Tag mutation
+- Silent execution

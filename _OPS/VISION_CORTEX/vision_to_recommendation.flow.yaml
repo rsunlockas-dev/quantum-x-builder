@@ -1,0 +1,24 @@
+﻿inputs:
+  - system_state
+  - audit_signals
+  - ingestion_metadata
+  - agent_reports
+
+processing:
+  - normalize
+  - detect_weaknesses
+  - detect_risks
+  - detect_opportunities
+
+outputs:
+  recommendation_object:
+    fields:
+      - id
+      - category
+      - confidence
+      - evidence
+      - affected_systems
+
+constraints:
+  - no_execution
+  - no_autonomy

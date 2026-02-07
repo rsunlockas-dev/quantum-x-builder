@@ -1,0 +1,1 @@
+﻿All actions are logged.

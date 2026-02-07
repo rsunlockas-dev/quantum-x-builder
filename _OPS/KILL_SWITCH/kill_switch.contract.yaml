@@ -1,0 +1,17 @@
+﻿kill_switch:
+  purpose: emergency_only
+  default_state: armed_but_inactive
+
+  activation:
+    allowed_by: human_only
+    requires:
+      - written_reason
+      - timestamp
+      - operator_id
+
+  effect:
+    - suspend_autonomy
+    - require_manual_intervention
+    - preserve_state
+
+  auto_activation: false

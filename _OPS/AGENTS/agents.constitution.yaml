@@ -1,0 +1,10 @@
+﻿agents:
+  allowed: [read, analyze, propose]
+  forbidden: [execute, self-modify, schedule, network_calls]
+
+sandbox:
+  filesystem: read-only
+  network: disabled
+
+termination:
+  manual_only: true

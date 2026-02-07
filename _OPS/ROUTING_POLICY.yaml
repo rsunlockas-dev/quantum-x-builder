@@ -1,0 +1,17 @@
+﻿ROUTING_POLICY:
+  control_plane:
+    purpose: governance_and_orchestration
+
+  legacy_zones:
+    status: sealed
+    new_code: forbidden
+
+  sandbox:
+    required_for:
+      - all_new_code
+      - all_agents
+      - all_autonomous_systems
+      - all_future_services
+
+enforcement:
+  violation: block_commit

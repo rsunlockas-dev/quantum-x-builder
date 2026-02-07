@@ -1,0 +1,13 @@
+﻿benchmarks:
+  authoritative: true
+  mutable: false
+
+recognized_sources:
+  - internal_standards
+  - sandbox_validation_reports
+
+failure_handling:
+  on_benchmark_failure: block
+  on_missing_benchmark: block
+
+no_override_without_human: true

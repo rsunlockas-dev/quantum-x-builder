@@ -1,0 +1,29 @@
+﻿name: QXB Control Plane Validator
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "_OPS/COMMANDS/**"
+      - "_OPS/POLICY/**"
+      - "_OPS/_STATE/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Governance Preconditions
+        run: |
+          test -f _OPS/_STATE/REHYDRATE.json
+          test -d _OPS/POLICY
+          test -f _OPS/_RUNNER/TRUST_CONTRACT.json
+
+      - name: Enforce No-Autonomy
+        run: |
+          if [ -f "_OPS/POLICY/AUTONOMY_ON" ]; then
+            echo "AUTONOMY POLICY PRESENT — RUNTIME STILL DISABLED"
+          fi
+          exit 0

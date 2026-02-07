@@ -1,0 +1,20 @@
+﻿validation_report:
+  source: sandbox_repo
+  required: true
+
+  signature:
+    required: true
+    type: cryptographic
+    verifier: control_plane
+
+  contents:
+    - commit_hash
+    - validation_passed
+    - benchmarks_met
+    - rules_version
+    - timestamp
+
+  rejection_rules:
+    - missing_signature
+    - validation_failed
+    - benchmark_failed

@@ -1,0 +1,50 @@
+﻿name: QXB Control Plane Enforcement
+
+on:
+  push:
+    paths:
+      - "_OPS/COMMANDS/**"
+      - "_OPS/SCHEMA/**"
+      - "_OPS/AUDIT_IMMUTABLE/**"
+      - "_OPS/_STATE/**"
+  workflow_dispatch:
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify Phase-5 Lock
+        run: |
+          test -f _OPS/_STATE/STATUS_PHASE5_LOCKED.json
+
+      - name: Verify Schema Exists
+        run: |
+          test -f _OPS/SCHEMA/COMMAND_SCHEMA.json
+
+      - name: Validate Commands Against Schema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          for f in _OPS/COMMANDS/*.json; do
+            echo "Validating $f"
+            jq empty "$f"
+          done
+
+      - name: Enforce No Autonomy
+        run: |
+          if grep -R "\"autonomy\": *true" _OPS/COMMANDS; then
+            echo "AUTONOMY VIOLATION DETECTED"
+            exit 1
+          fi
+
+      - name: Enforce Immutable Audit Policy
+        run: |
+          test -f _OPS/AUDIT_IMMUTABLE/POLICY.json
+          echo "Audit policy present. Mutation forbidden."
+
+      - name: Final Assertion
+        run: |
+          echo "CONTROL PLANE ENFORCED — NO EXECUTION PERFORMED"

@@ -1,0 +1,22 @@
+﻿autonomy:
+  mode: enabled
+
+blocking_model:
+  type: violation_based
+  default: allow
+
+block_if:
+  - validation_failure
+  - benchmark_failure
+  - schema_violation
+  - duplicate_artifact
+  - unauthorized_overwrite
+
+allow_if:
+  - external_sandbox_confirmed
+  - validation_green
+  - benchmarks_recognized
+
+responsibility:
+  execution: external_repo
+  enforcement: this_system

@@ -1,0 +1,20 @@
+﻿proof_of_evaluation:
+  agent_id: string
+  timestamp: iso8601
+
+  evaluated_paths:
+    - _OPS/
+    - _FORENSICS/
+
+  constraints_acknowledged:
+    - no_autonomy
+    - no_execution
+    - admin_approval_required
+
+  declaration: >
+    I have evaluated the entire system.
+    I acknowledge all constraints.
+    I will not exceed them.
+
+compliance:
+  without_poe: reject

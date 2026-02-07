@@ -1,0 +1,34 @@
+﻿validation_ceiling:
+  authoritative: true
+
+  time_budget_seconds: 30
+
+  scope:
+    allowed_read_paths:
+      - _OPS/
+      - _FORENSICS/
+      - src/
+    forbidden_paths:
+      - .git/
+      - node_modules/
+      - venv/
+      - dist/
+
+  depth:
+    max_directory_depth: 8
+    recursive_validation: false
+    chained_validation: false
+
+  mutation:
+    filesystem_writes: forbidden
+    network_calls: forbidden
+    process_spawn: forbidden
+
+  authority:
+    may_approve: false
+    may_reject_only: true
+    may_modify_state: false
+
+  failure_mode:
+    on_ceiling_breach: fail_loud
+    error_visibility: explicit

@@ -1,0 +1,10 @@
+﻿validation:
+  role: governor
+  blocks_on_failure: true
+  blocks_on_success: false
+
+scope:
+  this_repo: structural_and_governance
+  external_repo: trust_report_only
+
+no_execution_here: true

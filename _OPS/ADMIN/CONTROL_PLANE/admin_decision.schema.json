@@ -1,0 +1,11 @@
+﻿{
+  "decision": {
+    "recommendation_id": "string",
+    "summary": "string",
+    "impact_scope": ["string"],
+    "risk_level": "low|medium|high",
+    "confidence": "number",
+    "admin_action": "approve|reject",
+    "audit_required": true
+  }
+}

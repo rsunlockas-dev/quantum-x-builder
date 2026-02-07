@@ -1,0 +1,6 @@
+﻿pipeline:
+  control_plane: quantum-x-builder
+  sandbox_repo: InfinityXOneSystems/sandbox
+  execution: external
+  governance: internal
+  status: linked_and_validated

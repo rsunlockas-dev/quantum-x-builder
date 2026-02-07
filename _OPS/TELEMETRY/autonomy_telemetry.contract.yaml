@@ -1,0 +1,16 @@
+﻿telemetry:
+  purpose: audit_only
+  blocking: false
+
+  tracked_events:
+    - autonomy_action_requested
+    - autonomy_action_allowed
+    - autonomy_action_blocked
+    - validation_failed
+    - benchmark_failed
+
+  retention:
+    immutable: true
+    append_only: true
+
+  no_realtime_control: true

@@ -1,0 +1,20 @@
+﻿name: Enforce Rehydrate Before Implementation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  require_rehydrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for Rehydration Snapshot
+        run: |
+          if [ ! -f "_OPS/_STATE/REHYDRATED_SNAPSHOT.json" ]; then
+            echo "ERROR: Rehydration snapshot missing"
+            exit 1
+          fi
+          echo "Rehydration snapshot present"

@@ -1,0 +1,11 @@
+﻿# Recommendation Renderer Template
+{
+  "template_name": "basic_recommendation_report",
+  "fields": [
+    "timestamp",
+    "recommendation_summary",
+    "related_metrics",
+    "justification",
+    "status"
+  ]
+}

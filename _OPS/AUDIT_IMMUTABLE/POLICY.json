@@ -1,0 +1,12 @@
+﻿{
+  "audit_mode": "append-only",
+  "mutation": "forbidden",
+  "hash_required": true,
+  "overwrite": "blocked",
+  "scope": [
+    "_OPS/COMMANDS",
+    "_OPS/POLICY",
+    "_OPS/_STATE",
+    "_OPS/SCHEMA"
+  ]
+}

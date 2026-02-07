@@ -1,0 +1,13 @@
+﻿{
+  "vision_cortex": {
+    "enabled": false,
+    "ingest_endpoints": [],
+    "model_registry": [],
+    "last_ingest": null,
+    "next_ingest": null,
+    "constraints": {
+      "no_autonomy_execution": true,
+      "validate_before_commit": true
+    }
+  }
+}

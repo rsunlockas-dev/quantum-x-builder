@@ -1,0 +1,5 @@
+﻿{
+  "system": "evolving-index",
+  "tracks": ["code","docs","agents","decisions","state"],
+  "mutation": "admin-approved-only"
+}

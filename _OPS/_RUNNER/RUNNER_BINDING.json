@@ -1,0 +1,10 @@
+﻿{
+  "runner_binding": "github-hosted-default",
+  "allowed_runners": ["ubuntu-latest"],
+  "persistence": "none",
+  "secrets_scope": "job-only",
+  "network": "egress-only",
+  "authority": "none",
+  "autonomy": "disabled",
+  "kill_switch": "_OPS/SAFETY/KILL_SWITCH.json"
+}

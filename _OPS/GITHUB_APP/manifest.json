@@ -1,0 +1,22 @@
+﻿{
+  "name": "quantum-x-builder-orchestrator",
+  "description": "PAT-governed authority broker. No autonomous execution.",
+  "url": "https://github.com/InfinityXOneSystems/quantum-x-builder",
+  "redirect_url": "https://github.com/InfinityXOneSystems",
+  "default_permissions": {
+    "metadata": "read",
+    "contents": "write",
+    "pull_requests": "write",
+    "checks": "write",
+    "actions": "read",
+    "issues": "read"
+  },
+  "default_events": [
+    "pull_request",
+    "push",
+    "workflow_dispatch",
+    "check_run",
+    "check_suite"
+  ],
+  "public": false
+}

@@ -1,0 +1,1 @@
+﻿# async ingestion design only

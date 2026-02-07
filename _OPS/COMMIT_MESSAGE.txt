@@ -1,0 +1,10 @@
+﻿feat: complete private governed pipeline
+
+- Internal license
+- CI with self-hosted runner
+- Schema enforcement
+- Test harness
+- Secret hardening
+- PAT-aligned governance
+
+Autonomy remains disabled.

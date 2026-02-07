@@ -1,0 +1,5 @@
+﻿{
+  "rule": "mirror-system-evolution",
+  "auto_prune": false,
+  "audit": true
+}

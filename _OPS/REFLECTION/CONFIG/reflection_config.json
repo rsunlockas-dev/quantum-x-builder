@@ -1,0 +1,20 @@
+﻿{
+  "self_reflection": {
+    "enabled": false,
+    "iteration_per_day": 1,
+    "last_run": null,
+    "next_run": null,
+    "observation_window_hours": 24,
+    "metrics_tracking": [
+      "command_rate",
+      "schema_changes",
+      "audit_anomalies",
+      "branch_activity",
+      "workflow_failures"
+    ],
+    "recommendation_constraints": {
+      "no_autonomy_execution": true,
+      "max_recommendations_per_run": 5
+    }
+  }
+}

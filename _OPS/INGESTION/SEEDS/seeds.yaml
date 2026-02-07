@@ -1,0 +1,7 @@
+﻿sources:
+  github: https://github.com/trending
+  ai_companies: [openai, google, anthropic]
+  finance: [worldbank, imf]
+filters:
+  positivity: true
+  truth_required: true

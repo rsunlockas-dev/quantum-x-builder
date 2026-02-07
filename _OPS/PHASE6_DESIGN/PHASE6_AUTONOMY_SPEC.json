@@ -1,0 +1,22 @@
+﻿{
+  "phase": 6,
+  "status": "design-only",
+  "unlock_requirements": [
+    "human_signed_ceremony",
+    "time_bound_window",
+    "kill_switch_live",
+    "audit_stream_verified"
+  ],
+  "allowed_future_capabilities": [
+    "bounded self-dispatch",
+    "schema-limited self-modification",
+    "multi-runner coordination"
+  ],
+  "explicitly_forbidden": [
+    "policy self-edit",
+    "authority inheritance",
+    "silent execution",
+    "out-of-band networking"
+  ],
+  "rollback": "_OPS/ROLLBACK/ROLLBACK_PLAN.json"
+}

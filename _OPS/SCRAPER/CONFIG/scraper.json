@@ -1,0 +1,19 @@
+﻿{
+  "headless_scraper": {
+    "enabled": false,
+    "framework": "placeholder",
+    "async_support": false,
+    "last_run": null,
+    "next_run": null,
+    "constraints": {
+      "no_autonomy_execution": true,
+      "scrape_rate_limit_per_day": 5
+    },
+    "seed_sources": {
+      "github_repos": [],
+      "ai_news": [],
+      "open_gov": [],
+      "financial_feeds": []
+    }
+  }
+}

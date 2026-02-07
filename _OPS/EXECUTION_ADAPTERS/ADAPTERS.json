@@ -1,0 +1,23 @@
+﻿{
+  "adapters": [
+    {
+      "name": "github-actions",
+      "status": "installed",
+      "enabled": false,
+      "requires_unlock": true
+    },
+    {
+      "name": "cloud-run",
+      "status": "declared",
+      "enabled": false,
+      "requires_unlock": true
+    },
+    {
+      "name": "repo-mutation",
+      "status": "pr-only",
+      "enabled": false,
+      "requires_unlock": true
+    }
+  ],
+  "execution": "blocked"
+}

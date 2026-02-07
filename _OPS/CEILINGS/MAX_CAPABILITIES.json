@@ -1,0 +1,10 @@
+﻿{
+  "max_authority": "human-only",
+  "max_execution": "runner-only",
+  "max_intelligence": "advisory-only",
+  "llm_systems": {
+    "github_copilot": "suggest-only",
+    "gemini_github_app": "suggest-only"
+  },
+  "autonomy": "disabled-until-unlock"
+}

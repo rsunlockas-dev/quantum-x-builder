@@ -1,0 +1,6 @@
+﻿{
+  "systems": [
+    { "name": "GitHub Copilot", "role": "code suggestion", "authority": "none" },
+    { "name": "Gemini GitHub App", "role": "analysis/review", "authority": "none" }
+  ]
+}

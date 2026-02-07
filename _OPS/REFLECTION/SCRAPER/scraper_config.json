@@ -1,0 +1,15 @@
+﻿# SCRAPER MODULE
+# This is a scaffold. No execution enabled.
+# Use this to populate REFLECTION/OBSERVATIONS after manual runs.
+
+{
+  "scripts": {
+    "headless_browser_async": false,
+    "scrape_github_activity": false,
+    "scrape_ai_news": false
+  },
+  "constraints": {
+    "no_autonomy_execution": true,
+    "scrape_limit_per_run": 10
+  }
+}

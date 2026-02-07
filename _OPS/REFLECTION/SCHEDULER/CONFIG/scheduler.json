@@ -1,0 +1,22 @@
+﻿{
+  "scheduler": {
+    "enabled": false,
+    "dry_run_mode": true,
+    "tasks": [
+      {
+        "name": "self_reflection",
+        "description": "Run self reflection analysis",
+        "frequency_per_day": 1,
+        "last_run": null,
+        "next_run": null
+      },
+      {
+        "name": "roadmap_sync",
+        "description": "Tether latest roadmap to admin UI",
+        "frequency_per_day": 1,
+        "last_run": null,
+        "next_run": null
+      }
+    ]
+  }
+}

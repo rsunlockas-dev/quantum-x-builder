@@ -1,0 +1,35 @@
+﻿{
+  "runner_role": "execution_substrate",
+  "authority": "none",
+  "trust_model": "zero",
+  "persistence": "ephemeral",
+  "identity": "derived-at-runtime",
+  "allowed_actions": [
+    "read_repository",
+    "read_policy",
+    "execute_workflow_steps",
+    "emit_logs",
+    "emit_artifacts"
+  ],
+  "explicitly_forbidden": [
+    "policy_modification",
+    "state_mutation",
+    "autonomy_escalation",
+    "unlock_execution",
+    "secret_persistence",
+    "self_dispatch",
+    "runner_self_upgrade",
+    "network_authority_calls"
+  ],
+  "ceiling_capabilities": {
+    "max_scope": "repository",
+    "max_duration_minutes": 30,
+    "max_cpu": "github-default",
+    "max_memory": "github-default",
+    "max_network": "outbound-only",
+    "max_filesystem": "workspace-only"
+  },
+  "failure_mode": "fail-closed",
+  "kill_switch_binding": "_OPS/SAFETY/KILL_SWITCH.json",
+  "audit_required": true
+}

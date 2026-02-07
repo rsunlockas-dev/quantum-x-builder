@@ -1,0 +1,11 @@
+﻿{
+  "renderer": {
+    "enabled": false,
+    "ui_component": "placeholder",
+    "last_render": null,
+    "next_render": null,
+    "constraints": {
+      "no_autonomy_execution": true
+    }
+  }
+}

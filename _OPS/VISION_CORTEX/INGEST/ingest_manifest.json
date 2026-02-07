@@ -1,0 +1,8 @@
+﻿# VISION CORTEX STUB: ingestion manifest
+# This file declares ingest points for future pipelines
+{
+  "feeds": [],
+  "policies": {
+    "only_read_when_paused_disabled": true
+  }
+}

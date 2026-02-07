@@ -1,0 +1,8 @@
+﻿domains:
+  - ai
+  - governance
+  - economics
+  - philosophy
+  - finance
+rules:
+  evolve_with_validation: true

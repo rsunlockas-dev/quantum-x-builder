@@ -1,0 +1,21 @@
+﻿legacy_code_zones:
+  description: >
+    These directories contain pre-existing application or service code.
+    They are sealed and frozen.
+    No new autonomous or system code may be added here.
+
+  allowed_existing:
+    - backend
+    - packages
+    - services
+    - vizual-x
+    - _OPS/tests
+    - _OPS/SCRAPER
+
+  policy:
+    new_code: forbidden
+    modification: restricted
+    removal: allowed_with_human_approval
+
+  future_work:
+    all_new_code_must_go_to: sandbox

@@ -1,0 +1,55 @@
+﻿name: Quantum-X CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node Setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Backend Dependencies
+        run: |
+          if (Test-Path "backend/package.json") {
+            Push-Location backend
+            npm ci
+            Pop-Location
+          } else {
+            Write-Host "No backend/package.json found"
+          }
+
+      - name: Run Tests
+        run: |
+          if (Test-Path "tests") {
+            node --test tests
+          } else {
+            Write-Host "No tests directory found"
+          }
+
+      - name: Schema Validation
+        run: |
+          if (-not (Test-Path "schemas/system.schema.json")) {
+            throw "SYSTEM SCHEMA MISSING — BLOCKING"
+          }
+          Write-Host "System schema present"
+
+      - name: Evidence Capture
+        run: |
+          New-Item -ItemType Directory -Force -Path "_evidence" | Out-Null
+          @{
+            run_timestamp = (Get-Date -Format o)
+            job           = "Quantum-X CI"
+            status        = "OK"
+          } | ConvertTo-Json -Depth 5 |
+            Out-File "_evidence/ci.json" -Encoding utf8

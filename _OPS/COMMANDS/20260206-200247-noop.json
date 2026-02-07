@@ -1,0 +1,10 @@
+﻿{
+  "id": "dry-run-20260206-200247",
+  "type": "noop",
+  "intent": "prove-control-plane",
+  "authority": "Neo",
+  "phase": 5,
+  "autonomy": false,
+  "effects": "none",
+  "created_at": "20260206-200247"
+}

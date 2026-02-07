@@ -1,0 +1,8 @@
+﻿{
+  "policy_name": "require_rehydrate_first",
+  "description": "Require fresh rehydration snapshot before implementation or merge.",
+  "enforcement": {
+    "required_before_merge": true,
+    "snapshot_file": "_OPS/_STATE/REHYDRATED_SNAPSHOT.json"
+  }
+}

@@ -17,6 +17,7 @@ import { registerAutoMlRoutes } from './routes/automl.js';
 import { registerQxbRoutes } from './routes/qxb.js';
 import { registerOpsRoutes } from './routes/ops.js';
 import { registerAdminRoutes } from './routes/admin.js';
+import { registerAiIntegrationRoutes } from './routes/ai-integration.js';
 import { initDb } from './db.js';
 
 const app = express();
@@ -39,6 +40,7 @@ registerAutoMlRoutes(app);
 registerQxbRoutes(app);
 registerOpsRoutes(app);
 registerAdminRoutes(app);
+registerAiIntegrationRoutes(app);
 
 await initDb();
 

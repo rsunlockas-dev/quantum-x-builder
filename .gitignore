@@ -25,3 +25,20 @@ Thumbs.db
 _state/github-app/
 # --- Working clones / mirrors (DO NOT COMMIT) ---
 _OPS/_CLONES/
+
+# Local forensic quarantine
+._LOCAL_QUARANTINE/
+# Secrets & state
+.github.env
+_state/
+_evidence/
+*.pem
+*.key
+*.cache
+
+# Node
+node_modules/
+dist/
+
+# Logs
+*.log

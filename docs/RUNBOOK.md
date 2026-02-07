@@ -26,3 +26,13 @@ Every change must pass validation before moving to the next step. This gate is n
 
 - Use `ENV_PROFILE=boxed` and `STUB_MODE=true` to boot with zero external provider keys while keeping readiness unblocked.
 - Use `ENV_PROFILE=dev` for local stub readiness when external services are not configured.
+
+## CI / CD
+- All pushes go through CI
+- Self-hosted runner required
+- PAT enforcement is mandatory
+- Evidence written to _evidence/
+
+## Emergency Stop
+- Disable workflows in GitHub UI
+- Revoke GitHub App installation

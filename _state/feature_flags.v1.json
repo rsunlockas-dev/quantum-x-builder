@@ -4,16 +4,16 @@
   "admin": {
     "enabled": true,
     "index": {
-      "enabled": false
+      "enabled": true
     },
     "todos": {
-      "enabled": false
+      "enabled": true
     },
     "catalog": {
-      "enabled": false
+      "enabled": true
     },
     "memory": {
-      "enabled": false
+      "enabled": true
     },
     "expansion": {
       "phase3": {

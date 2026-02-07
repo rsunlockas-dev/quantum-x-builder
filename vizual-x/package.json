@@ -1,7 +1,23 @@
 {
-  "name": "vizual-x-monaco-chat",
-  "private": true,
-  "version": "0.0.0",
+  "name": "vizual-x-admin-control-panel",
+  "displayName": "VIZUAL X - Admin Control Panel",
+  "description": "Permanent admin control panel for Quantum-X-Builder operations, Phase 3 monitoring, and governance",
+  "version": "0.1.0",
+  "publisher": "InfinityXOneSystems",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InfinityXOneSystems/quantum-x-builder"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Visualization", "Chat", "Dashboards"],
+  "keywords": ["admin", "control", "quantum", "governance", "phase3"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./vscode-extension/extension.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +32,40 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "@vscode/vsce": "^3.7.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "vizualx.open",
+        "title": "Open VIZUAL X Studio",
+        "category": "VIZUAL X"
+      },
+      {
+        "command": "vizualx.showStatus",
+        "title": "Show Control Panel Status",
+        "category": "VIZUAL X"
+      },
+      {
+        "command": "vizualx.runSelfCheck",
+        "title": "Run QXB Self Check",
+        "category": "VIZUAL X"
+      },
+      {
+        "command": "vizualx.phase3Status",
+        "title": "Check Phase 3 Status",
+        "category": "VIZUAL X"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "vizualx.open",
+        "key": "ctrl+shift+x",
+        "mac": "cmd+shift+x",
+        "when": "!terminalFocus"
+      }
+    ]
   }
 }

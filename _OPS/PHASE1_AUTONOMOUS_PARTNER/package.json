@@ -1,0 +1,29 @@
+{
+  "name": "phase1-autonomous-partner",
+  "version": "1.0.0",
+  "description": "PHASE 1: Autonomous Partner Proposal Engine (Preparation Only)",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Phase 1: No tests yet (preparation only)\"",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "autonomous-partner",
+    "proposal-engine",
+    "consent-framework",
+    "governance",
+    "phase1"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {},
+  "comments": {
+    "phase": "PHASE 1 - PREPARATION ONLY",
+    "status": "NO EXECUTION",
+    "approval": "REQUIRED FOR ALL ACTIONS"
+  }
+}

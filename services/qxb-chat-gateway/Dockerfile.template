@@ -1,0 +1,44 @@
+# ===================================================================
+# STUB Dockerfile Template - Node.js Service
+# ===================================================================
+# This is a TEMPLATE file. Customize it for your specific service.
+# TODO: Review and adjust the following before production use:
+#   - Node version
+#   - Port exposure
+#   - Environment variables
+#   - Health check configuration
+#   - Production optimizations
+# ===================================================================
+
+FROM node:20-alpine AS base
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy source code
+COPY . .
+
+# Expose port (customize as needed)
+EXPOSE 3000
+
+# Health check (customize endpoint as needed)
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"
+
+# Run the service
+CMD ["node", "src/index.js"]
+
+# ===================================================================
+# CUSTOMIZATION NOTES:
+# 1. Update EXPOSE port to match your service
+# 2. Adjust health check endpoint if different from /health
+# 3. Add ENV variables if needed
+# 4. Consider multi-stage build for smaller images
+# 5. Add any additional dependencies or setup steps
+# ===================================================================

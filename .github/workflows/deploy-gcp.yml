@@ -1,0 +1,217 @@
+name: Deploy to GCP Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      service:
+        description: 'Service to deploy (or "all" for all services)'
+        required: false
+        default: 'all'
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID || 'quantum-x-builder' }}
+  GCP_REGION: ${{ secrets.GCP_REGION || 'us-central1' }}
+  ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY || 'us-central1-docker.pkg.dev' }}
+  ARTIFACT_REPO: ${{ secrets.ARTIFACT_REPO || 'quantum-x-builder' }}
+
+jobs:
+  check-killswitch:
+    runs-on: ubuntu-latest
+    outputs:
+      should_deploy: ${{ steps.check.outputs.should_deploy }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check kill-switch
+        id: check
+        run: |
+          if [ -f "_OPS/SAFETY/KILL_SWITCH" ]; then
+            if grep -iq "DISABLE_AUTONOMY" "_OPS/SAFETY/KILL_SWITCH"; then
+              echo "❌ Kill-switch activated: DISABLE_AUTONOMY found"
+              echo "should_deploy=false" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          fi
+          if [ -f "_OPS/SAFETY/KILL_SWITCH.json" ]; then
+            if grep -iq "DISABLE_AUTONOMY" "_OPS/SAFETY/KILL_SWITCH.json"; then
+              echo "❌ Kill-switch activated: DISABLE_AUTONOMY found"
+              echo "should_deploy=false" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          fi
+          echo "✅ Kill-switch check passed"
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: check-killswitch
+    if: needs.check-killswitch.outputs.should_deploy == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        service:
+          - name: frontend
+            path: frontend
+            port: 5173
+          - name: backend
+            path: backend
+            port: 3000
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check if service should be deployed
+        id: should_deploy
+        run: |
+          SERVICE_NAME="${{ matrix.service.name }}"
+          INPUT_SERVICE="${{ github.event.inputs.service || 'all' }}"
+          
+          if [ "$INPUT_SERVICE" = "all" ] || [ "$INPUT_SERVICE" = "$SERVICE_NAME" ]; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Will deploy $SERVICE_NAME"
+          else
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+            echo "⏭️ Skipping $SERVICE_NAME"
+          fi
+
+      - name: Authenticate to Google Cloud
+        if: steps.should_deploy.outputs.should_deploy == 'true'
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        if: steps.should_deploy.outputs.should_deploy == 'true'
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        if: steps.should_deploy.outputs.should_deploy == 'true'
+        run: |
+          gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }} --quiet
+
+      - name: Build and push image
+        if: steps.should_deploy.outputs.should_deploy == 'true'
+        id: build
+        run: |
+          SERVICE_NAME="${{ matrix.service.name }}"
+          SERVICE_PATH="${{ matrix.service.path }}"
+          IMAGE_NAME="${{ env.ARTIFACT_REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${SERVICE_NAME}"
+          IMAGE_TAG="${GITHUB_SHA::8}"
+          FULL_IMAGE="${IMAGE_NAME}:${IMAGE_TAG}"
+          
+          echo "Building $SERVICE_NAME from $SERVICE_PATH..."
+          
+          # Check if Dockerfile exists
+          if [ -f "$SERVICE_PATH/Dockerfile" ]; then
+            echo "✅ Dockerfile found, building image..."
+            docker build -t "$FULL_IMAGE" -t "${IMAGE_NAME}:latest" "$SERVICE_PATH"
+            docker push "$FULL_IMAGE"
+            docker push "${IMAGE_NAME}:latest"
+            echo "deploy_mode=image" >> $GITHUB_OUTPUT
+            echo "image_uri=$FULL_IMAGE" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ No Dockerfile found for $SERVICE_NAME"
+            echo "Will use source-based deployment"
+            echo "deploy_mode=source" >> $GITHUB_OUTPUT
+            echo "image_uri=none" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to Cloud Run
+        if: steps.should_deploy.outputs.should_deploy == 'true'
+        id: deploy
+        run: |
+          SERVICE_NAME="${{ matrix.service.name }}"
+          SERVICE_PATH="${{ matrix.service.path }}"
+          DEPLOY_MODE="${{ steps.build.outputs.deploy_mode }}"
+          
+          # Set common flags
+          COMMON_FLAGS="--region=${{ env.GCP_REGION }} --platform=managed --allow-unauthenticated --port=${{ matrix.service.port }}"
+          
+          if [ "$DEPLOY_MODE" = "image" ]; then
+            echo "Deploying $SERVICE_NAME from image..."
+            gcloud run deploy "$SERVICE_NAME" \
+              --image="${{ steps.build.outputs.image_uri }}" \
+              $COMMON_FLAGS
+          else
+            echo "Deploying $SERVICE_NAME from source..."
+            gcloud run deploy "$SERVICE_NAME" \
+              --source="$SERVICE_PATH" \
+              $COMMON_FLAGS
+          fi
+          
+          # Get service URL
+          SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
+            --region=${{ env.GCP_REGION }} \
+            --format='value(status.url)')
+          
+          echo "✅ Service deployed: $SERVICE_URL"
+          echo "service_url=$SERVICE_URL" >> $GITHUB_OUTPUT
+
+      - name: Append deployment audit
+        if: steps.should_deploy.outputs.should_deploy == 'true'
+        run: |
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          ROLLBACK_TOKEN="qxb-rollback-${TIMESTAMP}"
+          SERVICE_NAME="${{ matrix.service.name }}"
+          
+          mkdir -p _OPS/AUDIT _OPS/OUTPUT
+          
+          cat >> _OPS/AUDIT/audit.log <<EOF
+--- Deployment Audit: $TIMESTAMP ---
+          Service: $SERVICE_NAME
+          Commit: ${{ github.sha }}
+          Rollback Token: $ROLLBACK_TOKEN
+          Deploy Mode: ${{ steps.build.outputs.deploy_mode }}
+          Image URI: ${{ steps.build.outputs.image_uri }}
+          Service URL: ${{ steps.deploy.outputs.service_url }}
+          ---
+          EOF
+          
+          cat > _OPS/OUTPUT/deploy-${SERVICE_NAME}-${TIMESTAMP}.json <<EOF
+          {
+            "timestamp": "$TIMESTAMP",
+            "rollback_token": "$ROLLBACK_TOKEN",
+            "service": "$SERVICE_NAME",
+            "commit_sha": "${{ github.sha }}",
+            "deploy_mode": "${{ steps.build.outputs.deploy_mode }}",
+            "image_uri": "${{ steps.build.outputs.image_uri }}",
+            "service_url": "${{ steps.deploy.outputs.service_url }}"
+          }
+          EOF
+
+      - name: Commit audit evidence
+        if: steps.should_deploy.outputs.should_deploy == 'true'
+        continue-on-error: true
+        run: |
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          ROLLBACK_TOKEN="qxb-rollback-${TIMESTAMP}"
+          
+          git config user.name "qxb-bot"
+          git config user.email "bot@infinityxonesystems.com"
+          git add _OPS/AUDIT/audit.log _OPS/OUTPUT/
+          git commit -m "audit: deployment evidence ${ROLLBACK_TOKEN}" || echo "No changes to commit"
+
+  summary:
+    needs: [check-killswitch, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment Summary
+        run: |
+          echo "### 🚀 GCP Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Kill-switch**: ${{ needs.check-killswitch.outputs.should_deploy == 'true' && '✅ Passed' || '❌ Blocked' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📝 Deployment audit appended to _OPS/AUDIT/audit.log" >> $GITHUB_STEP_SUMMARY

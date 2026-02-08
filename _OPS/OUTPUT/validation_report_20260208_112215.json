@@ -1,0 +1,20 @@
+{
+  "results": {
+    "rehydrate": "WARN",
+    "backend_running": "RECOVERED",
+    "ports_listening": "WARN",
+    "cloudflare": "WARN",
+    "phase6_artifacts": "PASS",
+    "audit_logs": "PASS",
+    "env_files": "WARN",
+    "hardcoded_creds": "WARN",
+    "self_heal_restart": "FAIL"
+  },
+  "timestamp": "2026-02-08 11:22:04 UTC",
+  "summary": {
+    "warn": 5,
+    "fail": 1,
+    "pass": 2,
+    "total": 9
+  }
+}

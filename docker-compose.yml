@@ -14,8 +14,6 @@ services:
       - ./:/workspace
     environment:
       - WORKSPACE_ROOT=/workspace
-    depends_on:
-      - ollama
     networks:
       - vizualx
 
@@ -26,16 +24,6 @@ services:
     container_name: vizualx-frontend
     ports:
       - "3000:3000"
-    networks:
-      - vizualx
-
-  ollama:
-    image: ollama/ollama:latest
-    container_name: vizualx-ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama-data:/root/.ollama
     networks:
       - vizualx
 
@@ -53,6 +41,4 @@ networks:
   vizualx:
     driver: bridge
 
-volumes:
-  ollama-data:
-    driver: local
+

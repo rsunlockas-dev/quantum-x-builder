@@ -1,0 +1,285 @@
+{
+  "system": {
+    "name": "Quantum-X-Builder",
+    "version": "1.0.0",
+    "repository": "InfinityXOneSystems/quantum-x-builder",
+    "phase": "5",
+    "status": "operational",
+    "governance": "PAT (Policy-Authority-Truth)",
+    "autonomy": "enabled-with-guardrails"
+  },
+  "components": {
+    "backend": {
+      "name": "vizual-x-backend",
+      "type": "express-api",
+      "location": "./backend",
+      "port": 8787,
+      "entrypoint": "src/index.js",
+      "runtime": "node",
+      "dependencies": [
+        "express",
+        "googleapis",
+        "google-auth-library",
+        "nats",
+        "pg",
+        "ws"
+      ],
+      "integrations": [
+        "google-calendar",
+        "google-tasks",
+        "nats-messaging",
+        "postgresql"
+      ],
+      "healthCheck": "/health",
+      "authentication": "PAT-token",
+      "apis": {
+        "health": "/health",
+        "chat": "/api/chat",
+        "fs": "/api/fs",
+        "templates": "/api/templates",
+        "validate": "/api/validate",
+        "governor": "/api/governor",
+        "qxb": "/api/qxb",
+        "ops": "/__ops",
+        "admin": "/__ops/admin",
+        "ai-integration": "/api/ai-integration"
+      }
+    },
+    "frontend": {
+      "name": "@quantum-x-builder/frontend",
+      "type": "react-app",
+      "location": "./frontend",
+      "port": 3000,
+      "entrypoint": "index.tsx",
+      "runtime": "vite",
+      "dependencies": [
+        "react",
+        "react-dom",
+        "@google/genai",
+        "axios"
+      ],
+      "features": [
+        "admin-control-plane",
+        "low-code-panel",
+        "code-editor",
+        "template-library",
+        "multi-modal-chat"
+      ],
+      "vscode-extension": true,
+      "backend-url": "http://localhost:8787"
+    },
+    "documentation": {
+      "name": "quantum-x-builder-docs",
+      "type": "docusaurus",
+      "location": "./website",
+      "port": 3001,
+      "entrypoint": "docusaurus.config.ts",
+      "runtime": "node",
+      "deployment": {
+        "domains": [
+          "vizual-x.com",
+          "InfinityXAI.com",
+          "infinityxonesystems.com",
+          "infinityxoneintelligence.com"
+        ],
+        "platform": "github-pages",
+        "baseUrl": "/quantum-x-builder/"
+      }
+    },
+    "messaging": {
+      "name": "nats-jetstream",
+      "type": "message-broker",
+      "image": "nats:2.10-alpine",
+      "ports": [4222, 8222],
+      "features": [
+        "jetstream",
+        "monitoring"
+      ]
+    },
+    "operations": {
+      "name": "ops-control-plane",
+      "location": "./_OPS",
+      "type": "governance-system",
+      "subsystems": {
+        "commands": "_OPS/COMMANDS",
+        "policy": "_OPS/POLICY",
+        "safety": "_OPS/SAFETY",
+        "audit": "_OPS/AUDIT",
+        "output": "_OPS/OUTPUT",
+        "autonomy": "_OPS/AUTONOMY",
+        "rollback": "_OPS/ROLLBACK"
+      },
+      "constraints": [
+        "no-policy-changes",
+        "no-guardrail-removal",
+        "no-tag-mutation",
+        "rollback-required"
+      ]
+    }
+  },
+  "integrations": {
+    "google": {
+      "calendar": {
+        "enabled": true,
+        "module": "backend/src/integrations/google-calendar.js",
+        "accounts": [
+          "ai@infinityxonesystems.com",
+          "info@infinityxonesystems.com"
+        ],
+        "features": [
+          "bidirectional-sync",
+          "event-creation",
+          "conflict-resolution"
+        ]
+      },
+      "tasks": {
+        "enabled": true,
+        "status": "planned",
+        "module": "backend/src/integrations/google-tasks.js"
+      },
+      "cloud": {
+        "enabled": true,
+        "services": [
+          "vertex-ai",
+          "bigquery",
+          "cloud-storage",
+          "vertex-search"
+        ]
+      },
+      "genai": {
+        "enabled": true,
+        "model": "gemini-2.0-flash-exp"
+      }
+    },
+    "github": {
+      "enabled": true,
+      "features": [
+        "oauth",
+        "repository-access",
+        "workflow-integration"
+      ]
+    },
+    "vscode": {
+      "enabled": true,
+      "extension": "frontend/vscode-extension",
+      "commands": [
+        "vizualx.open",
+        "vizualx.showStatus",
+        "vizualx.runSelfCheck",
+        "vizualx.phase3Status",
+        "vizualx.openLowCodePanel"
+      ]
+    }
+  },
+  "deployment": {
+    "containerization": {
+      "type": "docker-compose",
+      "file": "./docker-compose.yml",
+      "services": [
+        "backend",
+        "frontend",
+        "nats"
+      ],
+      "network": "vizualx"
+    },
+    "environment": {
+      "backend": "backend/.env",
+      "frontend": "frontend/.env",
+      "examples": [
+        "backend/.env.example",
+        "backend/.env.sample"
+      ]
+    }
+  },
+  "data-flows": {
+    "frontend-to-backend": {
+      "protocol": "http",
+      "format": "json",
+      "authentication": "PAT-token",
+      "endpoints": [
+        "/api/*",
+        "/__ops/*"
+      ]
+    },
+    "backend-to-nats": {
+      "protocol": "nats",
+      "format": "json",
+      "subjects": [
+        "qxb.events",
+        "qxb.commands"
+      ]
+    },
+    "backend-to-google": {
+      "protocol": "https",
+      "authentication": "OAuth2",
+      "apis": [
+        "calendar-v3",
+        "tasks-v1",
+        "vertex-ai"
+      ]
+    },
+    "backend-to-ops": {
+      "type": "filesystem",
+      "watch-paths": [
+        "_OPS/COMMANDS",
+        "_OPS/TODO"
+      ],
+      "output-paths": [
+        "_OPS/OUTPUT",
+        "_OPS/AUDIT"
+      ]
+    }
+  },
+  "security": {
+    "authentication": {
+      "method": "PAT-token",
+      "storage": "localStorage",
+      "header": "X-PAT-RECORD"
+    },
+    "kill-switch": {
+      "location": "_OPS/SAFETY/KILL_SWITCH.json",
+      "authority": "Neo",
+      "status": "ARMED",
+      "behavior": "IMMEDIATE_HALT"
+    },
+    "autonomy-control": {
+      "location": "_OPS/POLICY/AUTONOMY_ON.json",
+      "status": "ON",
+      "allowed-agents": [
+        "Copilot",
+        "GPT",
+        "Validator",
+        "Architect"
+      ],
+      "forbidden": [
+        "policy_mutation",
+        "guardrail_removal",
+        "tag_deletion",
+        "silent_execution"
+      ]
+    }
+  },
+  "validation": {
+    "scripts": {
+      "self-check": "_OPS/qxb-selfcheck.sh",
+      "rehydrate": "_OPS/rehydrate.ps1",
+      "collect-evidence": "_OPS/collect-phase3-admin-evidence.sh"
+    },
+    "checks": [
+      "rehydration-state",
+      "backend-health",
+      "frontend-connection",
+      "nats-connectivity",
+      "google-api-access",
+      "policy-integrity",
+      "guardrail-status"
+    ]
+  },
+  "metadata": {
+    "created": "2026-02-08T21:15:00Z",
+    "last_updated": "2026-02-08T21:15:00Z",
+    "authority": "Neo",
+    "schema_version": "1.0",
+    "purpose": "System-wide integration manifest for component identification and interoperability"
+  }
+}

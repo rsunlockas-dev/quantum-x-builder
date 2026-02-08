@@ -1,0 +1,18 @@
+﻿{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Autonomy: Sync Cloud → Local",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/local-autonomy-update.ps1"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

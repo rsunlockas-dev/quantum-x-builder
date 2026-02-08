@@ -1,1 +1,42 @@
-﻿
+﻿name: Autonomous Intent Pipeline
+
+"on":
+  push:
+    branches:
+      - autonomy/work
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+  actions: write
+
+jobs:
+  autonomous-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Snapshot repo state (rollback)
+        run: |
+          TS=$(date +%Y%m%d-%H%M%S)
+          git tag AUTO_SNAPSHOT_$TS
+          git push origin AUTO_SNAPSHOT_$TS
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Lint (non-blocking)
+        run: npm run lint || true
+
+      - name: Run Tests (non-blocking)
+        run: npm test || true
+
+      - name: Validate After Fix
+        run: |
+          npm run lint
+          npm test

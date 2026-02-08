@@ -1,1 +1,22 @@
-﻿
+﻿name: Create Repo on Intent
+
+"on":
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: "New repository name"
+        required: true
+
+permissions:
+  contents: write
+  administration: write
+
+jobs:
+  create-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Repository
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh repo create InfinityXOneSystems/${{ github.event.inputs.repo_name }} --public --confirm

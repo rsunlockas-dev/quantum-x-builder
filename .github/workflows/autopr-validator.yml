@@ -143,8 +143,7 @@ jobs:
           
           # Create audit entry
           cat >> _OPS/AUDIT/audit.log <<EOF
-          
-          --- Audit Entry: $TIMESTAMP ---
+--- Audit Entry: $TIMESTAMP ---
           Workflow: autopr-validator
           PR: ${{ github.event.pull_request.number }}
           Commit: ${{ github.sha }}
@@ -204,7 +203,7 @@ jobs:
         run: |
           echo "### 🤖 Auto PR Validator Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Kill-switch**: ${{ steps.killswitch.outputs.kill_switch_active == 'false' && '✅ Active' || '❌ Disabled' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Kill-switch**: ${{ steps.killswitch.outputs.kill_switch_active == 'false' && '✅ Not Active' || '❌ Active (Autonomy Disabled)' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Rehydrate Hash**: ${{ steps.rehydrate.outputs.rehydrate_hash }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Auto-fixes**: ${{ steps.autofix.outputs.changes_made == 'true' && '✅ Applied' || 'None needed' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Tests**: $(cat test-results/summary.json 2>/dev/null || echo 'N/A')" >> $GITHUB_STEP_SUMMARY

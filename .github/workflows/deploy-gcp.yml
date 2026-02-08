@@ -128,6 +128,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         if: steps.should_deploy.outputs.should_deploy == 'true'
+        id: deploy
         run: |
           SERVICE_NAME="${{ matrix.service.name }}"
           SERVICE_PATH="${{ matrix.service.path }}"
@@ -166,8 +167,7 @@ jobs:
           mkdir -p _OPS/AUDIT _OPS/OUTPUT
           
           cat >> _OPS/AUDIT/audit.log <<EOF
-          
-          --- Deployment Audit: $TIMESTAMP ---
+--- Deployment Audit: $TIMESTAMP ---
           Service: $SERVICE_NAME
           Commit: ${{ github.sha }}
           Rollback Token: $ROLLBACK_TOKEN

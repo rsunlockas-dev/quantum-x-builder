@@ -1,0 +1,24 @@
+# CODEOWNERS for Quantum X Builder
+# These owners will be the default owners for everything in the repo.
+# Unless a later match takes precedence, these owners will be requested for
+# review when someone opens a pull request.
+
+# Documentation
+/website/docs/         @InfinityXOneSystems/docs-team
+/website/blog/         @InfinityXOneSystems/docs-team
+*.md                   @InfinityXOneSystems/docs-team
+
+# Architecture Decision Records
+/website/docs/adr/     @InfinityXOneSystems/architecture-team
+
+# GitHub workflows
+/.github/workflows/    @InfinityXOneSystems/devops-team
+
+# Configuration files
+/website/docusaurus.config.ts  @InfinityXOneSystems/docs-team
+/website/sidebars.ts           @InfinityXOneSystems/docs-team
+/website/package.json          @InfinityXOneSystems/docs-team
+
+# Security-related files
+/website/docs/security.md      @InfinityXOneSystems/security-team
+SECURITY.md                    @InfinityXOneSystems/security-team

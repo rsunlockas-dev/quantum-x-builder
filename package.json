@@ -1,0 +1,27 @@
+{
+  "name": "quantum-x-builder",
+  "version": "1.0.0",
+  "description": "Quantum X Builder - Enterprise-grade autonomous system with 110% Protocol",
+  "private": true,
+  "scripts": {
+    "docs:start": "cd website && npm start",
+    "docs:build": "cd website && npm run build",
+    "docs:serve": "cd website && npm run serve",
+    "docs:deploy": "cd website && npm run deploy",
+    "docs:clear": "cd website && npm run clear",
+    "docs:typecheck": "cd website && npm run typecheck",
+    "docs:install": "cd website && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InfinityXOneSystems/quantum-x-builder.git"
+  },
+  "keywords": [
+    "quantum-x-builder",
+    "110-protocol",
+    "autonomous-system",
+    "enterprise"
+  ],
+  "author": "InfinityXOneSystems",
+  "license": "SEE LICENSE IN LICENSE"
+}

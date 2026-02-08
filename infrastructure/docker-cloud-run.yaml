@@ -1,0 +1,149 @@
+# Cloud Run Service Configuration for Vizual-X
+# Usage: Update docker-compose.yml with Cloud Run environment variables
+
+version: '3.8'
+
+services:
+  # Frontend - Cloud Run Service
+  frontend:
+    image: ${DOCKER_REGISTRY}/vizualx/frontend:latest
+    container_name: vizualx-frontend-cloudrun
+    environment:
+      # Cloud Run environment
+      - PORT=3000
+      - NODE_ENV=production
+      - VITE_API_URL=https://api.vizual-x.com
+      - VITE_AGENT_URL=https://agent.vizual-x.com
+      - VITE_ENVIRONMENT=production
+      # Observability
+      - GOOGLE_CLOUD_PROJECT=${GCP_PROJECT_ID}
+      - CLOUD_LOGGING=true
+      - CLOUD_TRACE=true
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - vizualx
+    labels:
+      - "cloud-run-service=vizualx-frontend"
+      - "monitoring=enabled"
+
+  # Backend API - Cloud Run Service
+  backend:
+    image: ${DOCKER_REGISTRY}/vizualx/backend:latest
+    container_name: vizualx-backend-cloudrun
+    environment:
+      # Cloud Run environment
+      - PORT=8787
+      - NODE_ENV=production
+      - ENVIRONMENT=production
+      # Database
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/vizualx
+      - DATABASE_POOL_SIZE=20
+      # Services
+      - NATS_SERVER=${NATS_SERVER}
+      - REDIS_URL=${REDIS_URL}
+      # Security
+      - CORS_ORIGIN=https://vizual-x.com,https://www.vizual-x.com
+      - JWT_SECRET=${JWT_SECRET}
+      - API_KEY=${API_KEY}
+      # Observability
+      - GOOGLE_CLOUD_PROJECT=${GCP_PROJECT_ID}
+      - CLOUD_LOGGING=true
+      - CLOUD_TRACE=true
+      - CLOUD_PROFILER=true
+      # Feature flags
+      - FEATURE_AUTONOMOUS_PARTNER=true
+      - FEATURE_CONTRACTS_ENABLED=true
+    expose:
+      - "8787"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8787/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      - nats
+      - redis
+    networks:
+      - vizualx
+    labels:
+      - "cloud-run-service=vizualx-backend"
+      - "monitoring=enabled"
+
+  # Agent Service - Cloud Run Service
+  agent:
+    image: ${DOCKER_REGISTRY}/vizualx/agent:latest
+    container_name: vizualx-agent-cloudrun
+    environment:
+      # Cloud Run environment
+      - PORT=8787
+      - NODE_ENV=production
+      - AGENT_MODE=production
+      # Services
+      - API_URL=http://backend:8787
+      - NATS_SERVER=${NATS_SERVER}
+      - REDIS_URL=${REDIS_URL}
+      # Agent configuration
+      - AGENT_NAME=autonomous-partner
+      - AGENT_CAPABILITIES=full
+      - GOVERNANCE_ENABLED=true
+      # Observability
+      - GOOGLE_CLOUD_PROJECT=${GCP_PROJECT_ID}
+      - CLOUD_LOGGING=true
+      - CLOUD_TRACE=true
+      - CLOUD_PROFILER=true
+    expose:
+      - "8787"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8787/agent/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      - backend
+      - nats
+    networks:
+      - vizualx
+    labels:
+      - "cloud-run-service=vizualx-agent"
+      - "monitoring=enabled"
+
+  # Message Queue (NATS - optional, can use Cloud Pub/Sub instead)
+  nats:
+    image: nats:2.10-alpine
+    container_name: qxb-nats-cloudrun
+    command: ["-js", "-m", "8222"]
+    expose:
+      - "4222"
+      - "8222"
+    networks:
+      - vizualx
+    labels:
+      - "component=messaging"
+
+  # Cache (Redis - optional, can use Cloud Memorystore instead)
+  redis:
+    image: redis:7-alpine
+    container_name: qxb-redis-cloudrun
+    expose:
+      - "6379"
+    networks:
+      - vizualx
+    labels:
+      - "component=cache"
+
+networks:
+  vizualx:
+    driver: bridge
+
+volumes:
+  redis-data:
+  nats-data:

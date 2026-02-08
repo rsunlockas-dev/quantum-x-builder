@@ -20,12 +20,19 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: vizual-x/Dockerfile
+      dockerfile: frontend/Dockerfile
     container_name: vizualx-frontend
+    env_file:
+      - frontend/.env
     ports:
       - "3000:3000"
+    environment:
+      - VITE_API_URL=http://backend:8787
+      - VITE_AGENT_URL=http://backend:8787
     networks:
       - vizualx
+    depends_on:
+      - backend
 
   nats:
     image: nats:2.10-alpine

@@ -76,4 +76,4 @@ gh api -X PUT /repos/OWNER/REPO/actions/permissions -f enabled=true
 
 ## Full Documentation
 
-See [DISABLE_WORKFLOWS_GUIDE.md](./DISABLE_WORKFLOWS_GUIDE.md) for complete documentation.
+See [DISABLE_WORKFLOWS_GUIDE.md](./docs/DISABLE_WORKFLOWS_GUIDE.md) for complete documentation.

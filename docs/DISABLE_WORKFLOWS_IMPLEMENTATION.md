@@ -128,7 +128,7 @@ The script:
 🔍 Checking which repositories have Actions enabled...
    • InfinityXOneSystems/repo1 - Actions ENABLED
    • InfinityXOneSystems/repo2 - Actions ENABLED
-   • InfinityXOneSystems/quantum-x-builder - SKIPPED (PROTECTED)
+   • InfinityXOneSystems/repo3 - Actions already disabled
    ...
 
 📋 Found 15 repositories with Actions enabled

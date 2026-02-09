@@ -78,8 +78,10 @@ node scripts/disable-workflows-except-qxb.js --dry-run
 🛡️  Protected repositories (Actions will remain enabled):
    ✓ InfinityXOneSystems/quantum-x-builder
 
-[DRY RUN] Would disable Actions for: InfinityXOneSystems/repo1
-[DRY RUN] Would disable Actions for: InfinityXOneSystems/repo2
+🔍 Checking which repositories have Actions enabled...
+   • InfinityXOneSystems/repo1 - Actions ENABLED
+   • InfinityXOneSystems/repo2 - Actions ENABLED
+   • InfinityXOneSystems/repo3 - Actions already disabled
 ...
 ```
 

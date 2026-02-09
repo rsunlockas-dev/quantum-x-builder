@@ -155,7 +155,9 @@ The script calls the GitHub API to:
 
 The following repositories are **automatically protected** and will NEVER have Actions disabled:
 
-- `quantum-x-builder` (case-insensitive)
+- `quantum-x-builder` (case-insensitive, matches repository name only regardless of owner)
+
+**Note**: Protection is based on the repository name (`quantum-x-builder`), not the full path (e.g., `owner/quantum-x-builder`). This means `quantum-x-builder` will be protected regardless of which account or organization owns it.
 
 You can verify protection by checking the script output:
 ```

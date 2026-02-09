@@ -33,7 +33,7 @@ const https = require('https');
 const readline = require('readline');
 
 // Configuration
-const EXCLUDED_REPOS = ['quantum-x-builder'];
+const EXCLUDED_REPOS = ['quantum-x-builder']; // Repository names (lowercase) to protect
 const API_BASE = 'api.github.com';
 
 // Colors for output
@@ -129,7 +129,7 @@ function githubRequest(path, method = 'GET', data = null, token) {
       path: path,
       method: method,
       headers: {
-        'User-Agent': 'quantum-x-builder-workflow-disabler',
+        'User-Agent': 'quantum-x-builder-workflow-script/1.0',
         'Accept': 'application/vnd.github+json',
         'Authorization': `Bearer ${token}`,
         'X-GitHub-Api-Version': '2022-11-28',

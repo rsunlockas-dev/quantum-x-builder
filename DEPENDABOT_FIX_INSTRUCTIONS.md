@@ -31,10 +31,12 @@ I created three things to solve this:
 
 A smart script that:
 - Automatically classifies PRs by safety level
-- Can auto-merge safe PRs (GitHub Actions updates)
-- Can auto-close risky PRs (major version updates)
+- Enables auto-merge for safe PRs (they merge when CI checks pass)
+- Can close risky PRs (major version updates)
 - Has interactive mode for manual control
 - Logs everything to audit trail
+
+**Important:** The `--auto-safe` flag enables auto-merge, which means PRs will merge automatically once CI checks pass. This is safer than forcing immediate merges.
 
 ### 2. Documentation
 - **Full Guide:** `docs/DEPENDABOT_PR_GUIDE.md` - Complete documentation

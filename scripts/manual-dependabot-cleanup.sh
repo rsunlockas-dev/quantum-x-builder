@@ -167,23 +167,24 @@ echo ""
 merge_pr() {
   local pr_number="$1"
   
-  echo -e "${BLUE}Merging PR #${pr_number}...${NC}"
+  echo -e "${BLUE}Enabling auto-merge for PR #${pr_number}...${NC}"
   
   if gh pr merge "$pr_number" --squash --auto; then
-    echo -e "${GREEN}✅ Merged PR #${pr_number}${NC}"
+    echo -e "${GREEN}✅ Auto-merge enabled for PR #${pr_number} (will merge when checks pass)${NC}"
     
     # Log to audit
     cat >> _OPS/AUDIT/manual-pr-cleanup.log <<EOF
---- Merged PR ---
+--- Auto-Merge Enabled ---
 Timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 PR Number: ${pr_number}
 Rollback Token: ${ROLLBACK_TOKEN}
-Action: MANUAL_MERGED
+Action: AUTO_MERGE_ENABLED
+Note: PR will merge automatically when CI checks pass
 ---
 EOF
     return 0
   else
-    echo -e "${RED}❌ Failed to merge PR #${pr_number}${NC}"
+    echo -e "${RED}❌ Failed to enable auto-merge for PR #${pr_number}${NC}"
     return 1
   fi
 }
@@ -226,7 +227,8 @@ EOF
 
 # Handle auto-safe mode
 if [ "$AUTO_SAFE" = true ]; then
-  echo -e "${BLUE}🚀 Auto-merging safe PRs...${NC}"
+  echo -e "${BLUE}🚀 Enabling auto-merge for safe PRs...${NC}"
+  echo -e "${YELLOW}Note: PRs will merge automatically when CI checks pass${NC}"
   echo ""
   
   merged_count=0
@@ -249,8 +251,11 @@ if [ "$AUTO_SAFE" = true ]; then
   done
   
   echo "================================"
-  echo -e "${GREEN}✅ Merged: ${merged_count}${NC}"
+  echo -e "${GREEN}✅ Auto-merge enabled: ${merged_count}${NC}"
   echo -e "${RED}❌ Failed: ${failed_count}${NC}"
+  echo ""
+  echo -e "${YELLOW}💡 PRs will merge automatically when CI checks pass${NC}"
+  echo -e "${YELLOW}   Check GitHub Actions to monitor progress${NC}"
   echo "================================"
 fi
 

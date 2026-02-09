@@ -14,9 +14,10 @@ Done! All 16 PRs handled.
 
 ## What Just Happened?
 
-### ✅ Merged (6 PRs)
+### ✅ Auto-Merge Enabled (6 PRs)
 - GitHub Actions updates (v4→v6, v2→v3, etc.)
 - Safe, no breaking changes
+- **Note:** PRs will merge automatically when CI checks pass
 
 ### 🗑️ Closed (10 PRs)
 - Major version updates (Express 4→5, Vite 6→7, etc.)

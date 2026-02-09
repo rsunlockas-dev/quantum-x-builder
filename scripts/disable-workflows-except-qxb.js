@@ -9,7 +9,7 @@
  * Requirements:
  *   - Node.js 16+
  *   - GitHub Personal Access Token with 'repo' and 'workflow' scopes
- *   - npm install @octokit/rest (run first if not installed)
+ *   - No external dependencies required (uses Node.js built-ins)
  * 
  * Usage:
  *   # Dry run (preview what will be changed)
@@ -182,18 +182,35 @@ async function listRepositories(owner, token) {
   let page = 1;
   let hasMore = true;
 
+  // Try organizations endpoint first, fall back to user endpoint
+  let useOrgEndpoint = true;
+
   while (hasMore) {
-    const path = owner.startsWith('org:') 
-      ? `/orgs/${owner.slice(4)}/repos?per_page=100&page=${page}`
-      : `/users/${owner}/repos?per_page=100&page=${page}`;
-    
-    const repos = await githubRequest(path, 'GET', null, token);
-    
-    if (repos.length === 0) {
-      hasMore = false;
+    let path;
+    if (useOrgEndpoint) {
+      path = `/orgs/${owner}/repos?per_page=100&page=${page}`;
     } else {
-      allRepos = allRepos.concat(repos);
-      page++;
+      path = `/users/${owner}/repos?per_page=100&page=${page}`;
+    }
+    
+    try {
+      const repos = await githubRequest(path, 'GET', null, token);
+      
+      if (repos.length === 0) {
+        hasMore = false;
+      } else {
+        allRepos = allRepos.concat(repos);
+        page++;
+      }
+    } catch (err) {
+      // If org endpoint fails with 404, try user endpoint
+      if (useOrgEndpoint && err.message.includes('404')) {
+        console.log(colorize(`  ℹ️  Not an organization, trying user endpoint...`, 'cyan'));
+        useOrgEndpoint = false;
+        page = 1;
+        continue;
+      }
+      throw err;
     }
   }
 

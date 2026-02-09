@@ -65,9 +65,9 @@ classify_pr() {
   fi
   
   # Patch and minor npm updates are generally safe
-  if echo "$pr_title" | grep -qE "bump.*from [0-9]+\.[0-9]+\.[0-9]+ to [0-9]+\.[0-9]+\.[0-9]+"; then
-    local from_version=$(echo "$pr_title" | grep -oE "from [0-9]+\.[0-9]+\.[0-9]+" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
-    local to_version=$(echo "$pr_title" | grep -oE "to [0-9]+\.[0-9]+\.[0-9]+" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+  if echo "$pr_title" | grep -qiE "(bump|update).*from [0-9]+\.[0-9]+\.[0-9]+ to [0-9]+\.[0-9]+\.[0-9]+"; then
+    local from_version=$(echo "$pr_title" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | head -1)
+    local to_version=$(echo "$pr_title" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | tail -1)
     
     local from_major=$(echo "$from_version" | cut -d. -f1)
     local to_major=$(echo "$to_version" | cut -d. -f1)

@@ -44,7 +44,7 @@ function Write-Warning($message) {
     Write-Host $message -ForegroundColor Yellow
 }
 
-function Write-Error($message) {
+function Write-ErrorMessage($message) {
     Write-Host $message -ForegroundColor Red
 }
 
@@ -77,7 +77,7 @@ try {
     $commits = git log --all --grep="$searchPattern" --oneline --max-count=$Limit 2>&1
     
     if ($LASTEXITCODE -ne 0 -or -not $commits) {
-        Write-Error "❌ No commits found matching pattern: $searchPattern"
+        Write-ErrorMessage "❌ No commits found matching pattern: $searchPattern"
         exit 1
     }
     
@@ -105,15 +105,21 @@ try {
         Write-Host "   git revert $commitSha"
         Write-Host ""
         Write-Host "3. Create a new branch for the rollback:"
-        Write-Host "   `$branchName = `"rollback/revert-$Token`""
-        Write-Host "   git checkout -b `$branchName"
+        Write-Host '   $branchName = "rollback/revert-' -NoNewline
+        Write-Host "$Token" -NoNewline
+        Write-Host '"'
+        Write-Host '   git checkout -b $branchName'
         Write-Host ""
         Write-Host "4. Push the rollback branch:"
-        Write-Host "   git push origin `$branchName"
+        Write-Host '   git push origin $branchName'
         Write-Host ""
         Write-Host "5. Create a PR for human review:"
-        Write-Host "   gh pr create --title `"Rollback: revert $Token`" \"
-        Write-Host "     --body `"Reverting automated changes from rollback token $Token. Requires human review.`""
+        Write-Host '   gh pr create --title "Rollback: revert ' -NoNewline
+        Write-Host "$Token" -NoNewline  
+        Write-Host '" \'
+        Write-Host '     --body "Reverting automated changes from rollback token ' -NoNewline
+        Write-Host "$Token" -NoNewline
+        Write-Host '. Requires human review."'
         Write-Host ""
         Write-Warning "⚠️  IMPORTANT: Do NOT merge without human review!"
         Write-Host ""
@@ -143,6 +149,6 @@ try {
     exit 0
     
 } catch {
-    Write-Error "❌ Error executing git command: $_"
+    Write-ErrorMessage "❌ Error executing git command: $_"
     exit 1
 }

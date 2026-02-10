@@ -16,7 +16,7 @@ echo "📁 Checking critical directories..."
 
 echo ""
 echo "🔖 Checking baseline tag..."
-git tag | grep -q "qxb-phase5-lock-2026-02-06" && echo "✅ Baseline tag exists" || echo "⚠️  Baseline tag missing (will auto-create)"
+git tag | grep -q "qxb-phase5-lock-2026-02-06" && echo "✅ Baseline tag exists" || echo "⚠️  Baseline tag missing – create or fetch tag 'qxb-phase5-lock-2026-02-06'"
 
 echo ""
 echo "📜 Checking key automation files..."

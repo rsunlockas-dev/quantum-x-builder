@@ -14,10 +14,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GIT_PAT || github.token }}
+      
+      - name: Validate baseline tag exists
+        run: |
+          TAG_NAME="qxb-phase5-lock-2026-02-06"
+          # Expected base commit from Phase 5 governance documentation
+          EXPECTED_COMMIT="5c74904882ef8989c76754e34d52ccf71e34db85"
+          
+          if ! git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "❌ ERROR: Tag $TAG_NAME does not exist"
+            echo "   This tag is required for Phase 5 rollback operations."
+            echo "   Expected commit: $EXPECTED_COMMIT"
+            echo ""
+            echo "   To create the tag manually:"
+            echo "   git tag -a $TAG_NAME $EXPECTED_COMMIT -m 'Phase 5 Lock'"
+            echo "   git push origin $TAG_NAME"
+            exit 1
+          fi
+          
+          # Validate the tag points to the expected commit
+          ACTUAL_COMMIT=$(git rev-parse "$TAG_NAME^{}")
+          echo "✅ Tag $TAG_NAME exists"
+          echo "   Points to commit: $ACTUAL_COMMIT"
+          
+          if [ "$ACTUAL_COMMIT" != "$EXPECTED_COMMIT" ]; then
+            echo "⚠️  WARNING: Tag points to different commit than expected"
+            echo "   Expected: $EXPECTED_COMMIT"
+            echo "   Actual:   $ACTUAL_COMMIT"
+            echo "   Please verify the baseline commit is correct for rollback operations."
+          fi
+      
       - name: Check for Rehydration Snapshot
         run: |
           if [ ! -f "_OPS/_STATE/REHYDRATED_SNAPSHOT.json" ]; then
             echo "ERROR: Rehydration snapshot missing"
             exit 1
           fi
-          echo "Rehydration snapshot present"
+          echo "✅ Rehydration snapshot present"

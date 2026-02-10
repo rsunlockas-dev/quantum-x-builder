@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy package metadata and install
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Copy all source files, build production assets
 COPY . ./

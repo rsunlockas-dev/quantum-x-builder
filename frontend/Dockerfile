@@ -2,12 +2,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY vizual-x/package.json vizual-x/package-lock.json ./
-RUN npm install
+# Copy package metadata and install
+COPY package.json package-lock.json ./
+RUN npm ci
 
-COPY vizual-x/ ./
+# Copy all source files, build production assets
+COPY . ./
 RUN npm run build
 
 EXPOSE 3000
 
+# Use vite preview to serve production build
 CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "3000"]

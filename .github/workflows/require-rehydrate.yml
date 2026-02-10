@@ -6,6 +6,9 @@ on:
     branches:
       - "*"
 
+permissions:
+  contents: read
+
 jobs:
   require_rehydrate:
     runs-on: ubuntu-latest

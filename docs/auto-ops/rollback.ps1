@@ -40,7 +40,7 @@ function Write-Success($message) {
     Write-Host $message -ForegroundColor Green
 }
 
-function Write-Warning($message) {
+function Write-WarnMessage($message) {
     Write-Host $message -ForegroundColor Yellow
 }
 
@@ -114,14 +114,9 @@ try {
         Write-Host '   git push origin $branchName'
         Write-Host ""
         Write-Host "5. Create a PR for human review:"
-        Write-Host '   gh pr create --title "Rollback: revert ' -NoNewline
-        Write-Host "$Token" -NoNewline  
-        Write-Host '" \'
-        Write-Host '     --body "Reverting automated changes from rollback token ' -NoNewline
-        Write-Host "$Token" -NoNewline
-        Write-Host '. Requires human review."'
+        Write-Host "   gh pr create --title `"Rollback: revert $Token`" --body `"Reverting automated changes from rollback token $Token. Requires human review.`""
         Write-Host ""
-        Write-Warning "⚠️  IMPORTANT: Do NOT merge without human review!"
+        Write-WarnMessage "⚠️  IMPORTANT: Do NOT merge without human review!"
         Write-Host ""
         
         # Show commit details

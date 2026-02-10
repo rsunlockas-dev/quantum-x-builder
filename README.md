@@ -24,8 +24,8 @@ self-hosted runners, and policy-enforced agents.
 
 All components are fully integrated and identify with the system perfectly:
 
-- ✓ **Backend** (vizual-x-backend) - Express API on port 8787
-- ✓ **Frontend** (@quantum-x-builder/frontend) - React app with VSCode extension
+- ✓ **Backend** (quantum-x-builder) - Express API on port 8787
+- ✓ **Frontend** (@qvizual-x/frontend) - React app with VSCode extension
 - ✓ **Documentation** - Docusaurus v3 site
 - ✓ **Messaging** - NATS JetStream broker
 - ✓ **Operations** - _OPS governance control plane

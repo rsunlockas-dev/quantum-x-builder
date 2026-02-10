@@ -14,7 +14,8 @@ function headers() {
   return base;
 }
 
-async function mockStreamChat(messages: Message[], config: GenerationConfig, theme: UITheme, onChunk: (chunk: string) => void) {
+async function mockStreamChat(_messages: Message[], _config: GenerationConfig, _theme: UITheme, onChunk: (chunk: string) => void) {
+  // Simple mock response - parameters intentionally unused for basic demo mode
   const reply = { text: 'This is a mock reply — enable a real backend by setting VITE_BACKEND_URL.' };
   const chunks = reply.text.match(/.{1,60}/g) || [reply.text];
   for (const c of chunks) {

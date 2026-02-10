@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-      - master
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,15 +27,22 @@ jobs:
         run: |
           npm ci
           npm run build
+        # Optional: Set VITE_MOCK_API=true to enable mock mode for standalone Pages demo
+        # env:
+        #   VITE_MOCK_API: 'true'
 
       - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/dist
 
   deploy:
-    needs: build-and-deploy
+    needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4

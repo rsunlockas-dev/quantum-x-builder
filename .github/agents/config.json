@@ -33,8 +33,8 @@
     "validation_agent": "0 * * * *",
     "healing_agent": "0 */2 * * *",
     "fix_all_agent": "0 */6 * * *",
-    "evolution_agent": "0 1,7,13,19 * * *",
-    "description": "Rate-limit friendly schedules: autonomous=every 30min, validation=hourly, healing=every 2hrs, fix-all=every 6hrs, evolution=4x daily (1hr after fix-all)"
+    "ultimate_fix_all": "0 8,20 * * *",
+    "description": "Rate-limit friendly schedules: autonomous=every 30min, validation=hourly, healing=every 2hrs, fix-all=every 6hrs, ultimate=twice daily at 8am/8pm UTC"
   },
   "rate_limits": {
     "max_api_calls_per_run": 50,
@@ -99,27 +99,27 @@
       "tests": true
     }
   },
-  "evolution": {
+  "ultimate_fix_all": {
     "enabled": true,
-    "protocol": "110%",
-    "run_after_fix_all": true,
-    "offset_hours": 1,
-    "max_iterations": 15,
-    "create_pr": true,
+    "max_cycles": 5,
+    "force_full_run": false,
+    "skip_validation": false,
+    "create_summary_pr": true,
     "stages": {
-      "optimize_code": true,
-      "consolidate_code": true,
-      "optimize_workflows": true,
-      "enhance_performance": true,
-      "harden_security": true,
-      "enforce_best_practices": true,
-      "evolve_system": true
+      "preflight": true,
+      "foundation": true,
+      "code_quality": true,
+      "workflows_actions": true,
+      "security_dependencies": true,
+      "documentation": true,
+      "testing": true,
+      "summary": true
     },
-    "targets": {
-      "code_quality": "A+",
-      "performance": "110%",
-      "reliability": "99.99%",
-      "best_practices": "industry-standard"
+    "health_thresholds": {
+      "excellent": 90,
+      "good": 70,
+      "fair": 50,
+      "poor": 30
     }
   },
   "system_health": {

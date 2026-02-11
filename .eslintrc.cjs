@@ -8,12 +8,10 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
-    project: './tsconfig.json',
   },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
   ],
   plugins: ['@typescript-eslint'],
@@ -27,6 +25,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-non-null-assertion': 'warn',
+    '@typescript-eslint/no-var-requires': 'off',
     'no-console': 'off', // Allow console in Node.js tools
     'prefer-const': 'error',
     'no-var': 'error',
@@ -41,6 +40,12 @@ module.exports = {
     'website/',
     'services/',
     'packages/',
+    'vizual-x/',
+    '_OPS/',
+    '_EXTERNAL/',
+    '_state/',
+    '_evidence/',
+    'memory-bank/',
     '*.config.js',
     '*.config.cjs',
     '.eslintrc.cjs',

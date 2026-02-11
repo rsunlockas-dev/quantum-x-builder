@@ -14,28 +14,17 @@ function getDirectorySize(dirPath) {
   }
 
   let totalSize = 0;
-  
-  try {
-    const files = fs.readdirSync(dirPath);
+  const files = fs.readdirSync(dirPath);
 
-    for (const file of files) {
-      try {
-        const filePath = path.join(dirPath, file);
-        const stats = fs.statSync(filePath);
+  for (const file of files) {
+    const filePath = path.join(dirPath, file);
+    const stats = fs.statSync(filePath);
 
-        if (stats.isDirectory()) {
-          totalSize += getDirectorySize(filePath);
-        } else {
-          totalSize += stats.size;
-        }
-      } catch (err) {
-        // Skip files/directories with permission errors or broken symlinks
-        console.warn(`   ⚠️  Skipping ${file}: ${err.message}`);
-      }
+    if (stats.isDirectory()) {
+      totalSize += getDirectorySize(filePath);
+    } else {
+      totalSize += stats.size;
     }
-  } catch (err) {
-    console.error(`   ❌ Error reading directory ${dirPath}: ${err.message}`);
-    return 0;
   }
 
   return totalSize;

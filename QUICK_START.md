@@ -1,6 +1,22 @@
 # Quick Start Guide - Quantum-X-Builder
-**Launch the complete system in Docker or VS Code**  
-**Date**: 2026-02-09
+**Launch the complete system in Docker, VS Code, or try the live demo on GitHub Pages**  
+**Date**: 2026-02-10
+
+---
+
+## 🌐 Fastest Start (Live Demo)
+
+Try the frontend demo right now - no installation required!
+
+**[View Live Demo on GitHub Pages →](https://infinityxonesystems.github.io/quantum-x-builder/)**
+
+This is a mock mode deployment that lets you:
+- ✅ Explore the complete UI
+- ✅ Interact with components
+- ✅ See all features and themes
+- ⚠️ Note: Backend features are simulated (no real AI/persistence)
+
+For full functionality, follow the Docker setup below.
 
 ---
 
@@ -400,11 +416,34 @@ docker network inspect quantum-x-builder_qxb-network
    docker compose -f docker-compose.prod.yml logs -f
    ```
 
+### GitHub Pages Deployment
+
+The frontend can be deployed to GitHub Pages for public demos:
+
+1. **Automatic Deployment**: 
+   - Push changes to `main` branch
+   - Changes in `frontend/` trigger automatic deployment
+   - Live at: https://infinityxonesystems.github.io/quantum-x-builder/
+
+2. **Manual Deployment**:
+   - Go to Actions → Deploy to GitHub Pages
+   - Click "Run workflow"
+   
+3. **Local Testing (Mock Mode)**:
+   ```bash
+   cd frontend
+   MOCK_MODE=true VITE_MOCK_MODE=true PAGES_BASE=/quantum-x-builder/ npm run build
+   npm run preview
+   ```
+
+See [GitHub Pages Deployment Guide](docs/GITHUB_PAGES_DEPLOYMENT.md) for detailed instructions.
+
 ---
 
 ## 📚 Additional Resources
 
 ### Documentation
+- **GitHub Pages Deployment**: `docs/GITHUB_PAGES_DEPLOYMENT.md`
 - **Forensic Analysis**: `PHASE6_FORENSIC_ANALYSIS.md`
 - **Pre-Flight Checklist**: `PHASE6_PREFLIGHT_CHECKLIST.md`
 - **Docker Guide**: `DOCKER_DEPLOYMENT_GUIDE.md`
@@ -416,7 +455,8 @@ docker network inspect quantum-x-builder_qxb-network
 - **Launch Script**: `./launch.sh`
 
 ### Endpoints
-- **Frontend**: http://localhost:3000
+- **Frontend (Live Demo)**: https://infinityxonesystems.github.io/quantum-x-builder/
+- **Frontend (Local)**: http://localhost:3000
 - **Backend API**: http://localhost:8787
 - **Backend Health**: http://localhost:8787/health
 - **NATS Monitoring**: http://localhost:8222
@@ -451,6 +491,7 @@ docker network inspect quantum-x-builder_qxb-network
 
 ---
 
-**Last Updated**: 2026-02-09  
-**Version**: 1.0  
-**Status**: PRODUCTION READY 🚀
+**Last Updated**: 2026-02-10  
+**Version**: 1.1  
+**Status**: PRODUCTION READY 🚀  
+**Live Demo**: https://infinityxonesystems.github.io/quantum-x-builder/

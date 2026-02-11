@@ -257,7 +257,14 @@ jobs:
           echo "📘 Checking TypeScript..."
           if [ -f "tsconfig.json" ]; then
             npx tsc --noEmit --pretty 2>&1 | tee /tmp/tsc-errors.log || true
-            ERROR_COUNT=$(grep -c "error TS" /tmp/tsc-errors.log || echo "0")
+            
+            # Count errors safely
+            if [ -f /tmp/tsc-errors.log ]; then
+              ERROR_COUNT=$(grep -c "error TS" /tmp/tsc-errors.log 2>/dev/null || echo "0")
+            else
+              ERROR_COUNT=0
+            fi
+            
             echo "TypeScript errors found: $ERROR_COUNT"
             
             if [ $ERROR_COUNT -gt 0 ]; then
@@ -375,12 +382,19 @@ jobs:
               # Ensure proper shebangs (safely)
               if ! head -1 "$agent" | grep -q "^#!/"; then
                 echo "Adding Node shebang to $agent"
-                # Use temporary file for safety
+                # Use temporary file for safety with cleanup trap
                 tmp=$(mktemp)
+                trap "rm -f $tmp" EXIT
                 echo '#!/usr/bin/env node' > "$tmp"
                 cat "$agent" >> "$tmp"
-                mv "$tmp" "$agent"
-                chmod +x "$agent"
+                if mv "$tmp" "$agent"; then
+                  chmod +x "$agent"
+                  echo "✅ Added shebang to $agent"
+                else
+                  echo "⚠️  Failed to update $agent"
+                  rm -f "$tmp"
+                fi
+                trap - EXIT
               fi
             fi
           done
@@ -611,9 +625,10 @@ jobs:
           echo "🏗️  Validating build..."
           
           if [ -f "package.json" ] && grep -q "\"build\"" package.json; then
-            npm run build 2>&1 | tee /tmp/build.log || true
+            npm run build 2>&1 | tee /tmp/build.log
+            BUILD_EXIT_CODE=$?
             
-            if [ $? -eq 0 ]; then
+            if [ $BUILD_EXIT_CODE -eq 0 ]; then
               echo "✅ Build successful"
             else
               echo "⚠️  Build failed - logged for review"

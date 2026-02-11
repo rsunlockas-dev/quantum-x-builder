@@ -41,7 +41,7 @@ function applyFixes() {
   
   if (fs.existsSync('package.json')) {
     console.log('Running npm audit fix...');
-    execSafe('npm audit fix --force 2>/dev/null || true');
+    execSafe('npm audit fix 2>/dev/null || true');
     fixesApplied = true;
   }
   

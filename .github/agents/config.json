@@ -13,7 +13,7 @@
   },
   "auto_merge": {
     "enabled": true,
-    "require_approval": false,
+    "require_approval": true,
     "require_checks_pass": true,
     "safe_categories": [
       "format",

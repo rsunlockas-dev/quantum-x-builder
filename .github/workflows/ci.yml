@@ -31,7 +31,7 @@ jobs:
             Write-Host "📦 Attempting strict install with npm ci..."
 
             # Try npm ci first (strict install)
-            $ciOutput = npm ci 2>&1 | Tee-Object -Variable ciResult
+            $ciOutput = npm ci 2>&1 | Tee-Object -Variable npmOutput
             $ciExitCode = $LASTEXITCODE
 
             if ($ciExitCode -eq 0) {

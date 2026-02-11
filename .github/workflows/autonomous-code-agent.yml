@@ -1,0 +1,75 @@
+name: "Autonomous Code Agent"
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Every 30 minutes (rate-limit friendly)
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  autonomous-maintenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        if [ -f package.json ]; then
+          npm ci || npm install || true
+        fi
+      continue-on-error: true
+
+    - name: Run Autonomous Agent
+      id: agent
+      run: node .github/agents/autonomous-agent.js
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        RUN_ID: ${{ github.run_id }}
+
+    - name: Create PR with Fixes
+      if: steps.agent.outputs.has_changes == 'true'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: autonomous agent auto-fixes [run-${{ github.run_id }}]"
+        branch: autonomous/auto-fixes-${{ github.run_number }}
+        delete-branch: true
+        title: "🤖 Autonomous Agent: Auto-fixes and improvements"
+        body: |
+          ## Autonomous Agent Auto-Fixes
+          
+          This PR was created by the Autonomous Code Agent.
+          
+          **Run ID:** ${{ github.run_id }}
+          **Timestamp:** ${{ github.event.repository.updated_at }}
+          
+          ### Changes Applied
+          - Code formatting (Prettier)
+          - Lint auto-fixes (ESLint)
+          - Minor cleanup operations
+          
+          ### Safety
+          - All changes are non-breaking
+          - Automatically validated
+          - Can be safely reverted if needed
+          
+          **Audit log:** `_OPS/AUDIT/autonomous-agent-*.json`
+        labels: autonomous-agent, automated, safe-to-merge

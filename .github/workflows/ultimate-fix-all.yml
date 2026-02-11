@@ -260,14 +260,21 @@ jobs:
             ERROR_COUNT=$(grep -c "error TS" /tmp/tsc-errors.log || echo "0")
             echo "TypeScript errors found: $ERROR_COUNT"
             
-            if [ $ERROR_COUNT -gt 0 ] && [ $ERROR_COUNT -lt 10 ]; then
-              echo "⚠️  Found fixable TypeScript errors - attempting fixes..."
-              # Add // @ts-ignore for simple cases (last resort)
-              echo "Logged errors for manual review"
+            if [ $ERROR_COUNT -gt 0 ]; then
+              echo "⚠️  TypeScript errors detected - uploading error log"
+              # Errors will be uploaded as artifact for review
             fi
           fi
           echo "✅ TypeScript check complete"
         continue-on-error: true
+      
+      - name: Upload TypeScript Error Log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: typescript-errors-${{ github.run_number }}
+          path: /tmp/tsc-errors.log
+          if-no-files-found: ignore
       
       - name: Commit Code Quality Fixes
         run: |
@@ -365,10 +372,14 @@ jobs:
                 echo "⚠️  Syntax error in $agent"
               }
               
-              # Ensure proper shebangs
+              # Ensure proper shebangs (safely)
               if ! head -1 "$agent" | grep -q "^#!/"; then
                 echo "Adding Node shebang to $agent"
-                echo -e "#!/usr/bin/env node\n$(cat $agent)" > "$agent"
+                # Use temporary file for safety
+                tmp=$(mktemp)
+                echo '#!/usr/bin/env node' > "$tmp"
+                cat "$agent" >> "$tmp"
+                mv "$tmp" "$agent"
                 chmod +x "$agent"
               fi
             fi
@@ -422,8 +433,8 @@ jobs:
         run: |
           echo "🔒 Fixing security vulnerabilities..."
           
-          # Run audit and fix what's safe
-          npm audit fix --force 2>&1 | tee /tmp/audit.log || true
+          # Run audit and fix what's safe (without --force for safety)
+          npm audit fix 2>&1 | tee /tmp/audit.log || true
           
           [ -d backend ] && (cd backend && npm audit fix 2>&1 || true)
           [ -d frontend ] && (cd frontend && npm audit fix 2>&1 || true)
@@ -434,7 +445,7 @@ jobs:
           echo "🔍 Critical vulnerabilities: $CRITICAL"
           echo "🔍 High vulnerabilities: $HIGH"
           
-          echo "✅ Security fixes applied"
+          echo "✅ Security fixes applied (safe mode, no --force)"
         continue-on-error: true
       
       - name: Update Dependencies Safely
@@ -444,9 +455,14 @@ jobs:
           # Update patch versions only (safe)
           npm update --save 2>&1 || true
           
-          # Regenerate lockfile
-          rm -f package-lock.json
-          npm install --package-lock-only 2>&1 || true
+          # Note: Preserving package-lock.json for reproducibility
+          # Only regenerate if audit fixes were applied
+          if [ -f /tmp/audit.log ] && grep -q "fixed" /tmp/audit.log; then
+            echo "ℹ️  Regenerating lockfile due to audit fixes"
+            npm install --package-lock-only 2>&1 || true
+          else
+            echo "ℹ️  Preserving existing lockfile for reproducibility"
+          fi
           
           echo "✅ Dependencies updated"
         continue-on-error: true

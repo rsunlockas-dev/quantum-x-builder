@@ -5,9 +5,12 @@
     "app_name": "Infinity XOS Orchestrator",
     "required_secrets": [
       "GH_APP_ID",
-      "GH_APP_PRIVATE_KEY",
+      "GH_APP_PRIVATE_KEY"
+    ],
+    "optional_secrets": [
       "GH_APP_INSTALLATION_ID"
     ],
+    "note": "GH_APP_INSTALLATION_ID is auto-detected if not provided",
     "permissions": {
       "contents": "write",
       "pull_requests": "write",

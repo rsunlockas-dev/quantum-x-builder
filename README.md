@@ -68,3 +68,38 @@ Efficiently process multiple Dependabot PRs (18+ pending PRs):
 - Full audit trails with rollback tokens
 - Respects kill-switch and safety guardrails
 - Scheduled weekly runs (Mondays 9 AM UTC)
+
+## Getting Started
+
+### Quick Launch (Docker)
+```bash
+./launch.sh
+# Access at http://localhost:3000 (frontend) and http://localhost:8787 (backend)
+```
+
+### Frontend Development
+```bash
+# Local development
+cd frontend
+npm ci
+npm run dev
+
+# Production preview
+npm run build
+npm run preview -- --host 0.0.0.0 --port 3000
+
+# Docker
+docker build -t vizualx-frontend:latest ./frontend
+docker run -p 3000:3000 -e VITE_BACKEND_URL=http://localhost:8787 vizualx-frontend:latest
+```
+
+### GitHub Pages
+Frontend automatically deploys to Pages on push to main:
+- **URL**: https://InfinityXOneSystems.github.io/quantum-x-builder/
+- **Workflow**: `.github/workflows/deploy-pages.yml`
+- **Mock Mode**: Set `VITE_MOCK_API=true` for standalone demo
+
+### Full Documentation
+- [QUICK_START.md](QUICK_START.md) - Complete quick start guide
+- [DOCKER_DEPLOYMENT_GUIDE.md](DOCKER_DEPLOYMENT_GUIDE.md) - Docker deployment
+- [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md) - System integration

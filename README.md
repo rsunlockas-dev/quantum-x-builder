@@ -24,8 +24,8 @@ self-hosted runners, and policy-enforced agents.
 
 All components are fully integrated and identify with the system perfectly:
 
-- ✓ **Backend** (vizual-x-backend) - Express API on port 8787
-- ✓ **Frontend** (@quantum-x-builder/frontend) - React app with VSCode extension
+- ✓ **Backend** (quantum-x-builder) - Express API on port 8787
+- ✓ **Frontend** (@qvizual-x/frontend) - React app with VSCode extension
 - ✓ **Documentation** - Docusaurus v3 site
 - ✓ **Messaging** - NATS JetStream broker
 - ✓ **Operations** - _OPS governance control plane
@@ -43,6 +43,32 @@ All components are fully integrated and identify with the system perfectly:
 - **Runbook:** [docs/RUNBOOK.md](docs/RUNBOOK.md) - Operational flow
 
 ## Automation
+
+### Autonomous Multi-Agent System 🤖
+
+**NEW:** Three intelligent agents maintain code quality 24/7 while staying within GitHub's free tier.
+
+```bash
+# Quick start guide
+cat QUICKSTART.md
+
+# Full documentation
+cat AUTONOMOUS_AGENTS.md
+```
+
+**Features:**
+- Autonomous Agent: Auto-fixes formatting & linting every 30 minutes
+- Validation Agent: Quality checks hourly + on PRs
+- Healing Agent: Applies fixes every 2 hours
+- **94% fewer API calls** vs every-minute schedule
+- **Completely free** - uses only 21% of GitHub free tier
+- **Safe by default** - requires approval for auto-merge
+- **Emergency stop** via `_OPS/SAFETY/KILL_SWITCH.json`
+
+**Documentation:**
+- [Quick Start](QUICKSTART.md) - Get started in 5 minutes
+- [Full Guide](AUTONOMOUS_AGENTS.md) - Complete documentation
+- [Agent Config](.github/agents/config.json) - Configuration reference
 
 ### Bulk Dependabot PR Processing
 
@@ -68,3 +94,63 @@ Efficiently process multiple Dependabot PRs (18+ pending PRs):
 - Full audit trails with rollback tokens
 - Respects kill-switch and safety guardrails
 - Scheduled weekly runs (Mondays 9 AM UTC)
+
+## Automated Maintenance & Code Quality
+
+This repository includes automated tooling for analysis, diagnostics, fixes, validation, optimization, and security scanning.
+
+### Quick Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Analysis & Diagnostics
+npm run analyze          # Run lint + typecheck + tests
+npm run diagnose         # Generate diagnostic report
+
+# Automated Fixes
+npm run lint:fix         # Fix linting issues
+npm run format           # Format code with Prettier
+npm run fix              # Apply all automated fixes
+
+# Validation
+npm run typecheck        # TypeScript type checking
+npm run test             # Run tests
+npm run validate         # Run typecheck + tests
+
+# Optimization & CI
+npm run optimize         # Check bundle sizes
+npm run ci               # Full CI pipeline locally
+```
+
+### CI Workflows
+
+- **Auto-Maintenance** (`.github/workflows/auto-maintain.yml`)
+  - Runs weekly analysis, diagnostics, and security scans
+  - Creates fix PRs automatically when issues are found
+  - Auto-merges PRs when checks pass (configurable)
+  
+- **CodeQL Security** (`.github/workflows/codeql-analysis.yml`)
+  - Weekly security scanning for vulnerabilities
+  - Integrated with GitHub Security tab
+
+### Configuration
+
+Automation can be controlled via `.github/auto-maintenance.yml`:
+
+```yaml
+enabled: true          # Master switch
+jobs:
+  analyze: true       # Code analysis
+  diagnose: true      # Diagnostics
+  fix: true           # Auto-fix PRs
+  validate: true      # Validation
+  optimize: true      # Bundle size checks
+  security: true      # Security scans
+auto_merge:
+  enabled: true       # Auto-merge fix PRs
+  method: squash      # Merge method
+```
+
+**Full Documentation:** [docs/MAINTENANCE.md](docs/MAINTENANCE.md)

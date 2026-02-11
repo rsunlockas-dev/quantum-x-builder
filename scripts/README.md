@@ -57,6 +57,41 @@ This directory contains automation scripts for the Quantum-X-Builder project.
 
 **Usage**: Experimental - used for intelligent code repairs
 
+### Disable Workflows Script
+
+#### `disable-workflows-except-qxb.js`
+**Purpose**: Disable GitHub Actions workflows across all repositories EXCEPT quantum-x-builder
+
+**Usage**:
+```bash
+# Preview what will be disabled (safe)
+export GITHUB_TOKEN=ghp_your_token_here
+node scripts/disable-workflows-except-qxb.js --dry-run
+
+# Interactive mode - confirm each repository
+node scripts/disable-workflows-except-qxb.js --interactive
+
+# Automatic mode - disable all except quantum-x-builder
+node scripts/disable-workflows-except-qxb.js --auto
+```
+
+**Features**:
+- Automatic protection for quantum-x-builder (never disabled)
+- Three modes: dry-run, interactive, automatic
+- No external dependencies (pure Node.js)
+- Works with personal accounts and organizations
+- Clear reporting and error handling
+
+**Documentation**: 
+- Full guide: [docs/DISABLE_WORKFLOWS_GUIDE.md](../docs/DISABLE_WORKFLOWS_GUIDE.md)
+- Quick reference: [DISABLE_WORKFLOWS_QUICK.md](../DISABLE_WORKFLOWS_QUICK.md)
+- Implementation details: [docs/DISABLE_WORKFLOWS_IMPLEMENTATION.md](../docs/DISABLE_WORKFLOWS_IMPLEMENTATION.md)
+
+**Requirements**:
+- Node.js 16+
+- GitHub Personal Access Token with `repo` and `workflow` scopes
+- Get token at: https://github.com/settings/tokens
+
 ## GitHub Actions Integration
 
 These scripts are used by workflows in `.github/workflows/`:

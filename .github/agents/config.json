@@ -1,0 +1,78 @@
+{
+  "schedules": {
+    "autonomous_agent": "*/30 * * * *",
+    "validation_agent": "0 * * * *",
+    "healing_agent": "0 */2 * * *",
+    "description": "Rate-limit friendly schedules: autonomous=every 30min, validation=hourly, healing=every 2hrs"
+  },
+  "rate_limits": {
+    "max_api_calls_per_run": 50,
+    "backoff_on_rate_limit": true,
+    "cache_ttl_minutes": 15,
+    "skip_if_no_changes": true
+  },
+  "auto_merge": {
+    "enabled": true,
+    "require_approval": true,
+    "require_checks_pass": true,
+    "safe_categories": [
+      "format",
+      "lint-autofix",
+      "dependency-patch"
+    ],
+    "forbidden_categories": [
+      "breaking-change",
+      "major-version",
+      "security-manual"
+    ]
+  },
+  "healing": {
+    "enabled": true,
+    "max_attempts": 3,
+    "retry_delay_minutes": 30,
+    "auto_implement_suggestions": true,
+    "categories": {
+      "format": true,
+      "lint": true,
+      "security-patches": true,
+      "dependency-updates": false
+    }
+  },
+  "validation": {
+    "checks": {
+      "eslint": true,
+      "prettier": true,
+      "typescript": true,
+      "tests": true,
+      "security": true
+    },
+    "thresholds": {
+      "max_eslint_warnings": 0,
+      "max_eslint_errors": 0,
+      "min_test_coverage": 0,
+      "max_vulnerabilities": 0
+    }
+  },
+  "system_health": {
+    "enabled": true,
+    "check_interval_hours": 4,
+    "alert_on_failure": true,
+    "auto_disable_on_repeated_failures": true,
+    "max_failures_before_disable": 5
+  },
+  "branch_cleanup": {
+    "enabled": true,
+    "stale_days": 30,
+    "exclude_patterns": [
+      "main",
+      "develop",
+      "release/*",
+      "hotfix/*"
+    ]
+  },
+  "emergency": {
+    "kill_switch_file": "_OPS/SAFETY/KILL_SWITCH.json",
+    "respect_kill_switch": true,
+    "pause_on_repeated_errors": true
+  }
+}

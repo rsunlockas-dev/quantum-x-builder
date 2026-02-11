@@ -1,0 +1,57 @@
+name: "Healing Agent"
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to heal'
+        required: false
+        type: string
+  schedule:
+    - cron: '0 */2 * * *'  # Every 2 hours (rate-limit friendly)
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        if [ -f package.json ]; then
+          npm ci || npm install || true
+        fi
+      continue-on-error: true
+
+    - name: Run Healing Agent
+      run: node .github/agents/healing-agent.js
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ inputs.pr_number }}
+
+    - name: Check for Auto-Merge Candidates
+      id: automerge
+      run: |
+        echo "Checking for safe PRs to auto-merge..."
+        # List open PRs with 'safe-to-merge' label
+        gh pr list --label "safe-to-merge" --json number,title --limit 5
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      continue-on-error: true

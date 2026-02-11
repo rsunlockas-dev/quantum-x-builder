@@ -27,7 +27,33 @@ jobs:
         run: |
           if (Test-Path "backend/package.json") {
             Push-Location backend
-            npm ci
+
+            Write-Host "📦 Attempting strict install with npm ci..."
+
+            # Try npm ci first (strict install)
+            $ciOutput = npm ci 2>&1 | Tee-Object -Variable npmOutput
+            $ciExitCode = $LASTEXITCODE
+
+            if ($ciExitCode -eq 0) {
+              Write-Host "✅ npm ci succeeded - dependencies installed" -ForegroundColor Green
+            } else {
+              Write-Host "⚠️ npm ci failed - lock file may be out of sync" -ForegroundColor Yellow
+              Write-Host "::warning::backend/package-lock.json is out of sync with package.json. Running npm install as fallback."
+
+              Write-Host "`n📦 Falling back to npm install..."
+              npm install
+              $installExitCode = $LASTEXITCODE
+
+              if ($installExitCode -eq 0) {
+                Write-Host "✅ npm install succeeded" -ForegroundColor Green
+                Write-Host "⚠️ WARNING: Lock file was regenerated. Please commit the updated package-lock.json." -ForegroundColor Yellow
+              } else {
+                Write-Host "❌ npm install also failed" -ForegroundColor Red
+                Pop-Location
+                exit $installExitCode
+              }
+            }
+
             Pop-Location
           } else {
             Write-Host "No backend/package.json found"

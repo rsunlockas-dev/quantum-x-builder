@@ -4,7 +4,8 @@
     "validation_agent": "0 * * * *",
     "healing_agent": "0 */2 * * *",
     "fix_all_agent": "0 */6 * * *",
-    "description": "Rate-limit friendly schedules: autonomous=every 30min, validation=hourly, healing=every 2hrs, fix-all=every 6hrs"
+    "ultimate_fix_all": "0 8,20 * * *",
+    "description": "Rate-limit friendly schedules: autonomous=every 30min, validation=hourly, healing=every 2hrs, fix-all=every 6hrs, ultimate=twice daily at 8am/8pm UTC"
   },
   "rate_limits": {
     "max_api_calls_per_run": 50,
@@ -67,6 +68,29 @@
       "security": true,
       "dependencies": true,
       "tests": true
+    }
+  },
+  "ultimate_fix_all": {
+    "enabled": true,
+    "max_cycles": 5,
+    "force_full_run": false,
+    "skip_validation": false,
+    "create_summary_pr": true,
+    "stages": {
+      "preflight": true,
+      "foundation": true,
+      "code_quality": true,
+      "workflows_actions": true,
+      "security_dependencies": true,
+      "documentation": true,
+      "testing": true,
+      "summary": true
+    },
+    "health_thresholds": {
+      "excellent": 90,
+      "good": 70,
+      "fair": 50,
+      "poor": 30
     }
   },
   "system_health": {

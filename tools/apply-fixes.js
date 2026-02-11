@@ -11,7 +11,7 @@ const path = require('path');
 function runCommand(command, description) {
   console.log(`\n🔧 ${description}...`);
   try {
-    const output = execSync(command, { 
+    execSync(command, { 
       encoding: 'utf-8',
       stdio: 'inherit'
     });

@@ -1,0 +1,110 @@
+name: Dependency Sync PR
+
+on:
+  # Run weekly on Monday at 3 AM UTC (offset from direct commit workflow)
+  schedule:
+    - cron: '0 3 * * 1'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 🔍 Detect Sync Issues
+        id: detect
+        run: |
+          # Check if backend/package.json exists
+          if [ ! -f "backend/package.json" ]; then
+            echo "⚠️ backend/package.json not found, skipping sync"
+            echo "out_of_sync=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "🔍 Attempting npm ci to check sync status..."
+          cd backend
+
+          # Try npm ci and capture the exit code
+          if npm ci 2>&1 | tee npm-ci-output.log; then
+            echo "✅ npm ci succeeded - lock file is in sync"
+            echo "out_of_sync=false" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ npm ci failed - lock file is out of sync"
+            echo "out_of_sync=true" >> $GITHUB_OUTPUT
+
+            # Show the error for debugging
+            echo "Error details:"
+            cat npm-ci-output.log
+          fi
+
+      - name: 🔄 Update Lock File
+        if: steps.detect.outputs.out_of_sync == 'true'
+        run: |
+          echo "📦 Running npm install to sync lock file..."
+          cd backend
+          npm install
+
+          echo "✅ Lock file updated successfully"
+
+      - name: 📤 Create Pull Request
+        if: steps.detect.outputs.out_of_sync == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: sync backend/package-lock.json'
+          title: '🔄 Auto-sync backend/package-lock.json'
+          body: |
+            ## 🔄 Automatic Dependency Sync
+
+            This PR was automatically created because `backend/package-lock.json` was out of sync with `backend/package.json`.
+
+            ### What happened?
+
+            - ❌ `npm ci` detected a mismatch between package.json and package-lock.json
+            - ✅ Ran `npm install` to regenerate package-lock.json
+            - 📦 Updated lock file includes all required dependencies
+
+            ### Changes
+
+            - Updated `backend/package-lock.json` to match `backend/package.json`
+
+            ### Review Checklist
+
+            - [ ] Verify CI passes with updated lock file
+            - [ ] Check for any unexpected dependency version changes
+            - [ ] Ensure no security vulnerabilities were introduced
+
+            ---
+
+            🤖 *This PR was created automatically by the [Dependency Sync workflow](.github/workflows/dependency-sync-pr.yml)*
+          branch: auto-sync/backend-dependencies
+          delete-branch: true
+          labels: |
+            automated
+            dependencies
+
+      - name: 📊 Summary
+        run: |
+          if [ "${{ steps.detect.outputs.out_of_sync }}" == "true" ]; then
+            echo "🔄 **Pull request created**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "A PR has been created to sync backend/package-lock.json" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ **Dependencies are in sync**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "No action needed - backend/package-lock.json is up to date" >> $GITHUB_STEP_SUMMARY
+          fi

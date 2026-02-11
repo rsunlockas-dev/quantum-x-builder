@@ -1,0 +1,30 @@
+# Auto-Maintenance Configuration
+# This file controls automated maintenance workflows
+# Set any job to 'false' to disable it
+
+enabled: true
+
+jobs:
+  analyze: true
+  diagnose: true
+  fix: true
+  validate: true
+  optimize: true
+  security: true
+
+# Auto-merge configuration
+# When enabled, PRs created by maintenance workflows will auto-merge when checks pass
+auto_merge:
+  enabled: true
+  method: squash
+  require_checks: true
+
+# Fix PR settings
+fix_pr:
+  create_branch: true
+  open_pr: true
+  branch_prefix: "auto-maintenance/fixes/"
+  labels:
+    - "chore"
+    - "automation"
+    - "auto-fix"

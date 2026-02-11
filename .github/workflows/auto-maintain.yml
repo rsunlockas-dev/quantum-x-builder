@@ -1,0 +1,400 @@
+name: Auto-Maintenance
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_to_run:
+        description: 'Specific job to run (or leave empty for all)'
+        required: false
+        type: choice
+        options:
+          - all
+          - analyze
+          - diagnose
+          - fix
+          - validate
+          - optimize
+          - security
+  schedule:
+    # Run weekly on Mondays at 2 AM UTC
+    - cron: '0 2 * * 1'
+  push:
+    branches:
+      - 'auto-maintenance/**'
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+  checks: read
+
+jobs:
+  check-config:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.config.outputs.enabled }}
+      analyze_enabled: ${{ steps.config.outputs.analyze_enabled }}
+      diagnose_enabled: ${{ steps.config.outputs.diagnose_enabled }}
+      fix_enabled: ${{ steps.config.outputs.fix_enabled }}
+      validate_enabled: ${{ steps.config.outputs.validate_enabled }}
+      optimize_enabled: ${{ steps.config.outputs.optimize_enabled }}
+      security_enabled: ${{ steps.config.outputs.security_enabled }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check auto-maintenance configuration
+        id: config
+        run: |
+          if [ -f .github/auto-maintenance.yml ]; then
+            python - << 'PY'
+          import os
+          import sys
+          import subprocess
+          
+          try:
+              import yaml  # type: ignore
+          except ImportError:
+              subprocess.check_call([sys.executable, "-m", "pip", "install", "pyyaml"])
+              import yaml  # type: ignore
+          
+          config_path = ".github/auto-maintenance.yml"
+          with open(config_path, "r", encoding="utf-8") as fh:
+              data = yaml.safe_load(fh) or {}
+          
+          def get_bool(value, default=True):
+              """
+              Interpret a job config value as a boolean.
+              Supports:
+                - True/False directly
+                - {'enabled': True/False}
+              Falls back to default otherwise.
+              """
+              if isinstance(value, bool):
+                  return value
+              if isinstance(value, dict) and "enabled" in value:
+                  enabled_val = value["enabled"]
+                  if isinstance(enabled_val, bool):
+                      return enabled_val
+              return default
+          
+          # Top-level enabled flag; defaults to true if absent.
+          global_enabled = get_bool(data.get("enabled", True), True)
+          
+          jobs = data.get("jobs") or {}
+          job_names = ["analyze", "diagnose", "fix", "validate", "optimize", "security"]
+          
+          outputs = {"enabled": global_enabled}
+          for name in job_names:
+              job_cfg = jobs.get(name)
+              outputs[f"{name}_enabled"] = get_bool(job_cfg, True)
+          
+          out_path = os.environ["GITHUB_OUTPUT"]
+          with open(out_path, "a", encoding="utf-8") as out_f:
+              for key, value in outputs.items():
+                  out_f.write(f"{key}={'true' if value else 'false'}\n")
+          PY
+          else
+            {
+              echo "enabled=true"
+              echo "analyze_enabled=true"
+              echo "diagnose_enabled=true"
+              echo "fix_enabled=true"
+              echo "validate_enabled=true"
+              echo "optimize_enabled=true"
+              echo "security_enabled=true"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+  analyze:
+    runs-on: ubuntu-latest
+    needs: check-config
+    if: |
+      needs.check-config.outputs.enabled == 'true' && 
+      needs.check-config.outputs.analyze_enabled == 'true' &&
+      (github.event.inputs.job_to_run == '' || 
+       github.event.inputs.job_to_run == 'all' || 
+       github.event.inputs.job_to_run == 'analyze')
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci || npm install
+      
+      - name: Run analysis
+        run: npm run analyze || true
+        continue-on-error: true
+      
+      - name: Upload analysis results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis-results
+          path: .maintenance/
+
+  diagnose:
+    runs-on: ubuntu-latest
+    needs: [check-config, analyze]
+    if: |
+      always() &&
+      needs.check-config.outputs.enabled == 'true' && 
+      needs.check-config.outputs.diagnose_enabled == 'true' &&
+      (github.event.inputs.job_to_run == '' || 
+       github.event.inputs.job_to_run == 'all' || 
+       github.event.inputs.job_to_run == 'diagnose')
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci || npm install
+      
+      - name: Run diagnostics
+        run: npm run diagnose || true
+        continue-on-error: true
+      
+      - name: Upload diagnostic report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diagnostic-report
+          path: .maintenance/diagnose-report.json
+      
+      - name: Comment diagnostic summary on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const reportPath = '.maintenance/diagnose-report.json';
+            
+            if (fs.existsSync(reportPath)) {
+              const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8'));
+              const summary = `## 📊 Diagnostic Summary
+              
+              **Total Checks:** ${report.summary.total}
+              **Passed:** ✅ ${report.summary.passed}
+              **Failed:** ❌ ${report.summary.failed}
+              
+              ### Check Details
+              ${Object.entries(report.checks).map(([key, check]) => 
+                `- **${check.name}**: ${check.passed ? '✅ Passed' : '❌ Failed'}`
+              ).join('\n')}
+              `;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: summary
+              });
+            }
+
+  fix:
+    runs-on: ubuntu-latest
+    needs: [check-config, diagnose]
+    if: |
+      always() &&
+      needs.check-config.outputs.enabled == 'true' && 
+      needs.check-config.outputs.fix_enabled == 'true' &&
+      (github.event.inputs.job_to_run == '' || 
+       github.event.inputs.job_to_run == 'all' || 
+       github.event.inputs.job_to_run == 'fix')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci || npm install
+      
+      - name: Apply fixes
+        run: npm run fix || true
+        continue-on-error: true
+      
+      - name: Check for changes
+        id: changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create fix branch and PR
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create branch with timestamp
+          BRANCH_NAME="auto-maintenance/fixes/$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$BRANCH_NAME"
+          
+          # Commit changes
+          git add .
+          git commit -m "chore: automated fixes by maintenance workflow
+          
+          - Applied ESLint auto-fixes
+          - Applied Prettier formatting
+          - Ran automated codemods
+          
+          Generated by: ${{ github.workflow }}
+          Run: ${{ github.run_id }}"
+          
+          # Push branch
+          git push origin "$BRANCH_NAME"
+          
+          # Create PR
+          gh pr create \
+            --title "chore: automated fixes by maintenance workflow" \
+            --body "## 🤖 Automated Fixes
+          
+          This PR contains automated fixes generated by the maintenance workflow.
+          
+          ### Changes Applied
+          - ✅ ESLint auto-fixes
+          - ✅ Prettier formatting
+          - ✅ Automated codemods (if applicable)
+          
+          ### Workflow Details
+          - **Workflow:** ${{ github.workflow }}
+          - **Run ID:** ${{ github.run_id }}
+          - **Triggered by:** ${{ github.event_name }}
+          - **Branch:** \`$BRANCH_NAME\`
+          
+          ### Review Instructions
+          Please review the changes and ensure:
+          1. All fixes are correct and safe
+          2. Tests pass successfully
+          3. No unintended changes were made
+          
+          This PR will auto-merge when all checks pass (if auto-merge is enabled).
+          " \
+            --base main \
+            --head "$BRANCH_NAME" \
+            --label "chore" \
+            --label "automation" \
+            --label "auto-fix"
+          
+          # Enable auto-merge with squash if configured
+          if grep -q "enabled: true" .github/auto-maintenance.yml 2>/dev/null; then
+            PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '.[0].number')
+            if [ -n "$PR_NUMBER" ]; then
+              gh pr merge "$PR_NUMBER" --auto --squash || true
+            fi
+          fi
+
+  validate:
+    runs-on: ubuntu-latest
+    needs: check-config
+    if: |
+      needs.check-config.outputs.enabled == 'true' && 
+      needs.check-config.outputs.validate_enabled == 'true' &&
+      (github.event.inputs.job_to_run == '' || 
+       github.event.inputs.job_to_run == 'all' || 
+       github.event.inputs.job_to_run == 'validate')
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci || npm install
+      
+      - name: Run validation
+        run: npm run validate
+
+  optimize:
+    runs-on: ubuntu-latest
+    needs: check-config
+    if: |
+      needs.check-config.outputs.enabled == 'true' && 
+      needs.check-config.outputs.optimize_enabled == 'true' &&
+      (github.event.inputs.job_to_run == '' || 
+       github.event.inputs.job_to_run == 'all' || 
+       github.event.inputs.job_to_run == 'optimize')
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci || npm install
+      
+      - name: Run optimization checks
+        run: npm run optimize || true
+        continue-on-error: true
+      
+      - name: Upload optimization report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: optimization-report
+          path: .maintenance/optimize-report.json
+
+  security:
+    runs-on: ubuntu-latest
+    needs: check-config
+    if: |
+      needs.check-config.outputs.enabled == 'true' && 
+      needs.check-config.outputs.security_enabled == 'true' &&
+      (github.event.inputs.job_to_run == '' || 
+       github.event.inputs.job_to_run == 'all' || 
+       github.event.inputs.job_to_run == 'security')
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci || npm install
+      
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate || true
+        continue-on-error: true
+      
+      - name: Upload security report
+        if: always()
+        run: |
+          mkdir -p .maintenance
+          npm audit --json > .maintenance/npm-audit.json || true
+      
+      - name: Upload audit results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-audit
+          path: .maintenance/npm-audit.json

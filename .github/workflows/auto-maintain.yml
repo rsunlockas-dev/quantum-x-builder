@@ -46,25 +46,63 @@ jobs:
         id: config
         run: |
           if [ -f .github/auto-maintenance.yml ]; then
-            # Parse YAML and check if jobs are enabled
-            ENABLED=$(grep -A 1 "^enabled:" .github/auto-maintenance.yml | tail -n 1 | awk '{print $2}')
-            echo "enabled=${ENABLED:-true}" >> $GITHUB_OUTPUT
-            
-            # Check individual job settings
-            echo "analyze_enabled=true" >> $GITHUB_OUTPUT
-            echo "diagnose_enabled=true" >> $GITHUB_OUTPUT
-            echo "fix_enabled=true" >> $GITHUB_OUTPUT
-            echo "validate_enabled=true" >> $GITHUB_OUTPUT
-            echo "optimize_enabled=true" >> $GITHUB_OUTPUT
-            echo "security_enabled=true" >> $GITHUB_OUTPUT
+            python - << 'PY'
+          import os
+          import sys
+          import subprocess
+          
+          try:
+              import yaml  # type: ignore
+          except ImportError:
+              subprocess.check_call([sys.executable, "-m", "pip", "install", "pyyaml"])
+              import yaml  # type: ignore
+          
+          config_path = ".github/auto-maintenance.yml"
+          with open(config_path, "r", encoding="utf-8") as fh:
+              data = yaml.safe_load(fh) or {}
+          
+          def get_bool(value, default=True):
+              """
+              Interpret a job config value as a boolean.
+              Supports:
+                - True/False directly
+                - {'enabled': True/False}
+              Falls back to default otherwise.
+              """
+              if isinstance(value, bool):
+                  return value
+              if isinstance(value, dict) and "enabled" in value:
+                  enabled_val = value["enabled"]
+                  if isinstance(enabled_val, bool):
+                      return enabled_val
+              return default
+          
+          # Top-level enabled flag; defaults to true if absent.
+          global_enabled = get_bool(data.get("enabled", True), True)
+          
+          jobs = data.get("jobs") or {}
+          job_names = ["analyze", "diagnose", "fix", "validate", "optimize", "security"]
+          
+          outputs = {"enabled": global_enabled}
+          for name in job_names:
+              job_cfg = jobs.get(name)
+              outputs[f"{name}_enabled"] = get_bool(job_cfg, True)
+          
+          out_path = os.environ["GITHUB_OUTPUT"]
+          with open(out_path, "a", encoding="utf-8") as out_f:
+              for key, value in outputs.items():
+                  out_f.write(f"{key}={'true' if value else 'false'}\n")
+          PY
           else
-            echo "enabled=true" >> $GITHUB_OUTPUT
-            echo "analyze_enabled=true" >> $GITHUB_OUTPUT
-            echo "diagnose_enabled=true" >> $GITHUB_OUTPUT
-            echo "fix_enabled=true" >> $GITHUB_OUTPUT
-            echo "validate_enabled=true" >> $GITHUB_OUTPUT
-            echo "optimize_enabled=true" >> $GITHUB_OUTPUT
-            echo "security_enabled=true" >> $GITHUB_OUTPUT
+            {
+              echo "enabled=true"
+              echo "analyze_enabled=true"
+              echo "diagnose_enabled=true"
+              echo "fix_enabled=true"
+              echo "validate_enabled=true"
+              echo "optimize_enabled=true"
+              echo "security_enabled=true"
+            } >> "$GITHUB_OUTPUT"
           fi
 
   analyze:

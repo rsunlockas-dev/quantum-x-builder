@@ -4,10 +4,10 @@ on:
   # Run weekly on Monday at 2 AM UTC
   schedule:
     - cron: '0 2 * * 1'
-  
+
   # Allow manual trigger
   workflow_dispatch:
-  
+
   # Trigger when backend/package.json changes
   push:
     paths:
@@ -21,18 +21,18 @@ permissions:
 jobs:
   update-lock-file:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      
+
       - name: 📦 Update package-lock.json
         id: update
         run: |
@@ -42,13 +42,13 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
             exit 0
           fi
-          
+
           echo "📦 Running npm install in backend directory..."
           cd backend
-          
+
           # Run npm install to update package-lock.json
           npm install
-          
+
           # Check if package-lock.json has changes
           cd ..
           if git diff --quiet backend/package-lock.json; then
@@ -58,23 +58,23 @@ jobs:
             echo "🔄 package-lock.json has been updated"
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: 💾 Commit and Push Changes
         if: steps.update.outputs.changed == 'true'
         run: |
           # Configure git
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          
+
           # Add and commit changes
           git add backend/package-lock.json
           git commit -m "chore: auto-update backend package-lock.json [skip ci]"
-          
+
           # Push changes
           git push
-          
+
           echo "✅ Changes committed and pushed successfully"
-      
+
       - name: 📊 Summary
         run: |
           if [ "${{ steps.update.outputs.changed }}" == "true" ]; then

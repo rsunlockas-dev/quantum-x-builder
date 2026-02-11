@@ -39,6 +39,7 @@ _evidence/
 # Node
 node_modules/
 dist/
+*.tsbuildinfo
 
 # Logs
 *.log

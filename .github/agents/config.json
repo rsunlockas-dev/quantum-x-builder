@@ -4,7 +4,8 @@
     "validation_agent": "0 * * * *",
     "healing_agent": "0 */2 * * *",
     "fix_all_agent": "0 */6 * * *",
-    "description": "Rate-limit friendly schedules: autonomous=every 30min, validation=hourly, healing=every 2hrs, fix-all=every 6hrs"
+    "evolution_agent": "0 1,7,13,19 * * *",
+    "description": "Rate-limit friendly schedules: autonomous=every 30min, validation=hourly, healing=every 2hrs, fix-all=every 6hrs, evolution=4x daily (1hr after fix-all)"
   },
   "rate_limits": {
     "max_api_calls_per_run": 50,
@@ -67,6 +68,29 @@
       "security": true,
       "dependencies": true,
       "tests": true
+    }
+  },
+  "evolution": {
+    "enabled": true,
+    "protocol": "110%",
+    "run_after_fix_all": true,
+    "offset_hours": 1,
+    "max_iterations": 15,
+    "create_pr": true,
+    "stages": {
+      "optimize_code": true,
+      "consolidate_code": true,
+      "optimize_workflows": true,
+      "enhance_performance": true,
+      "harden_security": true,
+      "enforce_best_practices": true,
+      "evolve_system": true
+    },
+    "targets": {
+      "code_quality": "A+",
+      "performance": "110%",
+      "reliability": "99.99%",
+      "best_practices": "industry-standard"
     }
   },
   "system_health": {

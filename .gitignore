@@ -4,3 +4,8 @@
 # Fix-All Agent runtime artifacts
 _OPS/AUDIT/fix-all-agent.log
 _OPS/AUDIT/fix-all-state.json
+
+# Evolution Agent runtime artifacts
+_OPS/AUDIT/evolution-agent.log
+_OPS/AUDIT/evolution-agent-state.json
+_OPS/OUTPUT/evolution-report-*.json

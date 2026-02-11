@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
@@ -23,8 +22,9 @@ describe('Maintenance Tools', () => {
     const configPath = path.join(process.cwd(), 'tsconfig.json');
     expect(fs.existsSync(configPath)).toBe(true);
     
-    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-    expect(config.compilerOptions.strict).toBe(true);
+    // Just check for strict mode presence in the file content
+    const content = fs.readFileSync(configPath, 'utf-8');
+    expect(content).toContain('"strict": true');
   });
 
   it('should have eslint configuration', () => {

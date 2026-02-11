@@ -1,0 +1,88 @@
+name: Auto-Update Dependencies
+
+on:
+  # Run weekly on Monday at 2 AM UTC
+  schedule:
+    - cron: '0 2 * * 1'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+  
+  # Trigger when backend/package.json changes
+  push:
+    paths:
+      - 'backend/package.json'
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update-lock-file:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
+      - name: 📦 Update package-lock.json
+        id: update
+        run: |
+          # Check if backend/package.json exists
+          if [ ! -f "backend/package.json" ]; then
+            echo "⚠️ backend/package.json not found, skipping update"
+            echo "changed=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "📦 Running npm install in backend directory..."
+          cd backend
+          
+          # Run npm install to update package-lock.json
+          npm install
+          
+          # Check if package-lock.json has changes
+          cd ..
+          if git diff --quiet backend/package-lock.json; then
+            echo "✅ package-lock.json is already up to date"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "🔄 package-lock.json has been updated"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 💾 Commit and Push Changes
+        if: steps.update.outputs.changed == 'true'
+        run: |
+          # Configure git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Add and commit changes
+          git add backend/package-lock.json
+          git commit -m "chore: auto-update backend package-lock.json [skip ci]"
+          
+          # Push changes
+          git push
+          
+          echo "✅ Changes committed and pushed successfully"
+      
+      - name: 📊 Summary
+        run: |
+          if [ "${{ steps.update.outputs.changed }}" == "true" ]; then
+            echo "✅ **Auto-update completed successfully**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📦 backend/package-lock.json has been updated and committed." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ **No changes needed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📦 backend/package-lock.json is already in sync." >> $GITHUB_STEP_SUMMARY
+          fi

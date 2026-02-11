@@ -23,6 +23,8 @@ permissions:
   contents: write
   pull-requests: write
   checks: read
+  actions: write
+  workflows: write
 
 jobs:
   process-prs:
@@ -34,7 +36,29 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GIT_PAT || github.token }}
+
+      - name: Generate GitHub App Token (if configured)
+        id: app-token
+        uses: ./.github/actions/generate-app-token
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          installation_id: ${{ secrets.GH_APP_INSTALLATION_ID }}
+        continue-on-error: true
+
+      - name: Set token for workflow
+        id: set-token
+        run: |
+          if [ -n "${{ steps.app-token.outputs.token }}" ]; then
+            echo "Using GitHub App token"
+            echo "token=${{ steps.app-token.outputs.token }}" >> $GITHUB_OUTPUT
+          elif [ -n "${{ secrets.GIT_PAT }}" ]; then
+            echo "Using GIT_PAT"
+            echo "token=${{ secrets.GIT_PAT }}" >> $GITHUB_OUTPUT
+          else
+            echo "Using github.token"
+            echo "token=${{ github.token }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Check kill-switch
         id: killswitch
@@ -59,7 +83,7 @@ jobs:
           # GitHub CLI is pre-installed in ubuntu-latest
           gh --version
         env:
-          GH_TOKEN: ${{ secrets.GIT_PAT || github.token }}
+          GH_TOKEN: ${{ steps.set-token.outputs.token }}
 
       - name: Make script executable
         run: chmod +x scripts/bulk-pr-processor.sh
@@ -69,7 +93,7 @@ jobs:
         run: |
           bash scripts/bulk-pr-processor.sh --dry-run --safe-only
         env:
-          GH_TOKEN: ${{ secrets.GIT_PAT || github.token }}
+          GH_TOKEN: ${{ steps.set-token.outputs.token }}
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
 
       - name: Run bulk PR processor (actual)
@@ -90,7 +114,7 @@ jobs:
           
           bash scripts/bulk-pr-processor.sh $FLAGS
         env:
-          GH_TOKEN: ${{ secrets.GIT_PAT || github.token }}
+          GH_TOKEN: ${{ steps.set-token.outputs.token }}
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
 
       - name: Commit audit evidence

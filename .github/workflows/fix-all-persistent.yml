@@ -25,6 +25,8 @@ permissions:
   pull-requests: write
   issues: write
   checks: write
+  actions: write
+  workflows: write
 
 jobs:
   # Job 1: Check if we should run
@@ -70,7 +72,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: ./.github/actions/generate-app-token
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          installation_id: ${{ secrets.GH_APP_INSTALLATION_ID }}
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -113,7 +122,7 @@ jobs:
         id: fix_all
         run: node .github/agents/fix-all-agent.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           RUN_ID: ${{ github.run_id }}
           MAX_ITERATIONS: ${{ inputs.max_iterations || '10' }}
         continue-on-error: true
@@ -154,7 +163,7 @@ jobs:
           (inputs.create_pr == 'true' || inputs.create_pr == '' || github.event_name == 'schedule')
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: |
             fix: comprehensive autonomous fixes [run-${{ github.run_id }}]
             

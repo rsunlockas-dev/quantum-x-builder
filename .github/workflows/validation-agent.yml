@@ -13,10 +13,12 @@ on:
     - cron: '0 * * * *'  # Every hour (rate-limit friendly)
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   checks: write
   issues: write
+  actions: write
+  workflows: write
 
 jobs:
   validate:
@@ -26,6 +28,14 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+
+    - name: Generate GitHub App Token
+      id: app-token
+      uses: ./.github/actions/generate-app-token
+      with:
+        app_id: ${{ secrets.GH_APP_ID }}
+        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        installation_id: ${{ secrets.GH_APP_INSTALLATION_ID }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -44,7 +54,7 @@ jobs:
       id: validate
       run: node .github/agents/validator-agent.js
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
       continue-on-error: true
 

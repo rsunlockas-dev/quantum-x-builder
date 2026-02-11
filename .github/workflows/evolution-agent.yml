@@ -195,7 +195,7 @@ jobs:
             - 🔄 Code Consolidated: ${report.metrics.codeConsolidated}
             - ⚙️ Workflows Analyzed: ${report.metrics.workflowsUpdated}
             - ⚡ Performance Improvements: ${report.metrics.performanceImproved}
-            - 🚨 Errors: ${report.errors}
+            - 🚨 Errors: ${report.errors.length}
             
             ## Recommendations
             ${report.recommendations.map(r => `- ${r}`).join('\n')}

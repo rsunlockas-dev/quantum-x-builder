@@ -1,4 +1,30 @@
 {
+  "authentication": {
+    "method": "github_app",
+    "app_id": "2494652",
+    "app_name": "Infinity XOS Orchestrator",
+    "required_secrets": [
+      "GH_APP_ID",
+      "GH_APP_PRIVATE_KEY",
+      "GH_APP_INSTALLATION_ID"
+    ],
+    "permissions": {
+      "contents": "write",
+      "pull_requests": "write",
+      "workflows": "write",
+      "issues": "write",
+      "checks": "write",
+      "actions": "write",
+      "metadata": "read"
+    },
+    "benefits": [
+      "Can trigger other workflows",
+      "Higher rate limits than GITHUB_TOKEN",
+      "Fine-grained permissions",
+      "Better security with auto-expiry",
+      "No user dependencies"
+    ]
+  },
   "schedules": {
     "autonomous_agent": "*/30 * * * *",
     "validation_agent": "0 * * * *",

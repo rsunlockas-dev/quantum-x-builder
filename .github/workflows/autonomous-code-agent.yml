@@ -12,6 +12,9 @@ permissions:
   contents: write
   pull-requests: write
   issues: write
+  actions: write
+  checks: write
+  workflows: write
 
 jobs:
   autonomous-maintenance:
@@ -23,6 +26,14 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Generate GitHub App Token
+      id: app-token
+      uses: ./.github/actions/generate-app-token
+      with:
+        app_id: ${{ secrets.GH_APP_ID }}
+        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        installation_id: ${{ secrets.GH_APP_INSTALLATION_ID }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -41,14 +52,14 @@ jobs:
       id: agent
       run: node .github/agents/autonomous-agent.js
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         RUN_ID: ${{ github.run_id }}
 
     - name: Create PR with Fixes
       if: steps.agent.outputs.has_changes == 'true'
       uses: peter-evans/create-pull-request@v6
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ steps.app-token.outputs.token }}
         commit-message: "chore: autonomous agent auto-fixes [run-${{ github.run_id }}]"
         branch: autonomous/auto-fixes-${{ github.run_number }}
         delete-branch: true

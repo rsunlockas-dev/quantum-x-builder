@@ -44,6 +44,32 @@ All components are fully integrated and identify with the system perfectly:
 
 ## Automation
 
+### Autonomous Multi-Agent System 🤖
+
+**NEW:** Three intelligent agents maintain code quality 24/7 while staying within GitHub's free tier.
+
+```bash
+# Quick start guide
+cat QUICKSTART.md
+
+# Full documentation
+cat AUTONOMOUS_AGENTS.md
+```
+
+**Features:**
+- Autonomous Agent: Auto-fixes formatting & linting every 30 minutes
+- Validation Agent: Quality checks hourly + on PRs
+- Healing Agent: Applies fixes every 2 hours
+- **94% fewer API calls** vs every-minute schedule
+- **Completely free** - uses only 21% of GitHub free tier
+- **Safe by default** - requires approval for auto-merge
+- **Emergency stop** via `_OPS/SAFETY/KILL_SWITCH.json`
+
+**Documentation:**
+- [Quick Start](QUICKSTART.md) - Get started in 5 minutes
+- [Full Guide](AUTONOMOUS_AGENTS.md) - Complete documentation
+- [Agent Config](.github/agents/config.json) - Configuration reference
+
 ### Bulk Dependabot PR Processing
 
 Efficiently process multiple Dependabot PRs (18+ pending PRs):

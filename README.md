@@ -94,3 +94,63 @@ Efficiently process multiple Dependabot PRs (18+ pending PRs):
 - Full audit trails with rollback tokens
 - Respects kill-switch and safety guardrails
 - Scheduled weekly runs (Mondays 9 AM UTC)
+
+## Automated Maintenance & Code Quality
+
+This repository includes automated tooling for analysis, diagnostics, fixes, validation, optimization, and security scanning.
+
+### Quick Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Analysis & Diagnostics
+npm run analyze          # Run lint + typecheck + tests
+npm run diagnose         # Generate diagnostic report
+
+# Automated Fixes
+npm run lint:fix         # Fix linting issues
+npm run format           # Format code with Prettier
+npm run fix              # Apply all automated fixes
+
+# Validation
+npm run typecheck        # TypeScript type checking
+npm run test             # Run tests
+npm run validate         # Run typecheck + tests
+
+# Optimization & CI
+npm run optimize         # Check bundle sizes
+npm run ci               # Full CI pipeline locally
+```
+
+### CI Workflows
+
+- **Auto-Maintenance** (`.github/workflows/auto-maintain.yml`)
+  - Runs weekly analysis, diagnostics, and security scans
+  - Creates fix PRs automatically when issues are found
+  - Auto-merges PRs when checks pass (configurable)
+  
+- **CodeQL Security** (`.github/workflows/codeql-analysis.yml`)
+  - Weekly security scanning for vulnerabilities
+  - Integrated with GitHub Security tab
+
+### Configuration
+
+Automation can be controlled via `.github/auto-maintenance.yml`:
+
+```yaml
+enabled: true          # Master switch
+jobs:
+  analyze: true       # Code analysis
+  diagnose: true      # Diagnostics
+  fix: true           # Auto-fix PRs
+  validate: true      # Validation
+  optimize: true      # Bundle size checks
+  security: true      # Security scans
+auto_merge:
+  enabled: true       # Auto-merge fix PRs
+  method: squash      # Merge method
+```
+
+**Full Documentation:** [docs/MAINTENANCE.md](docs/MAINTENANCE.md)

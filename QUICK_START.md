@@ -131,9 +131,10 @@ cp backend/.env.example backend/.env
 
 # Frontend
 cat > frontend/.env << EOF
-VITE_API_URL=http://localhost:8787
+VITE_BACKEND_URL=http://localhost:8787
 VITE_AGENT_URL=http://localhost:8787
 VITE_WS_URL=ws://localhost:8090
+# Optional: VITE_MOCK_API=true
 EOF
 ```
 
@@ -189,6 +190,40 @@ cd services/qxb-chat-gateway && node src/index.js
     │  :3001 │      │ :3002  │      │ :3003  │
     └────────┘      └────────┘      └────────┘
 ```
+
+---
+
+## 🎨 Frontend Development Commands
+
+### Local Development Server
+```bash
+cd frontend
+npm ci
+npm run dev
+# Opens at http://localhost:5173 (or other port shown by Vite)
+```
+
+### Production Build & Preview
+```bash
+cd frontend
+npm run build
+npm run preview -- --host 0.0.0.0 --port 3000
+# Preview at http://localhost:3000
+```
+
+### Docker Build & Run
+```bash
+cd frontend
+docker build -t vizualx-frontend:latest .
+docker run -p 3000:3000 -e VITE_BACKEND_URL=http://localhost:8787 vizualx-frontend:latest
+# Access at http://localhost:3000
+```
+
+### GitHub Pages Deployment
+The frontend automatically deploys to GitHub Pages when changes are pushed to main:
+- **URL**: https://InfinityXOneSystems.github.io/quantum-x-builder/
+- **Mock Mode**: Set `VITE_MOCK_API=true` during build for standalone demo
+- **Workflow**: `.github/workflows/deploy-pages.yml`
 
 ---
 

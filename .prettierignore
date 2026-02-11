@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+**/dist/
+**/build/
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Git
+.git/
+.github/
+
+# Cache
+.cache/
+*.log
+
+# Generated files
+coverage/
+*.tsbuildinfo
+
+# Subprojects with their own configs
+frontend/
+backend/
+website/
+services/
+packages/
+vizual-x/
+
+# Documentation
+*.md

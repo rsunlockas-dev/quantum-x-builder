@@ -209,9 +209,13 @@ auth.github.enabled=false
 
 ### Frontend Configuration (`frontend/.env`)
 ```bash
-VITE_API_URL=http://localhost:8787
+# Backend API endpoint - use VITE_BACKEND_URL (preferred) or VITE_API_URL (legacy)
+VITE_BACKEND_URL=http://localhost:8787
 VITE_AGENT_URL=http://localhost:8787
 VITE_WS_URL=ws://localhost:8090
+
+# Optional: Enable mock mode for GitHub Pages or when backend is unavailable
+# VITE_MOCK_API=true
 ```
 
 ---
@@ -269,7 +273,7 @@ docker run -d \
 docker run -d \
   --name frontend \
   -p 3000:3000 \
-  -e VITE_API_URL=http://localhost:8787 \
+  -e VITE_BACKEND_URL=http://localhost:8787 \
   frontend:latest
 
 # NATS only
@@ -376,7 +380,7 @@ docker build -t frontend:latest .
 docker run -d \
   --name frontend \
   -p 3000:3000 \
-  -e VITE_API_URL=http://backend:8787 \
+  -e VITE_BACKEND_URL=http://backend:8787 \
   frontend:latest
 
 # View build

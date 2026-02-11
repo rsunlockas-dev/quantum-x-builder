@@ -94,7 +94,13 @@ Environment variables loaded from `./backend/.env`:
 #### Backend Connection
 ```typescript
 // Frontend connects to backend via environment variable
-const backendUrl = import.meta.env.VITE_BACKEND_URL || window.location.origin
+// Supports VITE_BACKEND_URL (preferred) and VITE_API_URL (legacy) with fallback
+const backendUrl = import.meta.env.VITE_BACKEND_URL 
+  || import.meta.env.VITE_API_URL 
+  || window.location.origin
+
+// Mock mode for GitHub Pages or when backend unavailable
+const useMock = import.meta.env.VITE_MOCK_API === 'true'
 ```
 
 #### VSCode Extension Commands
@@ -232,7 +238,8 @@ services:
   frontend:
     port: 3000
     environment:
-      - VITE_API_URL=http://backend:8787
+      - VITE_BACKEND_URL=http://backend:8787
+      # Optional: - VITE_MOCK_API=true
     depends_on: backend
     networks: vizualx
     
@@ -358,7 +365,8 @@ Checks:
 ### Frontend Can't Connect
 1. Verify backend is running: `curl http://localhost:8787/health`
 2. Check CORS settings in `backend/src/index.js`
-3. Confirm `VITE_API_URL` environment variable
+3. Confirm `VITE_BACKEND_URL` environment variable is set correctly
+4. If using GitHub Pages, ensure `VITE_MOCK_API=true` for mock mode
 
 ### NATS Connection Issues
 1. Check container: `docker ps | grep nats`

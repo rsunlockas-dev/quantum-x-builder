@@ -135,21 +135,58 @@ export class PolicyEngine {
   evaluateCondition(condition, context) {
     if (!condition) return true;
 
-    // Simple condition evaluator
-    // In production, this would be a full expression evaluator
+    // Safe condition evaluator without using eval/Function constructor
+    // Supports basic expressions: <, >, <=, >=, ==, !=, AND, OR, includes()
     try {
-      // Replace context variables in condition
-      let evalStr = condition;
-      for (const [key, value] of Object.entries(context)) {
+      // Normalize the condition
+      let expr = condition.trim();
+      
+      // Handle OR conditions
+      if (expr.includes(' OR ')) {
+        return expr.split(' OR ').some(part => this.evaluateCondition(part.trim(), context));
+      }
+      
+      // Handle AND conditions
+      if (expr.includes(' AND ')) {
+        return expr.split(' AND ').every(part => this.evaluateCondition(part.trim(), context));
+      }
+      
+      // Handle includes() method
+      const includesMatch = expr.match(/(\w+)\.includes\((["'])(.+?)\2\)/);
+      if (includesMatch) {
+        const [, varName, , searchStr] = includesMatch;
+        const value = context[varName];
         if (typeof value === 'string') {
-          evalStr = evalStr.replace(new RegExp(`\\b${key}\\b`, 'g'), `"${value}"`);
-        } else if (typeof value === 'number') {
-          evalStr = evalStr.replace(new RegExp(`\\b${key}\\b`, 'g'), value);
+          return value.includes(searchStr);
+        }
+        return false;
+      }
+      
+      // Handle comparison operators
+      const comparisonMatch = expr.match(/(\w+)\s*(<=|>=|<|>|==|!=)\s*(.+)/);
+      if (comparisonMatch) {
+        const [, leftVar, operator, rightValue] = comparisonMatch;
+        const leftVal = context[leftVar];
+        const rightVal = isNaN(rightValue) ? rightValue.replace(/['"]/g, '') : Number(rightValue);
+        
+        switch (operator) {
+          case '<': return Number(leftVal) < Number(rightVal);
+          case '>': return Number(leftVal) > Number(rightVal);
+          case '<=': return Number(leftVal) <= Number(rightVal);
+          case '>=': return Number(leftVal) >= Number(rightVal);
+          case '==': return leftVal == rightVal;
+          case '!=': return leftVal != rightVal;
+          default: return false;
         }
       }
-
-      // Use Function constructor for safe evaluation (in sandboxed context)
-      return new Function(`return ${evalStr}`)();
+      
+      // Handle boolean literals
+      if (expr === 'true') return true;
+      if (expr === 'false') return false;
+      
+      // If no pattern matched, return false for safety
+      console.warn(`Could not evaluate condition: ${condition}`);
+      return false;
     } catch (error) {
       console.error('Condition evaluation error:', error);
       return false;

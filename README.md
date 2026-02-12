@@ -36,6 +36,35 @@ All components are fully integrated and identify with the system perfectly:
 ./validate-integration.sh
 ```
 
+### Safe Merge Strategy 🛡️
+
+**NEW:** Comprehensive system for safely merging changes to main with zero chaos.
+
+```bash
+# Run before creating a PR
+./merge-gate.sh
+```
+
+**What it provides:**
+- ✅ Multi-layered validation (Local → PR → Post-merge)
+- ✅ Automated safety gates block bad merges
+- ✅ Rollback capability with documented procedures
+- ✅ Health monitoring and smoke tests
+- ✅ Zero-chaos operation guaranteed
+
+**Quick Links:**
+- [🚀 Merge Quick Start](MERGE_QUICKSTART.md) - Get started in 5 minutes
+- [📚 Safe Merge Strategy](SAFE_MERGE_STRATEGY.md) - Complete guide with 6-phase process
+- [🔍 Smoke Tests](smoke-test.sh) - Quick system health validation
+- [🚪 Merge Gate](merge-gate.sh) - Local pre-merge validation
+
+**Key Features:**
+- Pre-merge validation workflow (runs on every PR)
+- Post-merge health checks (automatic)
+- 10 safety gates including lint, types, tests, security
+- Integration validation across all components
+- Automatic rollback on critical failures
+
 ### Documentation
 - **Integration Guide:** [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md) - Complete system integration documentation
 - **System Manifest:** [SYSTEM_INTEGRATION_MANIFEST.json](SYSTEM_INTEGRATION_MANIFEST.json) - Component registry

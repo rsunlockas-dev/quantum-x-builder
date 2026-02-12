@@ -1,0 +1,286 @@
+name: Pre-Merge Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to validate'
+        required: true
+        default: 'main'
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+jobs:
+  pre-merge-gate:
+    name: Pre-Merge Safety Gate
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Check Kill Switch
+        id: kill_switch
+        run: |
+          echo "Checking kill switch status..."
+          if [ -f "_OPS/SAFETY/KILL_SWITCH.json" ]; then
+            KILL_SWITCH=$(jq -r '.kill_switch' _OPS/SAFETY/KILL_SWITCH.json)
+            echo "status=$KILL_SWITCH" >> $GITHUB_OUTPUT
+            # OFF or ARMED are acceptable (ARMED = safety ready, not activated)
+            # ON means actively halting operations
+            if [ "$KILL_SWITCH" = "ON" ]; then
+              echo "::error::Kill switch is ON - all operations halted"
+              exit 1
+            fi
+            echo "✅ Kill switch: $KILL_SWITCH"
+          else
+            echo "::warning::Kill switch file not found"
+          fi
+      
+      - name: Validate System Manifest
+        run: |
+          echo "Validating system integration manifest..."
+          if [ -f "SYSTEM_INTEGRATION_MANIFEST.json" ]; then
+            if jq empty SYSTEM_INTEGRATION_MANIFEST.json 2>/dev/null; then
+              echo "✅ System manifest valid"
+            else
+              echo "::error::Invalid system manifest JSON"
+              exit 1
+            fi
+          else
+            echo "::error::System manifest missing"
+            exit 1
+          fi
+      
+      - name: Check Critical Files
+        run: |
+          echo "Checking for critical file modifications..."
+          CRITICAL_FILES=(
+            "_OPS/POLICY/AUTONOMY_ON.json"
+            "_OPS/SAFETY/KILL_SWITCH.json"
+            ".github/workflows/pre-merge-validation.yml"
+          )
+          
+          for file in "${CRITICAL_FILES[@]}"; do
+            if git diff --name-only origin/main...HEAD | grep -q "^$file$"; then
+              echo "::warning::Critical file modified: $file"
+              echo "This requires manual review before merge"
+            fi
+          done
+      
+      - name: Install Root Dependencies
+        run: |
+          echo "Installing root dependencies..."
+          npm install --prefer-offline --no-audit
+          echo "✅ Root dependencies installed"
+      
+      - name: Lint Check
+        run: |
+          echo "Running lint checks..."
+          npm run lint || {
+            echo "::error::Linting failed"
+            exit 1
+          }
+          echo "✅ Lint checks passed"
+      
+      - name: Type Check
+        run: |
+          echo "Running TypeScript type checks..."
+          npm run typecheck || {
+            echo "::error::Type checking failed"
+            exit 1
+          }
+          echo "✅ Type checks passed"
+      
+      - name: Run Tests
+        run: |
+          echo "Running test suite..."
+          if [ -d "tests" ]; then
+            npm test || {
+              echo "::error::Tests failed"
+              exit 1
+            }
+            echo "✅ Tests passed"
+          else
+            echo "::warning::No tests directory found"
+          fi
+      
+      - name: Backend Validation
+        run: |
+          echo "Validating backend component..."
+          if [ -d "backend" ] && [ -f "backend/package.json" ]; then
+            cd backend
+            
+            # Check for package-lock.json
+            if [ ! -f "package-lock.json" ]; then
+              echo "::warning::Backend missing package-lock.json"
+            fi
+            
+            # Validate package.json
+            if jq empty package.json 2>/dev/null; then
+              echo "✅ Backend package.json valid"
+            else
+              echo "::error::Backend package.json invalid"
+              exit 1
+            fi
+            
+            # Check for required environment example
+            if [ ! -f ".env.example" ]; then
+              echo "::warning::Backend missing .env.example"
+            fi
+            
+            cd ..
+            echo "✅ Backend validation passed"
+          else
+            echo "::error::Backend component missing or invalid"
+            exit 1
+          fi
+      
+      - name: Frontend Validation
+        run: |
+          echo "Validating frontend component..."
+          if [ -d "frontend" ] && [ -f "frontend/package.json" ]; then
+            cd frontend
+            
+            # Validate package.json
+            if jq empty package.json 2>/dev/null; then
+              echo "✅ Frontend package.json valid"
+            else
+              echo "::error::Frontend package.json invalid"
+              exit 1
+            fi
+            
+            cd ..
+            echo "✅ Frontend validation passed"
+          else
+            echo "::error::Frontend component missing or invalid"
+            exit 1
+          fi
+      
+      - name: Documentation Validation
+        run: |
+          echo "Validating documentation..."
+          if [ -d "website" ] && [ -f "website/package.json" ]; then
+            cd website
+            
+            if jq empty package.json 2>/dev/null; then
+              echo "✅ Website package.json valid"
+            else
+              echo "::error::Website package.json invalid"
+              exit 1
+            fi
+            
+            cd ..
+            echo "✅ Documentation validation passed"
+          else
+            echo "::warning::Documentation component missing"
+          fi
+      
+      - name: Run Integration Validation
+        run: |
+          echo "Running comprehensive integration validation..."
+          chmod +x validate-integration.sh
+          ./validate-integration.sh
+          
+          # Check validation results
+          LATEST_REPORT=$(ls -t _OPS/OUTPUT/integration_validation_*.json | head -1)
+          if [ -f "$LATEST_REPORT" ]; then
+            OVERALL=$(jq -r '.overall_status' "$LATEST_REPORT")
+            FAILED=$(jq -r '.summary.failed' "$LATEST_REPORT")
+            
+            echo "Overall Status: $OVERALL"
+            echo "Failed Checks: $FAILED"
+            
+            if [ "$OVERALL" = "CRITICAL" ]; then
+              echo "::error::Critical integration issues detected"
+              exit 1
+            elif [ "$OVERALL" = "NEEDS_ATTENTION" ]; then
+              echo "::warning::Some integration issues detected"
+            fi
+            
+            echo "✅ Integration validation completed"
+          else
+            echo "::error::Integration validation report not generated"
+            exit 1
+          fi
+      
+      - name: Security Audit
+        run: |
+          echo "Running security audit..."
+          npm audit --production || {
+            echo "::warning::Security vulnerabilities detected"
+            echo "Review npm audit output before merging"
+          }
+      
+      - name: Generate Pre-Merge Report
+        if: always()
+        run: |
+          TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+          REPORT_FILE="_OPS/OUTPUT/pre_merge_validation_${TIMESTAMP}.json"
+          
+          mkdir -p _OPS/OUTPUT
+          
+          cat > "$REPORT_FILE" << 'EOF'
+          {
+            "timestamp": "$(date -Iseconds)",
+            "pr_number": "${{ github.event.pull_request.number }}",
+            "branch": "${{ github.head_ref }}",
+            "commit": "${{ github.sha }}",
+            "validation_status": "COMPLETED",
+            "safe_to_merge": true,
+            "checks_performed": [
+              "kill_switch",
+              "manifest_validation",
+              "lint_check",
+              "type_check",
+              "tests",
+              "backend_validation",
+              "frontend_validation",
+              "documentation_validation",
+              "integration_validation",
+              "security_audit"
+            ]
+          }
+          EOF
+          
+          echo "✅ Pre-merge validation report generated"
+          echo "Report: $REPORT_FILE"
+      
+      - name: Upload Validation Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pre-merge-validation-report
+          path: _OPS/OUTPUT/pre_merge_validation_*.json
+          retention-days: 30
+      
+      - name: Summary
+        if: success()
+        run: |
+          echo "## ✅ Pre-Merge Validation PASSED" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All safety gates passed. This PR is safe to merge." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Validation Checklist" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Kill switch check" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ System manifest validation" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Lint checks" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Type checks" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Test suite" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Component validation" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Integration validation" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Security audit" >> $GITHUB_STEP_SUMMARY

@@ -1,6 +1,8 @@
 
 *.tsbuildinfo
 
+node_modules/
+
 # Fix-All Agent runtime artifacts
 _OPS/AUDIT/fix-all-agent.log
 _OPS/AUDIT/fix-all-state.json
@@ -9,3 +11,9 @@ _OPS/AUDIT/fix-all-state.json
 _OPS/AUDIT/evolution-agent.log
 _OPS/AUDIT/evolution-agent-state.json
 _OPS/OUTPUT/evolution-report-*.json
+
+# Smoke test and validation reports (generated files)
+_OPS/OUTPUT/smoke_test_*.json
+_OPS/OUTPUT/health_check_*.json
+_OPS/OUTPUT/pre_merge_validation_*.json
+_OPS/OUTPUT/integration_validation_*.json

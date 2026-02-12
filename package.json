@@ -21,7 +21,8 @@
     "validate": "npm run typecheck && npm run test --if-present",
     "optimize": "node ./tools/optimize.js",
     "ci": "npm run analyze && npm run validate",
-    "test": "vitest run"
+    "test": "vitest run",
+    "codemod": "node tools/codemods/example-codemod.js"
   },
   "repository": {
     "type": "git",
@@ -44,7 +45,7 @@
     "typescript": "^5.8.2",
     "ts-node": "^10.9.2",
     "ts-morph": "^21.0.1",
-    "vitest": "^1.2.2",
-    "@vitest/ui": "^1.2.2"
+    "vitest": "^4.0.18",
+    "@vitest/ui": "^4.0.18"
   }
 }

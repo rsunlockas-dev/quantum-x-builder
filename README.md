@@ -9,6 +9,27 @@ Quantum-X-Builder is a governed, AI-assisted system for orchestrating
 code, infrastructure, and validation pipelines using GitHub Apps,
 self-hosted runners, and policy-enforced agents.
 
+## 🚀 Live Application
+
+**Primary Frontend (Spark-Inspired UI)**: https://infinityxonesystems.github.io/quantum-x-builder/
+
+The frontend is a **Spark-inspired interface** with Monaco Editor integration (from the 1.5M line implementation):
+
+### Design Features
+- ✨ **Silver gradient borders** - Spark-style visual separators
+- 🎨 **Multi-layered radial gradients** - Admin grid background
+- 💎 **Metallic silver effects** - Premium UI elements
+- 📝 **Monaco Editor** - Full code editing capabilities
+- 🤖 **AI Integration** - Google Gemini powered
+- 🎛️ **Admin Control Plane** - System management dashboard
+- 🔧 **Low-code Workflow Builder** - Visual automation
+- ⚡ **Real-time Updates** - WebSocket integration
+- 📱 **PWA Support** - Works offline, mobile-ready
+
+This is the **Spark UI-inspired Command Center** from PR #54 (the 1.5 million line implementation).
+
+> **Note**: Docusaurus (`/website`) is for local documentation development only. The Spark-inspired frontend is the primary application deployed to GitHub Pages. See [DEPLOYMENT_ARCHITECTURE.md](DEPLOYMENT_ARCHITECTURE.md) for details.
+
 ## Core Guarantees
 - No destructive automation
 - All write actions are PAT-gated
@@ -24,12 +45,26 @@ self-hosted runners, and policy-enforced agents.
 
 All components are fully integrated and identify with the system perfectly:
 
+- ✓ **Frontend** (Spark-Inspired Command Center) - PRIMARY deployment to GitHub Pages
+  - Silver gradient borders and metallic effects
+  - Monaco Editor integration for code editing
+  - Multi-layered radial gradient backgrounds
+  - Real-time dashboard with WebSocket updates
+  - AI-powered (Google Gemini)
 - ✓ **Backend** (quantum-x-builder) - Express API on port 8787
-- ✓ **Frontend** (@qvizual-x/frontend) - React app with VSCode extension
-- ✓ **Documentation** - Docusaurus v3 site
+- ✓ **Documentation** - Markdown files in `/docs` (Docusaurus for local dev only)
 - ✓ **Messaging** - NATS JetStream broker
 - ✓ **Operations** - _OPS governance control plane
 - ✓ **Integrations** - Google Calendar, Google Tasks, GitHub, VSCode
+
+### Deployment Architecture
+
+- **Frontend**: Spark-inspired UI with Monaco Editor → GitHub Pages (PRIMARY)
+- **Docs**: Docusaurus → Local development only (NOT deployed)
+
+The frontend is the **Command Center from PR #54** (1.5M line implementation) with Spark UI design.
+
+See [DEPLOYMENT_ARCHITECTURE.md](DEPLOYMENT_ARCHITECTURE.md) for complete details.
 
 ### Quick Validation
 ```bash

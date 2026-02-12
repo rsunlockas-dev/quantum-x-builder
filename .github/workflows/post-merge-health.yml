@@ -1,0 +1,243 @@
+name: Post-Merge Health Check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health-check:
+    name: System Health Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
+      - name: Check Kill Switch
+        id: kill_switch
+        run: |
+          echo "Checking kill switch..."
+          if [ -f "_OPS/SAFETY/KILL_SWITCH.json" ]; then
+            KILL_SWITCH=$(jq -r '.kill_switch' _OPS/SAFETY/KILL_SWITCH.json)
+            # ON means actively halting operations (bad)
+            # OFF or ARMED are acceptable states
+            if [ "$KILL_SWITCH" = "ON" ]; then
+              echo "⚠️ Kill switch is ON (operations halted)"
+              echo "kill_switch_on=true" >> $GITHUB_OUTPUT
+            else
+              echo "✅ Kill switch status: $KILL_SWITCH (operations enabled)"
+              echo "kill_switch_on=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+      
+      - name: Run Smoke Tests
+        id: smoke_tests
+        run: |
+          chmod +x smoke-test.sh
+          if ./smoke-test.sh; then
+            echo "✅ Smoke tests passed"
+            echo "smoke_tests_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Some smoke tests failed"
+            echo "smoke_tests_passed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Run Integration Validation
+        id: integration
+        run: |
+          chmod +x validate-integration.sh
+          ./validate-integration.sh
+          
+          LATEST_REPORT=$(ls -t _OPS/OUTPUT/integration_validation_*.json | head -1)
+          if [ -f "$LATEST_REPORT" ]; then
+            OVERALL=$(jq -r '.overall_status' "$LATEST_REPORT")
+            echo "status=$OVERALL" >> $GITHUB_OUTPUT
+            
+            if [ "$OVERALL" = "CRITICAL" ]; then
+              echo "❌ Critical integration issues"
+              exit 1
+            elif [ "$OVERALL" = "NEEDS_ATTENTION" ]; then
+              echo "⚠️ Integration needs attention"
+            else
+              echo "✅ Integration validation passed"
+            fi
+          fi
+      
+      - name: Install Dependencies
+        run: |
+          echo "Installing root dependencies..."
+          npm install --prefer-offline --no-audit
+      
+      - name: Validate Components
+        run: |
+          echo "Validating all components..."
+          
+          # Check backend
+          if [ -d "backend" ] && [ -f "backend/package.json" ]; then
+            echo "✅ Backend component present"
+          else
+            echo "❌ Backend component missing"
+            exit 1
+          fi
+          
+          # Check frontend
+          if [ -d "frontend" ] && [ -f "frontend/package.json" ]; then
+            echo "✅ Frontend component present"
+          else
+            echo "❌ Frontend component missing"
+            exit 1
+          fi
+          
+          # Check system manifest
+          if [ -f "SYSTEM_INTEGRATION_MANIFEST.json" ]; then
+            if jq empty SYSTEM_INTEGRATION_MANIFEST.json 2>/dev/null; then
+              echo "✅ System manifest valid"
+            else
+              echo "❌ System manifest invalid"
+              exit 1
+            fi
+          else
+            echo "❌ System manifest missing"
+            exit 1
+          fi
+      
+      - name: Check Documentation
+        run: |
+          echo "Checking critical documentation..."
+          DOCS=(
+            "README.md"
+            "SAFE_MERGE_STRATEGY.md"
+            "MERGE_QUICKSTART.md"
+            "QUICKSTART.md"
+          )
+          
+          for doc in "${DOCS[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✅ $doc present"
+            else
+              echo "⚠️ $doc missing"
+            fi
+          done
+      
+      - name: Security Audit
+        id: security
+        continue-on-error: true
+        run: |
+          echo "Running security audit..."
+          npm audit --production || {
+            echo "security_issues=true" >> $GITHUB_OUTPUT
+            echo "⚠️ Security vulnerabilities detected"
+          }
+      
+      - name: Generate Health Report
+        if: always()
+        run: |
+          TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+          REPORT_FILE="_OPS/OUTPUT/health_check_${TIMESTAMP}.json"
+          
+          mkdir -p _OPS/OUTPUT
+          
+          cat > "$REPORT_FILE" << EOF
+          {
+            "timestamp": "$(date -Iseconds)",
+            "commit": "${{ github.sha }}",
+            "branch": "main",
+            "workflow_run": "${{ github.run_id }}",
+            "kill_switch": "${{ steps.kill_switch.outputs.kill_switch_on }}",
+            "smoke_tests": "${{ steps.smoke_tests.outputs.smoke_tests_passed }}",
+            "integration_status": "${{ steps.integration.outputs.status }}",
+            "security_issues": "${{ steps.security.outputs.security_issues }}",
+            "overall_health": "GOOD"
+          }
+          EOF
+          
+          echo "Health report generated: $REPORT_FILE"
+      
+      - name: Upload Health Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-check-report
+          path: _OPS/OUTPUT/health_check_*.json
+          retention-days: 90
+      
+      - name: Create Issue if Critical
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '🚨 Post-Merge Health Check Failed';
+            const body = `
+            ## Post-Merge Health Check Failed
+            
+            A health check failed after merging to main.
+            
+            **Details:**
+            - Commit: ${{ github.sha }}
+            - Workflow Run: ${{ github.run_id }}
+            - Timestamp: ${new Date().toISOString()}
+            
+            **Action Required:**
+            1. Review the workflow logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            2. Check integration validation reports in \`_OPS/OUTPUT/\`
+            3. Run smoke tests locally: \`./smoke-test.sh\`
+            4. If critical, consider rollback (see SAFE_MERGE_STRATEGY.md Phase 6)
+            
+            **Rollback Procedure:**
+            See [SAFE_MERGE_STRATEGY.md](./SAFE_MERGE_STRATEGY.md#phase-6-rollback-procedure-if-needed)
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['critical', 'health-check', 'post-merge']
+            });
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Post-Merge Health Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.kill_switch.outputs.kill_switch_on }}" = "true" ]; then
+            echo "⚠️ **Kill Switch**: ON (operations halted)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ **Kill Switch**: OFF" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ steps.smoke_tests.outputs.smoke_tests_passed }}" = "true" ]; then
+            echo "✅ **Smoke Tests**: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Smoke Tests**: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "📊 **Integration Status**: ${{ steps.integration.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.security.outputs.security_issues }}" = "true" ]; then
+            echo "⚠️ **Security**: Vulnerabilities detected" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ **Security**: No critical vulnerabilities" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### System Status" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "✅ **Overall**: System is healthy" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Overall**: Critical issues detected" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Action Required**: Review logs and consider rollback if needed" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -4,23 +4,21 @@
  * Applies automated fixes and codemods
  */
 
-const { execSync } = require('child_process');
+const { execSync, spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-function runCommand(command, description) {
+function runCommand(cmd, args, description) {
   console.log(`\n🔧 ${description}...`);
-  try {
-    execSync(command, { 
-      encoding: 'utf-8',
-      stdio: 'inherit'
-    });
-    console.log(`✅ ${description} completed`);
-    return true;
-  } catch (error) {
+  const result = spawnSync(cmd, args, {
+    stdio: 'inherit',
+  });
+  if (result.error || result.status !== 0) {
     console.log(`⚠️  ${description} had issues (may be normal)`);
     return false;
   }
+  console.log(`✅ ${description} completed`);
+  return true;
 }
 
 function getChangedFiles() {
@@ -38,23 +36,23 @@ async function applyFixes() {
   const changedFilesBefore = getChangedFiles();
 
   // Step 1: Run ESLint --fix
-  runCommand('npm run lint:fix', 'ESLint auto-fix');
+  runCommand('npm', ['run', 'lint:fix'], 'ESLint auto-fix');
 
   // Step 2: Run Prettier
-  runCommand('npm run format', 'Prettier formatting');
+  runCommand('npm', ['run', 'format'], 'Prettier formatting');
 
   // Step 3: Run codemods (if any exist)
   const codemodsDir = path.join(process.cwd(), 'tools', 'codemods');
   if (fs.existsSync(codemodsDir)) {
-    const codemods = fs.readdirSync(codemodsDir).filter(f => 
-      f.endsWith('.js') || f.endsWith('.ts')
-    );
-    
+    const codemods = fs
+      .readdirSync(codemodsDir)
+      .filter(f => f.endsWith('.js') || f.endsWith('.ts'));
+
     if (codemods.length > 0) {
       console.log(`\n📝 Found ${codemods.length} codemods to run`);
       for (const codemod of codemods) {
         const codemodPath = path.join(codemodsDir, codemod);
-        runCommand(`node ${codemodPath}`, `Codemod: ${codemod}`);
+        runCommand('node', [codemodPath], `Codemod: ${codemod}`);
       }
     } else {
       console.log('\n📝 No codemods found to run');

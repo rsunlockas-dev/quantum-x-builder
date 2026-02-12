@@ -7,20 +7,50 @@ The Quantum X Builder repository contains two distinct components:
 1. **Frontend Application** (PRIMARY) - `/frontend` directory
 2. **Documentation Site** - `/website` directory (Docusaurus)
 
-## Primary Deployment: Monaco-Style Frontend
+## Primary Deployment: Spark-Inspired Command Center
 
-The frontend application (`/frontend`) is the **primary GitHub Pages deployment**. This is the Monaco-style VIZUAL-X interface with:
+The frontend application (`/frontend`) is the **primary GitHub Pages deployment**. This is the **Spark UI-inspired Command Center** from PR #54 (the 1.5 million line implementation) with:
 
-- React 19 + Vite
-- AI Integration (Google Gemini)
-- Code Editor capabilities
-- Admin Control Plane
-- Low-code workflow builder
-- VS Code extension
+### Visual Design (Spark-Inspired)
+- ✨ **Silver gradient borders** - Elegant visual separators
+- 🎨 **Multi-layered radial gradients** - Admin grid background
+- 💎 **Metallic silver effects** - Premium UI polish
+- ⚡ **Animated elements** - Pulse effects and transitions
+
+### Features
+- 📝 **Monaco Editor** - Full code editing capabilities
+- 🤖 **AI Integration** - Google Gemini powered
+- 🎛️ **Admin Control Plane** - System management
+- 🔧 **Low-code Workflow Builder** - Visual automation
+- 🌐 **WebSocket** - Real-time updates
+- 📱 **PWA** - Service Worker for offline/mobile use
+- 🔐 **Security** - RBAC, kill switch, audit logging
 
 **Deployment URL**: https://infinityxonesystems.github.io/quantum-x-builder/
 
 **Workflow**: `.github/workflows/deploy-pages.yml`
+
+### Design Reference
+
+The UI design is inspired by GitHub Sparks with:
+```css
+/* Silver gradient borders */
+.silver-gradient-border::after {
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(200,200,200,0.3) 50%, 
+    rgba(255,255,255,0) 100%);
+}
+
+/* Admin grid background */
+.admin-grid {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.12), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(34, 197, 94, 0.12), transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(99, 102, 241, 0.12), transparent 45%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(2, 6, 23, 0.9));
+}
+```
 
 ## Documentation Site (Local Development Only)
 

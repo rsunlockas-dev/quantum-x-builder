@@ -139,20 +139,22 @@ npm run typecheck        # TypeScript check
 npm run format           # Prettier format
 npm test                 # Run tests
 
-# Frontend
+# Frontend (PRIMARY DEPLOYMENT)
 cd frontend
 npm install              # Install frontend dependencies
 npm run dev              # Start dev server (port 3000)
 npm run build            # Build for production
 npm run preview          # Preview production build
 
-# Website/Docs
+# Website/Docs (LOCAL DEVELOPMENT ONLY - NOT DEPLOYED)
 cd website
 npm install              # Install docs dependencies
 npm run start            # Start dev server
-npm run build            # Build docs
-npm run serve            # Serve built docs
+npm run build            # Build docs (local only)
+npm run serve            # Serve built docs (local only)
 ```
+
+**Note**: Only the frontend is deployed to GitHub Pages. Docusaurus is for local documentation development only.
 
 ## Workflow Status
 

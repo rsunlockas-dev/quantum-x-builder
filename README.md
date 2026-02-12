@@ -9,6 +9,19 @@ Quantum-X-Builder is a governed, AI-assisted system for orchestrating
 code, infrastructure, and validation pipelines using GitHub Apps,
 self-hosted runners, and policy-enforced agents.
 
+## 🚀 Live Application
+
+**Primary Frontend (Monaco-Style)**: https://infinityxonesystems.github.io/quantum-x-builder/
+
+The frontend is a Monaco Editor-style VIZUAL-X interface with:
+- AI Integration (Google Gemini)
+- Code Editor capabilities
+- Admin Control Plane
+- Low-code workflow builder
+- Real-time collaboration
+
+> **Note**: Docusaurus (`/website`) is for local documentation development only. The Monaco-style frontend is the primary application deployed to GitHub Pages. See [DEPLOYMENT_ARCHITECTURE.md](DEPLOYMENT_ARCHITECTURE.md) for details.
+
 ## Core Guarantees
 - No destructive automation
 - All write actions are PAT-gated
@@ -24,12 +37,19 @@ self-hosted runners, and policy-enforced agents.
 
 All components are fully integrated and identify with the system perfectly:
 
+- ✓ **Frontend** (Monaco-Style VIZUAL-X) - PRIMARY deployment to GitHub Pages
 - ✓ **Backend** (quantum-x-builder) - Express API on port 8787
-- ✓ **Frontend** (@qvizual-x/frontend) - React app with VSCode extension
-- ✓ **Documentation** - Docusaurus v3 site
+- ✓ **Documentation** - Markdown files in `/docs` (Docusaurus for local dev only)
 - ✓ **Messaging** - NATS JetStream broker
 - ✓ **Operations** - _OPS governance control plane
 - ✓ **Integrations** - Google Calendar, Google Tasks, GitHub, VSCode
+
+### Deployment Architecture
+
+- **Frontend**: Monaco-style application → GitHub Pages (PRIMARY)
+- **Docs**: Docusaurus → Local development only (NOT deployed)
+
+See [DEPLOYMENT_ARCHITECTURE.md](DEPLOYMENT_ARCHITECTURE.md) for complete details.
 
 ### Quick Validation
 ```bash

@@ -7,13 +7,16 @@
 import { HumanIntent, Proposal, ReasoningState } from "./types";
 import { runReasoningPipeline, synthesizeRecommendation } from "./reasoning";
 
+import { randomBytes } from 'crypto';
+
 /**
  * Generate unique proposal ID
  * Format: PROP-{timestamp}-{random}
+ * Uses cryptographically secure random for uniqueness
  */
 function generateProposalId(): string {
   const timestamp = Date.now();
-  const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const random = randomBytes(4).toString('hex').toUpperCase();
   return `PROP-${timestamp}-${random}`;
 }
 

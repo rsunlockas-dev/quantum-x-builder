@@ -6,6 +6,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { randomBytes } from 'crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -32,8 +33,9 @@ export class AuditService {
 
     try {
       // Ensure entry has required fields
+      const randomId = randomBytes(4).toString('hex');
       const auditEntry = {
-        id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+        id: `audit-${Date.now()}-${randomId}`,
         timestamp: entry.timestamp || new Date().toISOString(),
         actor: entry.actor,
         action: entry.action,

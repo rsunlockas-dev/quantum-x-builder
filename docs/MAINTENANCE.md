@@ -1,6 +1,6 @@
 # Automated Maintenance Guide
 
-This guide explains the automated maintenance, analysis, diagnostics, fixes, validation, optimization, and enhancement tooling for the quantum-x-builder repository.
+  This guide explains the automated maintenance, analysis, diagnostics, fixes, validation, optimization, and enhancement tooling for the quantum-x-builder repository.
 
 ## Overview
 
